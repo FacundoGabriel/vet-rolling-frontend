@@ -12,3 +12,5 @@ export const configHeaders = {
         "auth": `${token}`
     }
 }
+
+export default clientAxios
