@@ -1,0 +1,28 @@
+footer {
+  .bg-footer {
+    background-color: var(--color-azulHonolulu);
+  }
+  h5 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    color: var(--color-blanco);
+  }
+  ul {
+    li {
+      font-family: "Poppins", sans-serif;
+      font-weight: 300;
+      color: var(--color-blanco);
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+  }
+  .copyright {
+    background-color: var(--color-naranja);
+    p {
+      font-size: 17px;
+      color: var(--color-blanco);
+    }
+  }
+}
