@@ -1,3 +1,4 @@
+<<<<<<< feature/mascotas
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -18,5 +19,23 @@ function App() {
     </Router>
   );
 }
+=======
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavbarC from "./components/navbar/NavbarC";
+import Footer from "./components/footer/Footer";
+// import Footer from "./components/footer/Footer";
+
+const App = () => {
+  return (
+    <Router>
+      <NavbarC />
+      <Routes>
+        <Route />
+      </Routes>
+      <Footer />
+    </Router>
+  );
+};
+>>>>>>> dev
 
 export default App;

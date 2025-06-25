@@ -1,0 +1,17 @@
+nav {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.nav-custom {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  transition: transform 0.6s;
+  margin-right: 10px;
+  color: var(--color-blanco) !important;
+}
+
+.nav-custom:hover {
+  color: var(--color-azulHonolulu) !important;
+  transform: scale(1.06);
+}
