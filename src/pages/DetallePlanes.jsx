@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   Container,
   Card,
@@ -9,7 +9,7 @@ import {
   Row,
   Col,
   Form,
-  Alert
+  Alert,
 } from "react-bootstrap";
 import clientAxios, { configHeaders } from "../helpers/axios.helpers";
 import Swal from "sweetalert2";
@@ -24,10 +24,11 @@ const Toast = Swal.mixin({
   didOpen: (toast) => {
     toast.addEventListener("mouseenter", Swal.stopTimer);
     toast.addEventListener("mouseleave", Swal.resumeTimer);
-  }
+  },
 });
 
 const DetallePlan = () => {
+  const usuarioLogeado = JSON.parse(sessionStorage.getItem("token")) || null;
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -41,20 +42,18 @@ const DetallePlan = () => {
     fecha: "",
     horario: "",
     mascota: "",
-    veterinario: ""
+    veterinario: "",
   });
 
- 
   const handleChange = (e) => {
     setFormulario({
       ...formulario,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
 
-    
     setErrores({
       ...errores,
-      [e.target.name]: ""
+      [e.target.name]: "",
     });
   };
 
@@ -69,11 +68,12 @@ const DetallePlan = () => {
 
   const obtenerMascotas = async () => {
     try {
-      const res = await clientAxios.get("/mascotas/tus-mascotas", configHeaders);
+      const res = await clientAxios.get(
+        "/mascotas/tus-mascotas",
+        configHeaders
+      );
       setMascotas(res.data.mascotas);
-    } catch (error) {
-      setErrorMascotas("No se pudieron cargar tus mascotas.");
-    }
+    } catch (error) {}
   };
 
   const obtenerVeterinarios = async () => {
@@ -88,21 +88,48 @@ const DetallePlan = () => {
   const validarFormulario = () => {
     const nuevosErrores = {};
     if (!formulario.fecha) nuevosErrores.fecha = "La fecha es obligatoria";
-    if (!formulario.horario) nuevosErrores.horario = "El horario es obligatorio";
+    if (!formulario.horario)
+      nuevosErrores.horario = "El horario es obligatorio";
     if (!formulario.mascota) nuevosErrores.mascota = "Seleccioná una mascota";
-    if (!formulario.veterinario) nuevosErrores.veterinario = "Seleccioná un veterinario";
+    if (!formulario.veterinario)
+      nuevosErrores.veterinario = "Seleccioná un veterinario";
 
     setErrores(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
   };
+  const aniadirMascotaSinLoguear = async () => {
+    try {
+      if (!usuarioLogeado) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Debes iniciar sesion para añadir una mascota",
+        });
+        setTimeout(() => {
+          navigate("/");
+        });
+      }
+    } catch (error) {}
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!usuarioLogeado) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Debes iniciar sesion para contratar este plan!",
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+      return;
+    }
 
     if (!validarFormulario()) {
       Toast.fire({
         icon: "warning",
-        title: "Completá todos los campos requeridos"
+        title: "Completá todos los campos requeridos",
       });
       return;
     }
@@ -113,15 +140,19 @@ const DetallePlan = () => {
         plan: plan.nombre,
         fecha: formulario.fecha,
         horario: formulario.horario,
-        veterinario: formulario.veterinario
+        veterinario: formulario.veterinario,
       };
 
-      const res = await clientAxios.post("/planes/aniadirPlan", body, configHeaders);
+      const res = await clientAxios.post(
+        "/planes/aniadirPlan",
+        body,
+        configHeaders
+      );
 
       Swal.fire({
         icon: "success",
         title: res.data.msg,
-        confirmButtonColor: "#28a745"
+        confirmButtonColor: "#28a745",
       });
 
       if (res.status === 201) {
@@ -130,18 +161,19 @@ const DetallePlan = () => {
         }, 1000);
       }
     } catch (error) {
-      const mensaje = error.response?.data?.msg || "Ocurrió un error inesperado";
+      const mensaje =
+        error.response?.data?.msg || "Ocurrió un error inesperado";
 
       if (mensaje === "No puedes contratar 2 planes para una misma mascota") {
         Toast.fire({
           icon: "info",
-          title: mensaje
+          title: mensaje,
         });
       } else {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: mensaje
+          text: mensaje,
         });
       }
     }
@@ -174,7 +206,9 @@ const DetallePlan = () => {
               />
             )}
             <Card.Body className="p-4">
-              <Card.Title className="text-success fs-1 text-center mb-3">{plan.nombre}</Card.Title>
+              <Card.Title className="text-success fs-1 text-center mb-3">
+                {plan.nombre}
+              </Card.Title>
               <Card.Text className="fs-5 text-secondary text-justify mb-4">
                 {plan.descripcion}
               </Card.Text>
@@ -187,7 +221,9 @@ const DetallePlan = () => {
                     </ListGroup.Item>
                   ))}
               </ListGroup>
-              <h4 className="text-success fw-bold text-center">Precio: ${plan.precio}</h4>
+              <h4 className="text-success fw-bold text-center">
+                Precio: ${plan.precio}
+              </h4>
             </Card.Body>
           </Card>
         </Col>
@@ -196,9 +232,13 @@ const DetallePlan = () => {
           <Card className="shadow border-0 h-100">
             <Card.Body className="p-4 d-flex flex-column justify-content-between">
               <div>
-                <h4 className="text-center text-success mb-4">Contratar este plan</h4>
+                <h4 className="text-center text-success mb-4">
+                  Contratar este plan
+                </h4>
 
-                {errorMascotas && <Alert variant="danger">{errorMascotas}</Alert>}
+                {errorMascotas && (
+                  <Alert variant="danger">{errorMascotas}</Alert>
+                )}
 
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
@@ -210,7 +250,11 @@ const DetallePlan = () => {
                       onChange={handleChange}
                       isInvalid={!!errores.fecha}
                     />
-                    {errores.fecha && <Form.Text className="text-danger">{errores.fecha}</Form.Text>}
+                    {errores.fecha && (
+                      <Form.Text className="text-danger">
+                        {errores.fecha}
+                      </Form.Text>
+                    )}
                   </Form.Group>
 
                   <Form.Group className="mb-3">
@@ -223,7 +267,9 @@ const DetallePlan = () => {
                       isInvalid={!!errores.horario}
                     />
                     {errores.horario && (
-                      <Form.Text className="text-danger">{errores.horario}</Form.Text>
+                      <Form.Text className="text-danger">
+                        {errores.horario}
+                      </Form.Text>
                     )}
                   </Form.Group>
 
@@ -243,7 +289,9 @@ const DetallePlan = () => {
                       ))}
                     </Form.Select>
                     {errores.veterinario && (
-                      <Form.Text className="text-danger">{errores.veterinario}</Form.Text>
+                      <Form.Text className="text-danger">
+                        {errores.veterinario}
+                      </Form.Text>
                     )}
                   </Form.Group>
 
@@ -263,8 +311,20 @@ const DetallePlan = () => {
                       ))}
                     </Form.Select>
                     {errores.mascota && (
-                      <Form.Text className="text-danger">{errores.mascota}</Form.Text>
+                      <Form.Text className="text-danger">
+                        {errores.mascota}
+                      </Form.Text>
                     )}
+                    <p className="my-2">
+                      ¿No tienes una mascota registrada?{" "}
+                      <Link
+                        onClick={() => aniadirMascotaSinLoguear()}
+                        to={"/mascotas/añadir-mascota"}
+                      >
+                        {" "}
+                        Añadila aqui
+                      </Link>
+                    </p>
                   </Form.Group>
 
                   <div className="d-grid">
