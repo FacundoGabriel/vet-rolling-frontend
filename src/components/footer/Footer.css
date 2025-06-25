@@ -1,0 +1,58 @@
+footer {
+  .bg-footer {
+    background-color: var(--color-azulHonolulu);
+  }
+  h5 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    color: var(--color-blanco);
+  }
+  ul {
+    li {
+      font-family: "Poppins", sans-serif;
+      font-weight: 300;
+      color: var(--color-blanco);
+      padding-bottom: 5px;
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+  }
+}
+
+.info a:hover {
+  color: var(--color-naranja);
+}
+
+.redes-footer a {
+  margin-right: 15px;
+}
+
+.copyright {
+  background-color: var(--color-naranja);
+  p {
+    font-size: 17px;
+    color: var(--color-blanco);
+  }
+}
+
+.icons-footer {
+  margin-right: 6px;
+}
+
+.logo {
+  width: 40%;
+  height: auto;
+}
+
+.senasa {
+  width: 35%;
+  height: auto;
+  margin-right: 20px;
+}
+
+.colegioVet {
+  width: 35%;
+  height: auto;
+}

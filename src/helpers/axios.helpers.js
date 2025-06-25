@@ -7,6 +7,7 @@ const clientAxios = axios.create({
 });
 
 export const configHeaders = {
+<<<<<<< feature/administrar-mascotas
   headers: {
     "content-type": "application/json",
     auth: `${token}`,
@@ -19,3 +20,12 @@ export const configHeadersImage = {
 };
 
 export default clientAxios;
+=======
+    headers:{
+        "content-type":"application/json",
+        "auth": `${token}`
+    }
+}
+
+export default clientAxios
+>>>>>>> dev
