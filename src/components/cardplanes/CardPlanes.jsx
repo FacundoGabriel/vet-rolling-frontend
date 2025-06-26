@@ -4,7 +4,7 @@ import clientAxios from "../../helpers/axios.helpers";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const Planes = () => {
+const CardPlanes = () => {
   const [planes, setPlanes] = useState([]);
 
   const obtenerPlanes = async () => {
@@ -70,4 +70,4 @@ const Planes = () => {
   );
 };
 
-export default Planes;
+export default CardPlanes;
