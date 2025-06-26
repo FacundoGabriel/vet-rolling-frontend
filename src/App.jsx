@@ -3,7 +3,6 @@ import NavbarC from "./components/navbar/NavbarC";
 import Footer from "./components/footer/Footer";
 import HomePage from "./pages/HomePage";
 import DetallePlanes from "./pages/DetallePlanes";
-import CardPlanes from "./components/cardplanes/CardPlanes";
 import AniadirMascota from "./pages/AniadirMascota";
 import MisMascotas from "./pages/MisMascotas";
 import { Login } from "./components/login/Login";
@@ -14,7 +13,6 @@ const App = () => {
       <NavbarC />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/" element={<CardPlanes />} />
         <Route path="/contratar-plan/:id" element={<DetallePlanes />} />
         <Route path="/mascotas/añadir-mascota" element={<AniadirMascota />} />
         <Route path="/mascotas/mis-mascotas" element={<MisMascotas />} />
