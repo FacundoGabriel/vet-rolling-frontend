@@ -92,10 +92,6 @@ const MisMascotas = () => {
     setEditForm({ ...editForm, [name]: value });
   };
 
-  const handleImagenChange = (e) => {
-    setNuevaImagen(e.target.files[0]);
-  };
-
   const guardarCambios = async (id) => {
     try {
       const { nombre, especie, raza, sexo, peso, fechaNacimiento } = editForm;
