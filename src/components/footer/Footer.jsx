@@ -18,12 +18,12 @@ const Footer = () => {
   return (
     <footer>
       <Container fluid>
-        <Row className="bg-footer py-4">
+        <Row className="bg-footer py-3">
           <Col
             sm="12"
             md="6"
             lg="4"
-            className="border border-danger d-flex flex-column align-items-center text-center"
+            className="d-flex flex-column align-items-center text-center py-4"
           >
             <Link>
               <img src={logo} alt="img-logo" className="logo pt-5" />
@@ -33,9 +33,9 @@ const Footer = () => {
             sm="12"
             md="6"
             lg="4"
-            className="border border-danger d-flex flex-column align-items-center text-center text-lg-start pt-3"
+            className="d-flex flex-column align-items-center text-center text-lg-start pt-3"
           >
-            <h5>Veterinaria RollingVet</h5>
+            <h5 className="pb-3">Veterinaria RollingVet</h5>
             <ul className="list-unstyled info">
               <li>
                 <Link>
@@ -63,13 +63,48 @@ const Footer = () => {
                   General Paz 576, Piso 9, Oficina 2 San Miguel de Tucumán
                 </Link>
               </li>
+              <hr />
+              <li className="horario">
+                <span>Lunes</span>
+                <span>9:00 - 18:00</span>
+              </li>
+              <hr />
+              <li className="horario">
+                <span>Martes</span>
+                <span>9:00 - 18:00</span>
+              </li>
+              <hr />
+              <li className="horario">
+                <span>Miércoles</span>
+                <span>9:00 - 18:00</span>
+              </li>
+              <hr />
+              <li className="horario">
+                <span>Jueves</span>
+                <span>9:00 - 18:00</span>
+              </li>
+              <hr />
+              <li className="horario">
+                <span>Viernes</span>
+                <span>9:00 - 18:00</span>
+              </li>
+              <hr />
+              <li className="horario">
+                <span>Sabado</span>
+                <span>9:00 - 13:00</span>
+              </li>
+              <hr />
+              <li className="horario">
+                <span>Domingo</span>
+                <span>Cerrado</span>
+              </li>
             </ul>
           </Col>
           <Col
             sm="12"
             md="6"
             lg="4"
-            className="border border-danger d-flex flex-column align-items-center text-center text-lg-start pt-2"
+            className="d-flex flex-column align-items-center text-center text-lg-start pt-4"
           >
             <ul className="list-unstyled">
               <li className="redes-footer text-center">
@@ -83,7 +118,7 @@ const Footer = () => {
                   <FaLinkedin size={60} />
                 </Link>
               </li>
-              <li className="pt-3 text-center">
+              <li className="pt-5 text-center">
                 <Link>
                   <img src={senasa} alt="senasa" className="senasa" />
                 </Link>
