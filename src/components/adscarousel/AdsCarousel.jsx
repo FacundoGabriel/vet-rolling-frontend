@@ -14,20 +14,6 @@ import Marquee from "react-fast-marquee";
 const AdsCarousel = () => {
   return (
     <>
-      {/*       <Container fluid className="logos">
-        <h1 className="text-center pb-5">Nuestras marcas de confianza</h1>
-        <div className="logos-slide pb-4">
-          <img src={pedigree} alt="pedigree-logo" />
-          <img src={royalCanin} alt="royalCanin-logo" />
-          <img src={bayer} alt="bayer-logo" />
-          <img src={dogui} alt="dogui-logo" />
-          <img src={nutribon} alt="nutribon-logo" />
-          <img src={purina} alt="purina-logo" />
-          <img src={vitalcan} alt="vitalcan-logo" />
-          <img src={whiskas} alt="whiskas-logo" />
-          <img src={zoetis} alt="zoetis-logo" />
-        </div>
-      </Container> */}
       <Container fluid className="py-4 px-0 bg-carousel">
         <h1 className="text-center pb-5">Nuestras marcas de confianza</h1>
         <Marquee className="logos pb-4" speed={40} gradient={false}>
