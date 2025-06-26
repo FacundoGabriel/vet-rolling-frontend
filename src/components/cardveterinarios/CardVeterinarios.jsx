@@ -39,14 +39,7 @@ const CardVeterinarios = () => {
         {veterinarios.map((vet) => (
           <Col md={4} sm={6} xs={12} key={vet._id}>
             <div className="vet-card">
-              <img
-                src={
-                  vet.foto ||
-                  "https://via.placeholder.com/400x400?text=Veterinario"
-                }
-                alt={vet.nombreUsuario}
-                className="vet-img"
-              />
+              <img src={vet.foto} alt={vet.nombreUsuario} className="vet-img" />
               <div className="vet-info">
                 <h5>{vet.nombreUsuario}</h5>
               </div>
