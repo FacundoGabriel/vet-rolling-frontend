@@ -6,6 +6,9 @@ import DetallePlanes from "./pages/DetallePlanes";
 import AniadirMascota from "./pages/AniadirMascota";
 import MisMascotas from "./pages/MisMascotas";
 import { Login } from "./components/login/Login";
+import AdministrarUsuarios from "./pages/AdministrarUsuarios";
+import AdministrarVeterinarios from "./pages/AdministrarVeterinarios";
+import AdministrarSolicitoVeterinario from "./pages/AdministrarSolicitoVeterinario";
 
 const App = () => {
   return (
@@ -17,6 +20,15 @@ const App = () => {
         <Route path="/mascotas/añadir-mascota" element={<AniadirMascota />} />
         <Route path="/mascotas/mis-mascotas" element={<MisMascotas />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/administrar-usuarios" element={<AdministrarUsuarios />} />
+        <Route
+          path="/administrar-veterinarios"
+          element={<AdministrarVeterinarios />}
+        />
+        <Route
+          path="/solicito-veterinario"
+          element={<AdministrarSolicitoVeterinario />}
+        />
       </Routes>
       <Footer />
     </Router>
