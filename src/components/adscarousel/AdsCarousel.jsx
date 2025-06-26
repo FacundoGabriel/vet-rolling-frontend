@@ -1,14 +1,14 @@
 import { Container } from "react-bootstrap";
 import "./AdsCarousel.css";
-import pedigree from "/public/pedigree-logo.png";
-import royalCanin from "/public/Royal-Canin-Logo.svg.png";
-import bayer from "/public/bayer-logo.png";
-import dogui from "/public/dogui-logo.png";
-import nutribon from "/public/nutribon-logo.png";
-import purina from "/public/purina-pro-plan-logo.png";
-import vitalcan from "/public/vitalcan-logo.png";
-import whiskas from "/public/whiskas-logo.png";
-import zoetis from "/public/zoetis-logo.png";
+import pedigree from "/pedigree-logo.png";
+import royalCanin from "/Royal-Canin-Logo.svg.png";
+import bayer from "/bayer-logo.png";
+import dogui from "/dogui-logo.png";
+import nutribon from "/nutribon-logo.png";
+import purina from "/purina-pro-plan-logo.png";
+import vitalcan from "/vitalcan-logo.png";
+import whiskas from "/whiskas-logo.png";
+import zoetis from "/zoetis-logo.png";
 import Marquee from "react-fast-marquee";
 
 const AdsCarousel = () => {
