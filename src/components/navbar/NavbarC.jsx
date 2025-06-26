@@ -1,12 +1,22 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
 import "./NavbarC.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import logo from "/public/logo.png";
 
 const NavbarC = () => {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
   return (
     <>
-      <Navbar expand="lg" className="bg-navbar p-5 navbar-transparente">
+      <Navbar
+        expand="lg"
+        className={
+          isHome
+            ? "bg-navbar p-5 navbar-transparente"
+            : "bg-navbar p-5 navbar-default"
+        }
+      >
         <Container>
           <NavLink className="nav-link" to="/">
             <img src={logo} alt="img-logo" width="70" />

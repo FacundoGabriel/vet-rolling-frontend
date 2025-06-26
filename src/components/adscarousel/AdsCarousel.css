@@ -1,0 +1,49 @@
+.carousel-logo {
+  height: 80px;
+}
+
+.logos img {
+  margin: 0 70px;
+}
+
+h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--color-naranja);
+}
+
+.bg-carousel {
+  background-color: var(--color-blancoAntiflash);
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-carousel::before,
+.bg-carousel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.bg-carousel::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    var(--color-blancoAntiflash),
+    transparent
+  );
+}
+
+.bg-carousel::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    var(--color-blancoAntiflash),
+    transparent
+  );
+}

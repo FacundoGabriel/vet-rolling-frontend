@@ -19,3 +19,10 @@
   width: 100%;
   z-index: 1000;
 }
+
+.navbar-default {
+  background-color: var(--color-azulHonolulu);
+  .nav-link:hover {
+    color: var(--color-naranja) !important;
+  }
+}
