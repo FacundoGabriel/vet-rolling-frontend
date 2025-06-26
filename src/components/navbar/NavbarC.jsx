@@ -6,10 +6,10 @@ import logo from "/public/logo.png";
 const NavbarC = () => {
   return (
     <>
-      <Navbar expand="lg" className="bg-navbar p-5">
+      <Navbar expand="lg" className="bg-navbar p-5 navbar-transparente">
         <Container>
-          <NavLink className="nav-link">
-            <img src={logo} alt="img-logo" width="100" />
+          <NavLink className="nav-link" to="/">
+            <img src={logo} alt="img-logo" width="70" />
           </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

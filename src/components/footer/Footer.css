@@ -10,7 +10,7 @@ footer {
   ul {
     li {
       font-family: "Poppins", sans-serif;
-      font-weight: 300;
+      font-weight: 400;
       color: var(--color-blanco);
       padding-bottom: 5px;
       a {
@@ -19,10 +19,18 @@ footer {
       }
     }
   }
+  p {
+    color: var(--color-blanco);
+  }
 }
 
 .info a:hover {
   color: var(--color-naranja);
+}
+
+.info hr {
+  background-color: var(--color-blanco);
+  height: 3px;
 }
 
 .redes-footer a {
@@ -55,4 +63,9 @@ footer {
 .colegioVet {
   width: 35%;
   height: auto;
+}
+
+.horario {
+  display: flex;
+  justify-content: space-between;
 }

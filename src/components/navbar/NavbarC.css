@@ -1,7 +1,3 @@
-nav {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
 .nav-custom {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
@@ -14,4 +10,12 @@ nav {
 .nav-custom:hover {
   color: var(--color-azulHonolulu) !important;
   transform: scale(1.06);
+}
+
+.navbar-transparente {
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
 }
