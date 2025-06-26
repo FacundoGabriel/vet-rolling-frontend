@@ -10,9 +10,9 @@ import {
 } from "react-icons/fa";
 import { MdPhoneIphone } from "react-icons/md";
 import { IoIosMail } from "react-icons/io";
-import logo from "/public/logo.png";
-import senasa from "/public/senasa.png";
-import colegioVet from "/public/colegio-de-vet.png";
+import logo from "/logo.png";
+import senasa from "/senasa.png";
+import colegioVet from "/colegio-de-vet.png";
 
 const Footer = () => {
   return (
