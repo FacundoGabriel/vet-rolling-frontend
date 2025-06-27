@@ -9,6 +9,7 @@ import { Login } from "./components/login/Login";
 import AdministrarUsuarios from "./pages/AdministrarUsuarios";
 import AdministrarVeterinarios from "./pages/AdministrarVeterinarios";
 import AdministrarSolicitoVeterinario from "./pages/AdministrarSolicitoVeterinario";
+import AdministrarPlanesVeterinario from "./pages/administrarPlanesVeterinario";
 
 const App = () => {
   return (
@@ -28,6 +29,10 @@ const App = () => {
         <Route
           path="/solicito-veterinario"
           element={<AdministrarSolicitoVeterinario />}
+        />
+        <Route
+          path="/administrar-planes"
+          element={<AdministrarPlanesVeterinario />}
         />
       </Routes>
       <Footer />
