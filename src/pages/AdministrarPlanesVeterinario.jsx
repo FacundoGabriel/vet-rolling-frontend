@@ -87,9 +87,9 @@ const AdministrarPlanesVeterinario = () => {
               <td>{plan.usuario?.nombreUsuario || "Sin nombre"}</td>
               <td>{plan.usuario?.emailUsuario || "Sin email"}</td>
               <td>{plan.usuario?.telefono || "Sin teléfono"}</td>
-              <td>{plan.mascota?.nombre || "Sin especialidad"}</td>
-              <td>{plan.mascota?.especie || "Sin especialidad"}</td>
-              <td>{plan.mascota?.raza || "Sin especialidad"}</td>
+              <td>{plan.mascota?.nombre || "Sin Mascota"}</td>
+              <td>{plan.mascota?.especie || "Sin Mascota"}</td>
+              <td>{plan.mascota?.raza || "Sin Mascota"}</td>
               <td>{plan.plan}</td>
               <td>{plan.estado}</td>
               <td>
