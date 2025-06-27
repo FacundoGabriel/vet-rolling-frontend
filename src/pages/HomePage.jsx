@@ -4,7 +4,7 @@ import CardPlanes from "../components/cardplanes/CardPlanes";
 import CardVeterinarios from "../components/cardveterinarios/CardVeterinarios";
 import Comentarios from "../components/comentarios/Comentarios";
 import Infovet from "../components/infovet/Infovet";
-
+import Mapa from "../components/mapa/Mapa";
 
 const HomePage = () => {
   return (
@@ -14,7 +14,8 @@ const HomePage = () => {
       <AdsCarousel />
       <CardPlanes />
       <CardVeterinarios />
-      <Comentarios/>
+      <Comentarios />
+      <Mapa />
     </>
   );
 };
