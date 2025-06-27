@@ -57,7 +57,7 @@ const DetallePlan = () => {
 
   const obtenerUnPlan = async () => {
     try {
-      const res = await clientAxios.get(`/planes/${id}`);
+      const res = await clientAxios.get(`/planes/obtener-un-plan/${id}`);
       setPlan(res.data.plan);
     } catch (error) {
       console.log(error);
