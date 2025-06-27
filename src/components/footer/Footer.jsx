@@ -118,11 +118,11 @@ const Footer = () => {
                   <FaLinkedin size={60} />
                 </Link>
               </li>
-              <li className="pt-5 text-center">
-                <Link>
+              <li className="pt-5">
+                <Link className="d-flex justify-content-center pb-5">
                   <img src={senasa} alt="senasa" className="senasa" />
                 </Link>
-                <Link>
+                <Link className="d-flex justify-content-center">
                   <img
                     src={colegioVet}
                     alt="colegio de veterinarios"
