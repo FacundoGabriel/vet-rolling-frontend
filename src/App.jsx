@@ -10,7 +10,7 @@ import AdministrarUsuarios from "./pages/AdministrarUsuarios";
 import AdministrarVeterinarios from "./pages/AdministrarVeterinarios";
 import AdministrarSolicitoVeterinario from "./pages/AdministrarSolicitoVeterinario";
 import { RegistroUsuario } from "./components/registro/RegistroUsuario";
-import AdministrarPlanesVeterinario from "./pages/administrarPlanesVeterinario";
+import AdministrarPlanesVeterinario from "./pages/AdministrarPlanesVeterinario";
 
 const App = () => {
   return (
