@@ -13,7 +13,7 @@ const AdministrarPlanesVeterinario = () => {
         "/planes/planes-veterinario",
         configHeaders
       );
-      setPlanesVet(res.data.planes); // Ajusta si la propiedad del backend es diferente
+      setPlanesVet(res.data.planes);
     } catch (error) {
       console.error("Error al obtener los planes:", error);
     } finally {
