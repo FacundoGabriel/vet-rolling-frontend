@@ -1,0 +1,70 @@
+.comentarios-tittle {
+  color: #0d6efd;
+}
+
+.container-comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comentarios-bg {
+  background-color: #eff6ff;
+  width: 100%;
+}
+
+.comentario-card {
+  background-color: #f9f9f9;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #2563eb;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.comentario-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+  background: linear-gradient(135deg, #f0faff, #e0f2ff);
+  border-color: #1d4ed8;
+}
+
+.comentario-header {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+  align-items: center;
+}
+
+.comentario-nombre {
+  color: #1e3a8a;
+  font-size: 20px;
+}
+
+.comentario-fecha {
+  font-size: 0.875rem;
+  color: #2563eb;
+}
+
+.comentario-texto {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.5;
+}
+
+@media (max-width: 576px) {
+  .comentario-card {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  .comentario-nombre {
+    font-size: 16px;
+  }
+
+  .comentario-texto {
+    font-size: 0.85rem;
+  }
+}
