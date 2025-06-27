@@ -1,0 +1,96 @@
+.register-wrapper {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 80px;
+    box-sizing: border-box;
+    background: linear-gradient(to right, #c4c7ce, #6293fc);
+  }
+
+  
+.container-all{
+    max-width: 450px;
+   background: #ffffff;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border-radius: 12px; 
+}
+
+.container-form{
+    padding: 0 24px 24px;
+}
+
+.card-info {
+    justify-content: center;
+    align-content: center;
+    display: flex;
+    margin: auto;
+    text-align: center;
+    padding: 24px;
+}
+
+.card-text{
+    color: #74747A;
+}
+
+.card-tittle{
+    color: #1e40af;
+}
+
+
+.label-form{
+    color: #09090B;
+}
+
+
+
+.avatar-icon {
+    color: #1e40af;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    margin: auto;
+}
+  
+.password-container {
+    position: relative;
+}
+  
+.password-toggle-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+  
+.text-purple-600 {
+    color: #6b4fbb;
+}
+  
+.text-purple-900 {
+    color: #4b3d7c;
+}
+  
+
+.btn-register{
+    background-color: #0074b8;
+    color: #fff;
+    border: none;
+}
+
+.btn-register:hover{
+    background-color: #02446b;
+}
+
+.btn-register:focus,
+.btn-register:active,
+.btn-register:focus:active {
+  background-color: #0074b8 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border: none;
+}
