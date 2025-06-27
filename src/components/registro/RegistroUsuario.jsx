@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import clientAxios from "../../helpers/axios.helpers";
 
 export const RegistroUsuario = () => {
-  const API_URL = import.meta.env.VITE_URL_BACK_LOCAL;
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);

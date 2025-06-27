@@ -9,7 +9,8 @@ import { Login } from "./components/login/Login";
 import AdministrarUsuarios from "./pages/AdministrarUsuarios";
 import AdministrarVeterinarios from "./pages/AdministrarVeterinarios";
 import AdministrarSolicitoVeterinario from "./pages/AdministrarSolicitoVeterinario";
-import { RegistroUsuario } from "./components/registroUsuario/registroUsuario";
+import { RegistroUsuario } from "./components/registro/RegistroUsuario";
+
 
 const App = () => {
   return (
@@ -21,7 +22,7 @@ const App = () => {
         <Route path="/mascotas/añadir-mascota" element={<AniadirMascota />} />
         <Route path="/mascotas/mis-mascotas" element={<MisMascotas />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<RegistroUsuario />} />
+        <Route path="/register" element={<RegistroUsuario/>} />
         <Route path="/administrar-usuarios" element={<AdministrarUsuarios />} />
         <Route
           path="/administrar-veterinarios"
