@@ -1,7 +1,7 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
 import "./NavbarC.css";
 import { NavLink, useLocation } from "react-router-dom";
-import logo from "/public/logo.png";
+import logo from "/logo.png";
 
 const NavbarC = () => {
   const location = useLocation();
