@@ -18,10 +18,15 @@
 }
 
 .login-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  color: #1e40af;
+  color: #212529;
 }
+
+.avatar-icon{
+  color: #1e40af !important;
+}
+
 
 .login-text {
   font-size: 14px;
