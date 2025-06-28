@@ -11,6 +11,7 @@ import AdministrarVeterinarios from "./pages/AdministrarVeterinarios";
 import AdministrarSolicitoVeterinario from "./pages/AdministrarSolicitoVeterinario";
 import { RegistroUsuario } from "./components/registro/RegistroUsuario";
 import AdministrarPlanesVeterinario from "./pages/AdministrarPlanesVeterinario";
+import MiPerfil from "./pages/MiPerfil";
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/contratar-plan/:id" element={<DetallePlanes />} />
         <Route path="/mascotas/añadir-mascota" element={<AniadirMascota />} />
-        <Route path="/mascotas/mis-mascotas" element={<MisMascotas />} />
+        <Route path="/mis-mascotas" element={<MisMascotas />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegistroUsuario />} />
         <Route path="/administrar-usuarios" element={<AdministrarUsuarios />} />
@@ -36,6 +37,7 @@ const App = () => {
           path="/administrar-planes"
           element={<AdministrarPlanesVeterinario />}
         />
+        <Route path="/mi-perfil" element={<MiPerfil />} />
       </Routes>
 
       <Footer />
