@@ -1,11 +1,23 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
 import "./NavbarC.css";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "/logo.png";
 
 const NavbarC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const isHome = location.pathname === "/";
+  const token = JSON.parse(sessionStorage.getItem("token")) || null;
+  const rolUsuario = JSON.parse(sessionStorage.getItem("rol")) || null;
+
+  const handleLogoutUser = () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("rol");
+
+    setTimeout(() => {
+      navigate("/");
+    }, 500);
+  };
 
   return (
     <>
@@ -18,30 +30,76 @@ const NavbarC = () => {
         }
       >
         <Container>
-          <NavLink className="nav-link" to="/">
+          <NavLink className="nav-link" to={token ? "/user" : "/"}>
             <img src={logo} alt="img-logo" width="70" />
           </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <NavLink className="nav-link nav-custom" to="/">
-                Inicio
-              </NavLink>
-              <NavLink className="nav-link nav-custom" to="/Acerca-De-Nosotros">
-                Acerca de Nosotros
-              </NavLink>
-              <NavLink className="nav-link nav-custom" to="/contact">
-                Contacto
-              </NavLink>
-            </Nav>
-            <Nav className="ms-auto">
-              <NavLink className="nav-link nav-custom" to="/login">
-                Iniciar Sesión
-              </NavLink>
-              <NavLink className="nav-link nav-custom" to="/register">
-                Registrarse
-              </NavLink>
-            </Nav>
+            {token && rolUsuario === "usuario" ? (
+              <Nav className="ms-auto">
+                <NavLink className="nav-link nav-custom" to="/">
+                  Inicio
+                </NavLink>
+                <NavLink className="nav-link nav-custom" to="">
+                  Acerca de Nosotros
+                </NavLink>
+                <NavLink className="nav-link nav-custom" to="">
+                  Contacto
+                </NavLink>
+                <NavLink className="nav-link nav-custom" to="">
+                  Carrito
+                </NavLink>
+              </Nav>
+            ) : token && rolUsuario === "admin" ? (
+              <Nav className="ms-auto">
+                <NavLink className="nav-link nav-custom" to="/">
+                  Inicio
+                </NavLink>
+                <NavLink
+                  className="nav-link nav-custom"
+                  to="/administrar-usuarios"
+                >
+                  Administrar usuarios
+                </NavLink>
+                <NavLink
+                  className="nav-link nav-custom"
+                  to="/administrar-planes"
+                >
+                  Administrar planes
+                </NavLink>
+              </Nav>
+            ) : (
+              <Nav className="ms-auto">
+                <NavLink className="nav-link nav-custom" to="/">
+                  Inicio
+                </NavLink>
+                <NavLink className="nav-link nav-custom" to="">
+                  Acerca de Nosotros
+                </NavLink>
+                <NavLink className="nav-link nav-custom" to="">
+                  Contacto
+                </NavLink>
+              </Nav>
+            )}
+            {token ? (
+              <Nav className="ms-auto">
+                <NavLink className="nav-link" to="#" onClick={handleLogoutUser}>
+                  Cerrar Sesion
+                </NavLink>
+                <NavLink className="nav-link" to="">
+                  Carrito
+                </NavLink>
+              </Nav>
+            ) : (
+              <Nav className="ms-auto">
+                <NavLink className="nav-link nav-custom" to="/login">
+                  Iniciar Sesión
+                </NavLink>
+                <NavLink className="nav-link nav-custom" to="/register">
+                  Registrarse
+                </NavLink>
+              </Nav>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
