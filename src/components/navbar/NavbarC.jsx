@@ -13,6 +13,7 @@ const NavbarC = () => {
   const handleLogoutUser = () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("rol");
+    sessionStorage.removeItem("idUsuario");
 
     setTimeout(() => {
       navigate("/");

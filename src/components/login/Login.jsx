@@ -31,45 +31,49 @@ export const Login = () => {
       const { data } = await clientAxios.post("/usuarios/inicio-sesion", login);
 
       sessionStorage.setItem("token", JSON.stringify(data.token));
+      sessionStorage.setItem("idUsuario", JSON.stringify(data.idUsuario));
 
-      console.log(data)
-      
-    Swal.fire({
-      icon: "success",
-      title: "¡Inicio de sesión exitoso!",
-      text: "Redirigiendo...",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+      console.log(data);
 
-    setTimeout(() => {
-      navigate("/");
-    }, 1500);
-  } catch (err) {
-    const statusCode = err.response?.status;
-    const msg = err.response?.data?.msg || "";
+      Swal.fire({
+        icon: "success",
+        title: "¡Inicio de sesión exitoso!",
+        text: "Redirigiendo...",
+        showConfirmButton: false,
+        timer: 1500,
+      });
 
-    if (statusCode === 403 && msg.toLowerCase().includes("deshabilitada")) {
-      Swal.fire({
-        icon: "warning",
-        title: "Cuenta deshabilitada",
-        text: "Tu cuenta está deshabilitada. Contactá con soporte para más información.",
-      });
-    } else if (statusCode === 401 && msg.toLowerCase().includes("usuario y/o contraseña")) {
-      Swal.fire({
-        icon: "error",
-        title: "Credenciales inválidas",
-        text: "Correo o contraseña incorrectos.",
-      });
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Ocurrió un error al iniciar sesión",
-      });
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    } catch (err) {
+      const statusCode = err.response?.status;
+      const msg = err.response?.data?.msg || "";
+
+      if (statusCode === 403 && msg.toLowerCase().includes("deshabilitada")) {
+        Swal.fire({
+          icon: "warning",
+          title: "Cuenta deshabilitada",
+          text: "Tu cuenta está deshabilitada. Contactá con soporte para más información.",
+        });
+      } else if (
+        statusCode === 401 &&
+        msg.toLowerCase().includes("usuario y/o contraseña")
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Credenciales inválidas",
+          text: "Correo o contraseña incorrectos.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Ocurrió un error al iniciar sesión",
+        });
+      }
     }
-  }
-};
+  };
 
   return (
     <div className="login-wrapper">
