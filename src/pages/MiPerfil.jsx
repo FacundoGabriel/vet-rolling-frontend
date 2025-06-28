@@ -111,7 +111,7 @@ const MiPerfil = () => {
       };
 
       const res = await clientAxios.put(
-        `/usuarios/${idUsuario}`,
+        `/usuarios/editar-usuario/${idUsuario}`,
         datosTexto,
         configHeaders
       );

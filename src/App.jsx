@@ -14,6 +14,7 @@ import AdministrarPlanesVeterinario from "./pages/AdministrarPlanesVeterinario";
 import UserPage from "./pages/UserPage";
 import MiPerfil from "./pages/MiPerfil";
 import { RegistroVeterinario } from "./components/registro/RegistroVeterinario";
+import RecuperarContrasenia from "./pages/RecuperarContrasenia";
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
           element={<AdministrarPlanesVeterinario />}
         />
         <Route path="/user/mi-perfil" element={<MiPerfil />} />
+        <Route path="/olvide-contraseña" element={<RecuperarContrasenia />} />
       </Routes>
 
       <Footer />
