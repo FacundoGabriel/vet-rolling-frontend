@@ -24,7 +24,7 @@ const App = () => {
         <Route path="/user" element={<UserPage />} />
         <Route path="/contratar-plan/:id" element={<DetallePlanes />} />
         <Route path="/mascotas/añadir-mascota" element={<AniadirMascota />} />
-        <Route path="/mis-mascotas" element={<MisMascotas />} />
+        <Route path="/user/mis-mascotas" element={<MisMascotas />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegistroUsuario />} />
         <Route path="/register-veterinario" element={<RegistroVeterinario />} />
@@ -41,7 +41,7 @@ const App = () => {
           path="/administrar-planes"
           element={<AdministrarPlanesVeterinario />}
         />
-        <Route path="/mi-perfil" element={<MiPerfil />} />
+        <Route path="/user/mi-perfil" element={<MiPerfil />} />
       </Routes>
 
       <Footer />
