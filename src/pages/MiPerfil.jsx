@@ -47,8 +47,6 @@ const MiPerfil = () => {
       });
     } catch (err) {
       console.error("Error al obtener usuario:", err);
-    } finally {
-      setLoading(false);
     }
   };
   const validarFormulario = () => {
@@ -67,8 +65,6 @@ const MiPerfil = () => {
   useEffect(() => {
     if (idUsuario) {
       obtenerUnUsuario();
-    } else {
-      setLoading(false);
     }
   }, []);
 
