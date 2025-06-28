@@ -11,6 +11,7 @@ import AdministrarVeterinarios from "./pages/AdministrarVeterinarios";
 import AdministrarSolicitoVeterinario from "./pages/AdministrarSolicitoVeterinario";
 import { RegistroUsuario } from "./components/registro/RegistroUsuario";
 import AdministrarPlanesVeterinario from "./pages/AdministrarPlanesVeterinario";
+import UserPage from "./pages/UserPage";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
       <NavbarC />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/user" element={<UserPage />} />
         <Route path="/contratar-plan/:id" element={<DetallePlanes />} />
         <Route path="/mascotas/añadir-mascota" element={<AniadirMascota />} />
         <Route path="/mascotas/mis-mascotas" element={<MisMascotas />} />
