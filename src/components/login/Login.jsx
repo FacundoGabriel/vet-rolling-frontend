@@ -1,13 +1,13 @@
 import { Eye, EyeOff, LogIn } from "lucide-react";
-import { Button, Card, Form, Alert } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import clientAxios from "../../helpers/axios.helpers";
+import Swal from "sweetalert2";
 import "./Login.css";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -26,17 +26,52 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
     try {
       const { data } = await clientAxios.post("/usuarios/inicio-sesion", login);
 
       sessionStorage.setItem("token", JSON.stringify(data.token));
+      sessionStorage.setItem("idUsuario", JSON.stringify(data.idUsuario));
 
+      console.log(data);
+
+      Swal.fire({
+        icon: "success",
+        title: "¡Inicio de sesión exitoso!",
+        text: "Redirigiendo...",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     } catch (err) {
-      const msg =
-        err.response?.data?.msg || "Ocurrió un error al iniciar sesión";
-      setError(msg);
+      const statusCode = err.response?.status;
+      const msg = err.response?.data?.msg || "";
+
+      if (statusCode === 403 && msg.toLowerCase().includes("deshabilitada")) {
+        Swal.fire({
+          icon: "warning",
+          title: "Cuenta deshabilitada",
+          text: "Tu cuenta está deshabilitada. Contactá con soporte para más información.",
+        });
+      } else if (
+        statusCode === 401 &&
+        msg.toLowerCase().includes("usuario y/o contraseña")
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Credenciales inválidas",
+          text: "Correo o contraseña incorrectos.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Ocurrió un error al iniciar sesión",
+        });
+      }
     }
   };
 
@@ -50,8 +85,6 @@ export const Login = () => {
             Ingresa tus credenciales para acceder
           </Card.Text>
         </div>
-
-        {error && <Alert variant="danger">{error}</Alert>}
 
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="email" className="mb-3">
