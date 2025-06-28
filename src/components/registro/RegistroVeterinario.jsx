@@ -4,14 +4,16 @@ import { Button, Card, Form, Spinner } from "react-bootstrap";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import clientAxios from "../../helpers/axios.helpers";
+import clientAxios, { configHeadersImage } from "../../helpers/axios.helpers";
 
-export const RegistroUsuario = () => {
+export const RegistroVeterinario = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [archivoFoto, setArchivoFoto] = useState(null);
+  const [previewFoto, setPreviewFoto] = useState(null);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const toggleConfirmPasswordVisibility = () =>
@@ -23,12 +25,15 @@ export const RegistroUsuario = () => {
     telefono: "",
     password: "",
     confirmPassword: "",
+    descripcion: "",
+    especialidad: "",
+    foto: "",
   });
 
   const manejarClick = (e) => {
     e.preventDefault();
     setTimeout(() => {
-      navigate("/register-veterinario");
+      navigate("/register");
     }, 1000);
   };
 
@@ -52,6 +57,24 @@ export const RegistroUsuario = () => {
         icon: "error",
         title: "Error",
         text: "El correo es obligatorio",
+      });
+      return false;
+    }
+
+    if (!form.descripcion.trim()) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "La descripcion es obligatoria",
+      });
+      return false;
+    }
+
+    if (!form.especialidad.trim()) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "La especialidad es obligatoria",
       });
       return false;
     }
@@ -114,6 +137,14 @@ export const RegistroUsuario = () => {
       });
       return false;
     }
+    if (!archivoFoto) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Debes seleccionar una imagen de perfil.",
+      });
+      return false;
+    }
 
     return true;
   };
@@ -131,13 +162,27 @@ export const RegistroUsuario = () => {
         telefono: form.telefono,
         contrasenia: form.password,
         repetirContrasenia: form.confirmPassword,
+        descripcion: form.descripcion,
+        especialidad: form.especialidad,
       };
 
-      const data = await clientAxios.post("/usuarios/registro", payload);
+      const res = await clientAxios.post("/veterinarios/registro", payload);
 
+      const idUsuario = res.data.idUsuario;
+
+      if (archivoFoto && idUsuario) {
+        const formData = new FormData();
+        formData.append("foto", archivoFoto);
+
+        await clientAxios.put(
+          `/usuarios/agregarImagen/${idUsuario}`,
+          formData,
+          configHeadersImage
+        );
+      }
       setLoading(false);
 
-      if (data.status !== 201) {
+      if (!idUsuario) {
         Swal.fire({
           icon: "error",
           title: "Usuario ya registrado",
@@ -147,7 +192,7 @@ export const RegistroUsuario = () => {
         Swal.fire({
           icon: "success",
           title: "Cuenta creada con éxito",
-          text: "Revisá tu correo para confirmar tu cuenta.",
+          text: res.data.msg,
           timer: 2500,
           showConfirmButton: false,
         });
@@ -158,7 +203,13 @@ export const RegistroUsuario = () => {
           telefono: "",
           password: "",
           confirmPassword: "",
+          descripcion: "",
+          especialidad: "",
+          foto: "",
         });
+        setArchivoFoto(null);
+        document.querySelector('input[type="file"]').value = null;
+        setPreviewFoto(null);
 
         setTimeout(() => {
           navigate("/iniciar-sesion");
@@ -222,6 +273,28 @@ export const RegistroUsuario = () => {
                 required
               />
             </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Descripción</Form.Label>
+              <Form.Control
+                as="textarea"
+                placeholder="Escribe tu descripcion"
+                name="descripcion"
+                rows={3}
+                value={form.descripcion}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="especialidad" className="mb-3">
+              <Form.Label className="label-form">Especialidad</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Escribe tu especialidad"
+                name="especialidad"
+                value={form.especialidad}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
             <Form.Group controlId="password" className="mb-3">
               <Form.Label className="label-form">Contraseña</Form.Label>
@@ -268,8 +341,43 @@ export const RegistroUsuario = () => {
                 </button>
               </div>
             </Form.Group>
+            <Form.Group className="my-3">
+              <Form.Label>Seleccionar foto</Form.Label>
+              <Form.Control
+                type="file"
+                accept="image/*"
+                required
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  const ext = file?.name.split(".").pop().toLowerCase();
+                  if (["jpg", "jpeg", "png"].includes(ext)) {
+                    setArchivoFoto(file);
+                    setPreviewFoto(URL.createObjectURL(file)); // Genera la vista previa
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Formato de imagen inválido",
+                      text: "Solo se permiten imágenes JPG, JPEG o PNG.",
+                    });
+                    setArchivoFoto(null);
+                    setPreviewFoto(null);
+                    e.target.value = null;
+                  }
+                }}
+              />
+              {previewFoto && (
+                <div className="mt-3 text-center">
+                  <p className="mb-1">Vista previa:</p>
+                  <img
+                    src={previewFoto}
+                    alt="Vista previa"
+                    style={{ maxWidth: "200px", borderRadius: "8px" }}
+                  />
+                </div>
+              )}
+            </Form.Group>
             <p>
-              ¿Eres veterinario?{" "}
+              ¿Eres Cliente?{" "}
               <a href="/register-veterinario" onClick={manejarClick}>
                 ¡Regístrate aquí!
               </a>
