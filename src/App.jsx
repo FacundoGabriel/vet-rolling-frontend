@@ -13,6 +13,7 @@ import { RegistroUsuario } from "./components/registro/RegistroUsuario";
 import AdministrarPlanesVeterinario from "./pages/AdministrarPlanesVeterinario";
 import UserPage from "./pages/UserPage";
 import MiPerfil from "./pages/MiPerfil";
+import { RegistroVeterinario } from "./components/registro/RegistroVeterinario";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/mis-mascotas" element={<MisMascotas />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegistroUsuario />} />
+        <Route path="/register-veterinario" element={<RegistroVeterinario />} />
         <Route path="/administrar-usuarios" element={<AdministrarUsuarios />} />
         <Route
           path="/administrar-veterinarios"
