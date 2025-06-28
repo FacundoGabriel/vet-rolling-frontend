@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 
 const AdministrarPlanesVeterinario = () => {
   const [planesVet, setPlanesVet] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const obtenerPlanesVeterinarios = async () => {
     try {
@@ -16,8 +15,6 @@ const AdministrarPlanesVeterinario = () => {
       setPlanesVet(res.data.planes);
     } catch (error) {
       console.error("Error al obtener los planes:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -55,14 +52,6 @@ const AdministrarPlanesVeterinario = () => {
   useEffect(() => {
     obtenerPlanesVeterinarios();
   }, []);
-
-  if (loading) {
-    return (
-      <Container className="text-center mt-5">
-        <Spinner animation="border" variant="primary" />
-      </Container>
-    );
-  }
 
   return (
     <Container className="my-5">

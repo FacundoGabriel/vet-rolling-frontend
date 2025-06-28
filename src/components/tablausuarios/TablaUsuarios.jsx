@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { Table, Spinner, Image, Button, Container } from "react-bootstrap";
+import { Table, Image, Button, Container } from "react-bootstrap";
 import clientAxios, { configHeaders } from "../../helpers/axios.helpers";
 import Swal from "sweetalert2";
 
 const TablaUsuarios = ({ idPage }) => {
   const [usuarios, setUsuarios] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const obtenerUsuarios = async () => {
     try {
@@ -222,14 +221,6 @@ const TablaUsuarios = ({ idPage }) => {
       }
     }
   };
-
-  if (loading) {
-    return (
-      <Container className="text-center my-5">
-        <Spinner animation="border" variant="primary" />
-      </Container>
-    );
-  }
 
   const getColumnHeaders = () => {
     const base = ["Foto", "Nombre", "Email", "Teléfono", "Rol", "Estado"];
