@@ -15,6 +15,9 @@ import UserPage from "./pages/UserPage";
 import MiPerfil from "./pages/MiPerfil";
 import { RegistroVeterinario } from "./components/registro/RegistroVeterinario";
 import RecuperarContrasenia from "./pages/RecuperarContrasenia";
+import CrearTurno from "./pages/CrearTurno";
+import MisTurnos from "./pages/MisTurnos";
+import TurnosVeterinario from "./pages/TurnosVeterinarios";
 
 const App = () => {
   return (
@@ -44,6 +47,9 @@ const App = () => {
         />
         <Route path="/mi-perfil" element={<MiPerfil />} />
         <Route path="/olvide-contraseña" element={<RecuperarContrasenia />} />
+        <Route path="/agendar-turno" element={<CrearTurno />} />
+        <Route path="/mis-turnos" element={<MisTurnos />} />
+        <Route path="/administrar-turnos" element={<TurnosVeterinario />} />
       </Routes>
 
       <Footer />
