@@ -32,6 +32,7 @@ export const Login = () => {
 
       sessionStorage.setItem("token", JSON.stringify(data.token));
       sessionStorage.setItem("idUsuario", JSON.stringify(data.idUsuario));
+      sessionStorage.setItem("rol", JSON.stringify(data.rolUsuario));
 
       console.log(data);
 
@@ -44,7 +45,7 @@ export const Login = () => {
       });
 
       setTimeout(() => {
-        navigate("/");
+        navigate("/user");
       }, 1500);
     } catch (err) {
       const statusCode = err.response?.status;
