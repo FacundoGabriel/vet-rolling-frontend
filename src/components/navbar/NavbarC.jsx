@@ -48,7 +48,7 @@ const NavbarC = () => {
                   >
                     Acerca de Nosotros
                   </NavLink>
-                  <NavLink className="nav-link nav-custom" to="/user/contact">
+                  <NavLink className="nav-link nav-custom" to="/contacto">
                     Contacto
                   </NavLink>
                   <NavLink className="nav-link nav-custom" to="/user/mi-perfil">
@@ -94,7 +94,7 @@ const NavbarC = () => {
                   >
                     Acerca de Nosotros
                   </NavLink>
-                  <NavLink className="nav-link nav-custom" to="/contact">
+                  <NavLink className="nav-link nav-custom" to="/contacto">
                     Contacto
                   </NavLink>
                 </Nav>
