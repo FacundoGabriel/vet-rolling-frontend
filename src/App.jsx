@@ -13,6 +13,13 @@ import { RegistroUsuario } from "./components/registro/RegistroUsuario";
 import AdministrarPlanesVeterinario from "./pages/AdministrarPlanesVeterinario";
 import UserPage from "./pages/UserPage";
 import MiPerfil from "./pages/MiPerfil";
+import { RegistroVeterinario } from "./components/registro/RegistroVeterinario";
+import RecuperarContrasenia from "./pages/RecuperarContrasenia";
+import CrearTurno from "./pages/CrearTurno";
+import MisTurnos from "./pages/MisTurnos";
+import TurnosVeterinario from "./pages/TurnosVeterinarios";
+import AcercaDeNosotros from "./components/acercadenosotros/AcercaDeNosotros";
+import Contacto from "./pages/Contacto";
 
 const App = () => {
   return (
@@ -23,9 +30,10 @@ const App = () => {
         <Route path="/user" element={<UserPage />} />
         <Route path="/contratar-plan/:id" element={<DetallePlanes />} />
         <Route path="/mascotas/añadir-mascota" element={<AniadirMascota />} />
-        <Route path="/mis-mascotas" element={<MisMascotas />} />
+        <Route path="/user/mis-mascotas" element={<MisMascotas />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegistroUsuario />} />
+        <Route path="/register-veterinario" element={<RegistroVeterinario />} />
         <Route path="/administrar-usuarios" element={<AdministrarUsuarios />} />
         <Route
           path="/administrar-veterinarios"
@@ -39,7 +47,13 @@ const App = () => {
           path="/administrar-planes"
           element={<AdministrarPlanesVeterinario />}
         />
-        <Route path="/mi-perfil" element={<MiPerfil />} />
+        <Route path="/user/mi-perfil" element={<MiPerfil />} />
+        <Route path="/olvide-contraseña" element={<RecuperarContrasenia />} />
+        <Route path="/agendar-turno" element={<CrearTurno />} />
+        <Route path="/mis-turnos" element={<MisTurnos />} />
+        <Route path="/administrar-turnos" element={<TurnosVeterinario />} />
+        <Route path="/acerca-de-nosotros" element={<AcercaDeNosotros />} />
+        <Route path="/contacto" element={<Contacto />} />
       </Routes>
 
       <Footer />

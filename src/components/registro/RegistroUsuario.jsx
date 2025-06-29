@@ -14,15 +14,23 @@ export const RegistroUsuario = () => {
   const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword(!showConfirmPassword);
 
   const [form, setForm] = useState({
-    username: '',
-    email: '',
-    telefono: '',
-    password: '',
-    confirmPassword: '',
+    username: "",
+    email: "",
+    telefono: "",
+    password: "",
+    confirmPassword: "",
   });
+
+  const manejarClick = (e) => {
+    e.preventDefault();
+    setTimeout(() => {
+      navigate("/register-veterinario");
+    }, 1000);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,12 +39,20 @@ export const RegistroUsuario = () => {
 
   const validate = () => {
     if (!form.username.trim()) {
-      Swal.fire({ icon: "error", title: "Error", text: "El nombre de usuario es obligatorio" });
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "El nombre de usuario es obligatorio",
+      });
       return false;
     }
 
     if (!form.email.trim()) {
-      Swal.fire({ icon: "error", title: "Error", text: "El correo es obligatorio" });
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "El correo es obligatorio",
+      });
       return false;
     }
 
@@ -46,32 +62,56 @@ export const RegistroUsuario = () => {
     }
 
     if (!form.telefono.trim()) {
-      Swal.fire({ icon: "error", title: "Error", text: "El teléfono es obligatorio" });
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "El teléfono es obligatorio",
+      });
       return false;
     }
 
     if (!/^\d{8,15}$/.test(form.telefono)) {
-      Swal.fire({ icon: "error", title: "Error", text: "Teléfono inválido. Debe tener entre 8 y 15 dígitos numéricos." });
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Teléfono inválido. Debe tener entre 8 y 15 dígitos numéricos.",
+      });
       return false;
     }
 
     if (!form.password) {
-      Swal.fire({ icon: "error", title: "Error", text: "La contraseña es obligatoria" });
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "La contraseña es obligatoria",
+      });
       return false;
     }
 
     if (form.password.length < 8) {
-      Swal.fire({ icon: "error", title: "Error", text: "Debe tener al menos 8 caracteres" });
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Debe tener al menos 8 caracteres",
+      });
       return false;
     }
 
     if (!form.confirmPassword) {
-      Swal.fire({ icon: "error", title: "Error", text: "Repetir contraseña es obligatorio" });
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Repetir contraseña es obligatorio",
+      });
       return false;
     }
 
     if (form.confirmPassword !== form.password) {
-      Swal.fire({ icon: "error", title: "Error", text: "Las contraseñas no coinciden" });
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Las contraseñas no coinciden",
+      });
       return false;
     }
 
@@ -97,7 +137,6 @@ export const RegistroUsuario = () => {
 
       setLoading(false);
 
-
       if (data.status !== 201) {
         Swal.fire({
           icon: "error",
@@ -122,7 +161,7 @@ export const RegistroUsuario = () => {
         });
 
         setTimeout(() => {
-          navigate('/iniciar-sesion');
+          navigate("/iniciar-sesion");
         }, 2500);
       }
     } catch (error) {
@@ -221,12 +260,26 @@ export const RegistroUsuario = () => {
                   onClick={toggleConfirmPasswordVisibility}
                   className="password-toggle-btn"
                 >
-                  {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showConfirmPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
                 </button>
               </div>
             </Form.Group>
+            <p>
+              ¿Eres veterinario?{" "}
+              <a href="/register-veterinario" onClick={manejarClick}>
+                ¡Regístrate aquí!
+              </a>
+            </p>
 
-            <Button type="submit" className="w-100 btn-register" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-100 btn-register"
+              disabled={loading}
+            >
               {loading ? (
                 <Spinner animation="border" variant="light" size="sm" />
               ) : (

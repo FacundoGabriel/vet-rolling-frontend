@@ -12,8 +12,6 @@ const TablaUsuarios = ({ idPage }) => {
       setUsuarios(res.data.usuarios);
     } catch (error) {
       console.error("Error al obtener usuarios:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -86,7 +84,7 @@ const TablaUsuarios = ({ idPage }) => {
           Swal.fire({
             icon: "success",
             title: "Habilitado",
-            text: res.data.msg,
+            text: res.data.msg || "Veterinario habilitado con éxito.",
             confirmButtonColor: "#3085d6",
           });
         }
