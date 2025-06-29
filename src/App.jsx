@@ -18,6 +18,7 @@ import RecuperarContrasenia from "./pages/RecuperarContrasenia";
 import CrearTurno from "./pages/CrearTurno";
 import MisTurnos from "./pages/MisTurnos";
 import TurnosVeterinario from "./pages/TurnosVeterinarios";
+import AcercaDeNosotros from "./components/acercadenosotros/AcercaDeNosotros";
 
 const App = () => {
   return (
@@ -50,6 +51,7 @@ const App = () => {
         <Route path="/agendar-turno" element={<CrearTurno />} />
         <Route path="/mis-turnos" element={<MisTurnos />} />
         <Route path="/administrar-turnos" element={<TurnosVeterinario />} />
+        <Route path="/acerca-de-nosotros" element={<AcercaDeNosotros />} />
       </Routes>
 
       <Footer />
