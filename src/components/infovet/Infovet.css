@@ -1,0 +1,42 @@
+.bg {
+  height: 350px;
+  background: linear-gradient(
+    to right,
+    #00466e 0%,
+    #0074b8 30%,
+    #0074b8 70%,
+    #00466e 100%
+  );
+}
+
+.texto p {
+  font-family: "Poppins", sans-serif;
+  font-size: 30px;
+}
+
+.texto .btn-primary {
+  background-color: var(--color-naranja);
+  color: var(--color-blanco);
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.texto .btn-primary:hover {
+  background-color: #bc5112;
+}
+
+.texto .btn-primary:active {
+  background-color: var(--color-naranja) !important;
+  box-shadow: none;
+  transform: none;
+}
+
+.texto-naranja {
+  color: var(--color-naranja);
+  font-weight: 800;
+}
+
+.texto-blanco {
+  color: var(--color-blanco);
+  font-weight: 500;
+}

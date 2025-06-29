@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Card, Container, Spinner, Alert, Button, Form } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Card, Container, Button, Form } from "react-bootstrap";
 import clientAxios, {
   configHeaders,
   configHeadersImage,
@@ -8,8 +8,6 @@ import Swal from "sweetalert2";
 
 const MisMascotas = () => {
   const [mascotas, setMascotas] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   const [editandoId, setEditandoId] = useState(null);
   const [editForm, setEditForm] = useState({});
   const [nuevaImagen, setNuevaImagen] = useState(null);
@@ -21,12 +19,7 @@ const MisMascotas = () => {
         configHeaders
       );
       setMascotas(res.data.mascotas || []);
-    } catch (err) {
-      console.error(err);
-      setError("No se pudieron cargar las mascotas.");
-    } finally {
-      setLoading(false);
-    }
+    } catch (error) {}
   };
 
   const eliminarMascotaPorId = async (idMascota) => {
@@ -92,10 +85,6 @@ const MisMascotas = () => {
     setEditForm({ ...editForm, [name]: value });
   };
 
-  const handleImagenChange = (e) => {
-    setNuevaImagen(e.target.files[0]);
-  };
-
   const guardarCambios = async (id) => {
     try {
       const { nombre, especie, raza, sexo, peso, fechaNacimiento } = editForm;
@@ -125,19 +114,6 @@ const MisMascotas = () => {
   useEffect(() => {
     obtenerMascotas();
   }, []);
-
-  if (loading)
-    return (
-      <Container className="text-center my-5">
-        <Spinner animation="border" variant="primary" />
-      </Container>
-    );
-  if (error)
-    return (
-      <Container className="my-5">
-        <Alert variant="danger">{error}</Alert>
-      </Container>
-    );
 
   return (
     <Container className="my-5">

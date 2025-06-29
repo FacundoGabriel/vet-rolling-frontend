@@ -1,0 +1,57 @@
+.fondo-huellas {
+  background-image: url("/fondo-huellas.jpg");
+  background-size: contain;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.descripciones .row {
+  height: 60vh;
+  background-color: #f1661683;
+  backdrop-filter: blur(10px);
+  box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.5);
+  border: 2px solid black;
+}
+
+.img-custom {
+  height: 45vh;
+  box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.5);
+}
+
+.titulo-descripcion {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: black;
+  text-shadow: 0 5px 8px rgba(255, 255, 255, 0.3);
+}
+
+.descripcion-grupo {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: black;
+}
+
+.titulo-acerca-de-nosotros {
+  height: 90px;
+  background-color: var(--color-naranja);
+}
+
+.titulo-acerca-de-nosotros h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 40px;
+  color: var(--color-blanco);
+}
+
+.icono-redes {
+  color: #333;
+  transition: transform 0.3s, color 0.3s;
+  cursor: pointer;
+}
+
+.icono-redes:hover {
+  transform: scale(1.2);
+  color: #5a5a5a;
+}

@@ -9,7 +9,6 @@ import {
   Row,
   Col,
   Form,
-  Alert,
 } from "react-bootstrap";
 import clientAxios, { configHeaders } from "../helpers/axios.helpers";
 import Swal from "sweetalert2";
@@ -35,7 +34,6 @@ const DetallePlan = () => {
   const [plan, setPlan] = useState(null);
   const [mascotas, setMascotas] = useState([]);
   const [veterinarios, setVeterinarios] = useState([]);
-  const [errorMascotas, setErrorMascotas] = useState(null);
   const [errores, setErrores] = useState({});
 
   const [formulario, setFormulario] = useState({
@@ -59,7 +57,7 @@ const DetallePlan = () => {
 
   const obtenerUnPlan = async () => {
     try {
-      const res = await clientAxios.get(`/planes/${id}`);
+      const res = await clientAxios.get(`/planes/obtener-un-plan/${id}`);
       setPlan(res.data.plan);
     } catch (error) {
       console.log(error);
@@ -188,7 +186,7 @@ const DetallePlan = () => {
   if (!plan) {
     return (
       <div className="d-flex justify-content-center my-5">
-        <Spinner animation="border" variant="success" />
+        <Spinner animation="border" variant="primary" />
       </div>
     );
   }
@@ -206,7 +204,7 @@ const DetallePlan = () => {
               />
             )}
             <Card.Body className="p-4">
-              <Card.Title className="text-success fs-1 text-center mb-3">
+              <Card.Title className="text-primary fs-1 text-center mb-3">
                 {plan.nombre}
               </Card.Title>
               <Card.Text className="fs-5 text-secondary text-justify mb-4">
@@ -221,7 +219,7 @@ const DetallePlan = () => {
                     </ListGroup.Item>
                   ))}
               </ListGroup>
-              <h4 className="text-success fw-bold text-center">
+              <h4 className="text-primary fw-bold text-center">
                 Precio: ${plan.precio}
               </h4>
             </Card.Body>
@@ -232,13 +230,9 @@ const DetallePlan = () => {
           <Card className="shadow border-0 h-100">
             <Card.Body className="p-4 d-flex flex-column justify-content-between">
               <div>
-                <h4 className="text-center text-success mb-4">
+                <h4 className="text-center text-primary mb-4">
                   Contratar este plan
                 </h4>
-
-                {errorMascotas && (
-                  <Alert variant="danger">{errorMascotas}</Alert>
-                )}
 
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
@@ -328,7 +322,7 @@ const DetallePlan = () => {
                   </Form.Group>
 
                   <div className="d-grid">
-                    <Button variant="success" type="submit">
+                    <Button variant="primary" type="submit">
                       Confirmar contratación
                     </Button>
                   </div>
