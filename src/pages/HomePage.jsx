@@ -5,6 +5,7 @@ import CardVeterinarios from "../components/cardveterinarios/CardVeterinarios";
 import Comentarios from "../components/comentarios/Comentarios";
 import Infovet from "../components/infovet/Infovet";
 import Mapa from "../components/mapa/Mapa";
+import CardServicios from "../components/cardServicios/CardServicios";
 
 const HomePage = () => {
   return (
@@ -13,6 +14,7 @@ const HomePage = () => {
       <Infovet />
       <AdsCarousel />
       <CardPlanes />
+      <CardServicios />
       <CardVeterinarios />
       <Comentarios />
       <Mapa />
