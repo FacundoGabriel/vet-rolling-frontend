@@ -15,7 +15,9 @@ const AdsCarousel = () => {
   return (
     <>
       <Container fluid className="py-4 px-0 bg-carousel">
-        <h1 className="text-center pb-5">Nuestras marcas de confianza</h1>
+        <h1 className="text-center titulo-ads pb-5">
+          Nuestras marcas de confianza
+        </h1>
         <Marquee className="logos pb-4" speed={40} gradient={false}>
           <img className="carousel-logo" src={pedigree} alt="pedigree-logo" />
           <img

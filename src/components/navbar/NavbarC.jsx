@@ -42,7 +42,10 @@ const NavbarC = () => {
                   <NavLink className="nav-link nav-custom" to="/user">
                     Inicio
                   </NavLink>
-                  <NavLink className="nav-link nav-custom" to="/user/aboutUs">
+                  <NavLink
+                    className="nav-link nav-custom"
+                    to="/acerca-de-nosotros"
+                  >
                     Acerca de Nosotros
                   </NavLink>
                   <NavLink className="nav-link nav-custom" to="/user/contact">
@@ -85,7 +88,10 @@ const NavbarC = () => {
                   <NavLink className="nav-link nav-custom" to="/">
                     Inicio
                   </NavLink>
-                  <NavLink className="nav-link nav-custom" to="/aboutUs">
+                  <NavLink
+                    className="nav-link nav-custom"
+                    to="/acerca-de-nosotros"
+                  >
                     Acerca de Nosotros
                   </NavLink>
                   <NavLink className="nav-link nav-custom" to="/contact">
