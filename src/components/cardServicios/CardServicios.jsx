@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import clientAxios from "../../helpers/axios.helpers";
 import { Card, Container, Row, Col, Button, Badge } from "react-bootstrap";
-import { FiClock, FiTag, FiInfo } from "react-icons/fi";
+import { FiClock, FiTag } from "react-icons/fi";
+
+import ModalServicio from "../modalServicio/ModalServicio";
 
 // Mapeo limpio de emojis
 const emojiPorServicio = {
@@ -12,16 +14,14 @@ const emojiPorServicio = {
   vacunacion: "💉",
 };
 
-const obtenerEmoji = (nombre) => {
-  const clave = Object.keys(emojiPorServicio).find((key) =>
-    nombre.toLowerCase().includes(key)
-  );
-
-  return emojiPorServicio[clave] || "🐾";
+const obtenerEmoji = (categoria) => {
+  return emojiPorServicio[categoria.toLowerCase()] || "🐾";
 };
 
 const CardServicios = () => {
   const [servicios, setServicios] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [idServicioSeleccionado, setIdServicioSeleccionado] = useState(null);
 
   const obtenerServicios = async () => {
     try {
@@ -30,6 +30,11 @@ const CardServicios = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const mostrarModal = (id) => {
+    setIdServicioSeleccionado(id);
+    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -96,22 +101,29 @@ const CardServicios = () => {
                 </span>
               </div>
 
-              <div className="d-flex justify-content-between mt-3">
-                <Button
-                  variant="outline-primary"
-                  className="d-flex align-items-center"
-                  size="sm"
-                >
-                  <FiInfo className="me-1" /> Ver Descripción
-                </Button>
-                <Button size="sm" variant="success">
-                  Agendar
-                </Button>
-              </div>
+              <Row className="g-2">
+                <Col>
+                  <Button
+                    variant="outline-primary"
+                    className="w-100"
+                    onClick={() => mostrarModal(servicio._id)}
+                  >
+                    Ver Servicio
+                  </Button>
+                </Col>
+              </Row>
             </Card>
           </Col>
         ))}
       </Row>
+
+      {modalVisible && (
+        <ModalServicio
+          id={idServicioSeleccionado}
+          show={modalVisible}
+          handleClose={() => setModalVisible(false)}
+        />
+      )}
     </Container>
   );
 };

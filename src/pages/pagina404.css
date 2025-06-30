@@ -1,0 +1,9 @@
+.dog-icon {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .dog-icon.jump {
+    transform: translateY(-20px) scale(1.1);
+  }
+  
