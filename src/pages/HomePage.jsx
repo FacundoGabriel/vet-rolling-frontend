@@ -6,6 +6,7 @@ import Comentarios from "../components/comentarios/Comentarios";
 import Infovet from "../components/infovet/Infovet";
 import Mapa from "../components/mapa/Mapa";
 import CardServicios from "../components/cardServicios/CardServicios";
+import CardProductos from "../components/CardProductos/CardProductos";
 
 const HomePage = () => {
   return (
@@ -15,6 +16,7 @@ const HomePage = () => {
       <AdsCarousel />
       <CardPlanes />
       <CardServicios />
+      <CardProductos/>
       <CardVeterinarios />
       <Comentarios />
       <Mapa />

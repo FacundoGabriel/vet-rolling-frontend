@@ -20,6 +20,7 @@ import MisTurnos from "./pages/MisTurnos";
 import TurnosVeterinario from "./pages/TurnosVeterinarios";
 import AcercaDeNosotros from "./components/acercadenosotros/AcercaDeNosotros";
 import Contacto from "./pages/Contacto";
+import Pagina404 from "./pages/pagina404";
 
 const App = () => {
   return (
@@ -54,6 +55,7 @@ const App = () => {
         <Route path="/administrar-turnos" element={<TurnosVeterinario />} />
         <Route path="/acerca-de-nosotros" element={<AcercaDeNosotros />} />
         <Route path="/contacto" element={<Contacto />} />
+        <Route path="*" element={<Pagina404 />} />
       </Routes>
 
       <Footer />

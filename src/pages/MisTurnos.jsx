@@ -135,13 +135,21 @@ const MisTurnos = () => {
                     </Badge>
                   </td>
                   <td>
-                    {turnoEsFuturo && (
+                    {turnoEsFuturo ? (
                       <Button
                         variant="danger"
                         size="sm"
                         onClick={() => cancelarTurno(turno._id)}
                       >
                         Cancelar
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => cancelarTurno(turno._id)}
+                      >
+                        Limpiar turno pasado
                       </Button>
                     )}
                   </td>
