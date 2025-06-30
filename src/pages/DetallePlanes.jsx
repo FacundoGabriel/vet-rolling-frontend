@@ -37,8 +37,6 @@ const DetallePlan = () => {
   const [errores, setErrores] = useState({});
 
   const [formulario, setFormulario] = useState({
-    fecha: "",
-    horario: "",
     mascota: "",
     veterinario: "",
   });
@@ -85,9 +83,6 @@ const DetallePlan = () => {
 
   const validarFormulario = () => {
     const nuevosErrores = {};
-    if (!formulario.fecha) nuevosErrores.fecha = "La fecha es obligatoria";
-    if (!formulario.horario)
-      nuevosErrores.horario = "El horario es obligatorio";
     if (!formulario.mascota) nuevosErrores.mascota = "Seleccioná una mascota";
     if (!formulario.veterinario)
       nuevosErrores.veterinario = "Seleccioná un veterinario";
@@ -136,8 +131,6 @@ const DetallePlan = () => {
       const body = {
         mascota: formulario.mascota,
         plan: plan.nombre,
-        fecha: formulario.fecha,
-        horario: formulario.horario,
         veterinario: formulario.veterinario,
       };
 
@@ -147,17 +140,29 @@ const DetallePlan = () => {
         configHeaders
       );
 
+      if (res.status === 201) {
+        const pago = await clientAxios.post(
+          `/mercadoPago/pagoMercadoPagoPlan/${plan._id}`,
+          {},
+          configHeaders
+        );
+
+        const linkPago = pago.data.responseMp?.init_point;
+
+        if (linkPago) {
+          window.location.href = linkPago;
+        } else {
+          Toast.fire({
+            icon: "info",
+            title: "Turno creado, pero no se pudo obtener el link de pago.",
+          });
+        }
+      }
       Swal.fire({
         icon: "success",
         title: res.data.msg,
         confirmButtonColor: "#28a745",
       });
-
-      if (res.status === 201) {
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
-      }
     } catch (error) {
       const mensaje =
         error.response?.data?.msg || "Ocurrió un error inesperado";
@@ -235,38 +240,6 @@ const DetallePlan = () => {
                 </h4>
 
                 <Form onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Fecha</Form.Label>
-                    <Form.Control
-                      type="date"
-                      name="fecha"
-                      value={formulario.fecha}
-                      onChange={handleChange}
-                      isInvalid={!!errores.fecha}
-                    />
-                    {errores.fecha && (
-                      <Form.Text className="text-danger">
-                        {errores.fecha}
-                      </Form.Text>
-                    )}
-                  </Form.Group>
-
-                  <Form.Group className="mb-3">
-                    <Form.Label>Horario</Form.Label>
-                    <Form.Control
-                      type="time"
-                      name="horario"
-                      value={formulario.horario}
-                      onChange={handleChange}
-                      isInvalid={!!errores.horario}
-                    />
-                    {errores.horario && (
-                      <Form.Text className="text-danger">
-                        {errores.horario}
-                      </Form.Text>
-                    )}
-                  </Form.Group>
-
                   <Form.Group className="mb-3">
                     <Form.Label>Seleccioná el veterinario</Form.Label>
                     <Form.Select
