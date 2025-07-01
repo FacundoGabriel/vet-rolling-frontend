@@ -20,6 +20,7 @@ import MisTurnos from "./pages/MisTurnos";
 import TurnosVeterinario from "./pages/TurnosVeterinarios";
 import AcercaDeNosotros from "./components/acercadenosotros/AcercaDeNosotros";
 import Contacto from "./pages/Contacto";
+import PaginaAdmin from "./pages/PaginaAdmin";
 
 const App = () => {
   return (
@@ -34,9 +35,12 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegistroUsuario />} />
         <Route path="/register-veterinario" element={<RegistroVeterinario />} />
-        <Route path="/administrar-usuarios" element={<AdministrarUsuarios />} />
         <Route
-          path="/administrar-veterinarios"
+          path="/admin/administrar-usuarios"
+          element={<AdministrarUsuarios />}
+        />
+        <Route
+          path="/admin/administrar-veterinarios"
           element={<AdministrarVeterinarios />}
         />
         <Route
@@ -54,6 +58,7 @@ const App = () => {
         <Route path="/administrar-turnos" element={<TurnosVeterinario />} />
         <Route path="/acerca-de-nosotros" element={<AcercaDeNosotros />} />
         <Route path="/contacto" element={<Contacto />} />
+        <Route path="/admin" element={<PaginaAdmin />} />
       </Routes>
 
       <Footer />
