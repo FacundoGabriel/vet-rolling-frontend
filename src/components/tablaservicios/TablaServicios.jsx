@@ -9,7 +9,10 @@ import {
   Modal,
   Form,
 } from "react-bootstrap";
-import clientAxios, { configHeadersImage } from "../../helpers/axios.helpers";
+import clientAxios, {
+  configHeaders,
+  configHeadersImage,
+} from "../../helpers/axios.helpers";
 import Swal from "sweetalert2";
 
 const TablaServicios = () => {
@@ -42,7 +45,10 @@ const TablaServicios = () => {
     });
     if (confirmacion.isConfirmed) {
       try {
-        const res = await clientAxios.delete(`/servicios/${idServicio}`);
+        const res = await clientAxios.delete(
+          `/servicios/${idServicio}`,
+          configHeaders
+        );
         Swal.fire("¡Servicio eliminado!", "", "success");
 
         obtenerServicios();
@@ -52,7 +58,7 @@ const TablaServicios = () => {
 
   const obtenerServicios = async () => {
     try {
-      const res = await clientAxios.get(`/servicios`);
+      const res = await clientAxios.get(`/servicios`, configHeaders);
       setServicios(res.data.servicios);
     } catch (error) {
       console.error("Error al cargar los servicios:", error);
@@ -76,7 +82,8 @@ const TablaServicios = () => {
     try {
       const res = await clientAxios.put(
         `/servicios/${idServicio}`,
-        nuevoServicio
+        nuevoServicio,
+        configHeaders
       );
       Swal.fire("¡Servicio actualizado!", "", "success");
       setMostrarModalEditar(false);
@@ -105,7 +112,11 @@ const TablaServicios = () => {
 
   const handleGuardar = async () => {
     try {
-      const res = await clientAxios.post(`/servicios`, nuevoServicio);
+      const res = await clientAxios.post(
+        `/servicios`,
+        nuevoServicio,
+        configHeaders
+      );
       Swal.fire("¡Servicio creado!", "", "success");
       setMostrarModal(false);
       setNuevoServicio({
