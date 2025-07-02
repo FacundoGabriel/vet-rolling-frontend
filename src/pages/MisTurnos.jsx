@@ -130,9 +130,11 @@ const MisTurnos = () => {
                   <td>{turno.mascota?.nombre || "Mascota"}</td>
                   <td>{turno.veterinario?.nombreUsuario || "Veterinario"}</td>
                   <td>
-                    <Badge bg={turnoEsFuturo ? "info" : "secondary"}>
-                      {turnoEsFuturo ? "Próximo" : "Finalizado"}
-                    </Badge>
+                    <td>
+                      <Badge bg={turnoEsFuturo ? "info" : "secondary"}>
+                        {turnoEsFuturo ? turno.estado : "Finalizado"}
+                      </Badge>
+                    </td>
                   </td>
                   <td>
                     {turnoEsFuturo ? (
