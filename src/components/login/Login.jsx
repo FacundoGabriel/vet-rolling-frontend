@@ -44,9 +44,19 @@ export const Login = () => {
         timer: 1500,
       });
 
-      setTimeout(() => {
+  setTimeout(() => {
+      const rol = data.rolUsuario;
+
+      if (rol === "admin") {
+        navigate("/admin");
+      } else if (rol === "usuario") {
         navigate("/user");
-      }, 1500);
+      } else if (rol === "veterinario") {
+        navigate("/administrar-turnos");
+      } else {
+        navigate("/");
+      }
+    }, 1500);
     } catch (err) {
       const statusCode = err.response?.status;
       const msg = err.response?.data?.msg || "";
