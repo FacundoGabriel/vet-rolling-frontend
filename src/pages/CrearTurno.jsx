@@ -100,7 +100,7 @@ const CrearTurno = () => {
 
   const obtenerServicios = async () => {
     try {
-      const res = await clientAxios.get("/servicios");
+      const res = await clientAxios.get("/servicios", configHeaders);
       setServicios(res.data.servicios);
     } catch (error) {
       console.log(error);
@@ -196,16 +196,25 @@ const CrearTurno = () => {
         configHeaders
       );
 
-      Swal.fire({
-        icon: "success",
-        title: res.data.msg,
-        confirmButtonColor: "#28a745",
-      });
+      sessionStorage.setItem("idTurno", JSON.stringify(res.data.idTurno));
 
       if (res.status === 201) {
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+        const pago = await clientAxios.post(
+          `/mercadoPago/pagoMercadoPagoServicio/${formulario.servicio}`,
+          {},
+          configHeaders
+        );
+
+        const linkPago = pago.data.responseMp?.init_point;
+
+        if (linkPago) {
+          window.location.href = linkPago;
+        } else {
+          Toast.fire({
+            icon: "info",
+            title: "Turno creado, pero no se pudo obtener el link de pago.",
+          });
+        }
       }
     } catch (error) {
       const mensaje =

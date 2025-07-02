@@ -1,0 +1,11 @@
+.titulo-carrito {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+}
+
+.col-cantidad {
+  width: 200px;
+  input {
+    width: 50px;
+  }
+}

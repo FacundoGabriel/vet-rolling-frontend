@@ -21,6 +21,10 @@ import TurnosVeterinario from "./pages/TurnosVeterinarios";
 import AcercaDeNosotros from "./components/acercadenosotros/AcercaDeNosotros";
 import Contacto from "./pages/Contacto";
 import Clima from "./components/clima/Clima";
+import PaginaAdmin from "./pages/PaginaAdmin";
+import Carrito from "./pages/Carrito";
+import ConfirmarTurno from "./pages/ConfirmarTurno";
+
 
 const App = () => {
   return (
@@ -36,9 +40,12 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegistroUsuario />} />
         <Route path="/register-veterinario" element={<RegistroVeterinario />} />
-        <Route path="/administrar-usuarios" element={<AdministrarUsuarios />} />
         <Route
-          path="/administrar-veterinarios"
+          path="/admin/administrar-usuarios"
+          element={<AdministrarUsuarios />}
+        />
+        <Route
+          path="/admin/administrar-veterinarios"
           element={<AdministrarVeterinarios />}
         />
         <Route
@@ -56,6 +63,9 @@ const App = () => {
         <Route path="/administrar-turnos" element={<TurnosVeterinario />} />
         <Route path="/acerca-de-nosotros" element={<AcercaDeNosotros />} />
         <Route path="/contacto" element={<Contacto />} />
+        <Route path="/admin" element={<PaginaAdmin />} />
+        <Route path="/user/carrito" element={<Carrito />} />
+        <Route path="/confirmar-turno" element={<ConfirmarTurno />} />
       </Routes>
 
       <Footer />
