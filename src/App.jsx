@@ -20,13 +20,16 @@ import MisTurnos from "./pages/MisTurnos";
 import TurnosVeterinario from "./pages/TurnosVeterinarios";
 import AcercaDeNosotros from "./components/acercadenosotros/AcercaDeNosotros";
 import Contacto from "./pages/Contacto";
+import Clima from "./components/clima/Clima";
 import PaginaAdmin from "./pages/PaginaAdmin";
 import Carrito from "./pages/Carrito";
 import ConfirmarTurno from "./pages/ConfirmarTurno";
 
+
 const App = () => {
   return (
     <Router>
+      <Clima />
       <NavbarC />
       <Routes>
         <Route path="/" element={<HomePage />} />
