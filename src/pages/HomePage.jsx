@@ -5,6 +5,7 @@ import CardVeterinarios from "../components/cardveterinarios/CardVeterinarios";
 import Comentarios from "../components/comentarios/Comentarios";
 import Infovet from "../components/infovet/Infovet";
 import Mapa from "../components/mapa/Mapa";
+import Clima from "../components/clima/Clima";
 
 const HomePage = () => {
   return (

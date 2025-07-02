@@ -20,10 +20,12 @@ import MisTurnos from "./pages/MisTurnos";
 import TurnosVeterinario from "./pages/TurnosVeterinarios";
 import AcercaDeNosotros from "./components/acercadenosotros/AcercaDeNosotros";
 import Contacto from "./pages/Contacto";
+import Clima from "./components/clima/Clima";
 
 const App = () => {
   return (
     <Router>
+      <Clima />
       <NavbarC />
       <Routes>
         <Route path="/" element={<HomePage />} />
