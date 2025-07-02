@@ -53,7 +53,7 @@ const CardServicios = () => {
         {servicios.map((servicio, i) => (
           <Col xs={12} md={6} lg={4} key={i}>
             <Card
-              className="shadow-lg rounded position-relative py-5 px-5 m-3"
+              className="shadow-lg rounded position-relative py-5 px-5 m-3 w-100 h-100"
               style={{ borderRadius: "10px", border: "1px solid #0074B8" }}
             >
               <div className="d-flex align-items-center justify-content-start mb-3">
