@@ -10,14 +10,14 @@ const ConfirmarTurno = () => {
   useEffect(() => {
     const query = new URLSearchParams(search);
     const status = query.get("status");
-    const paymentId = query.get("payment_id");
 
     if (status === "success") {
       const confirmarTurno = async () => {
         try {
           const res = await clientAxios.put(
             `/turnos/confirmar-turno/${idTurno}`,
-            {}
+            {},
+            configHeaders
           );
           Swal.fire({
             icon: "success",
