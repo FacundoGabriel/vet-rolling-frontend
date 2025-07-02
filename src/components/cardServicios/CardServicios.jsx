@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import clientAxios from "../../helpers/axios.helpers";
+import clientAxios, { configHeaders } from "../../helpers/axios.helpers";
 import { Card, Container, Row, Col, Button, Badge } from "react-bootstrap";
 import { FiClock, FiTag } from "react-icons/fi";
 
 import ModalServicio from "../modalServicio/ModalServicio";
 
-// Mapeo limpio de emojis
 const emojiPorServicio = {
   medicina: "⚕️",
   estetica: "✂️",
@@ -25,7 +24,7 @@ const CardServicios = () => {
 
   const obtenerServicios = async () => {
     try {
-      const res = await clientAxios.get("/servicios");
+      const res = await clientAxios.get("/servicios", configHeaders);
       setServicios(res.data.servicios);
     } catch (error) {
       console.error(error);

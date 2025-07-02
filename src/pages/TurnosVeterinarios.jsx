@@ -133,7 +133,7 @@ const TurnosVeterinario = () => {
                   <td>{turno.usuario?.telefono || "Sin teléfono"}</td>
                   <td>
                     <Badge bg={turnoEsFuturo ? "info" : "secondary"}>
-                      {turnoEsFuturo ? "Próximo" : "Finalizado"}
+                      {turnoEsFuturo ? turno.estado : "Finalizado"}
                     </Badge>
                   </td>
                   <td>
