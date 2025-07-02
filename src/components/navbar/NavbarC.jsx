@@ -54,7 +54,7 @@ const NavbarC = () => {
                   <NavLink className="nav-link nav-custom" to="/user/mi-perfil">
                     Mi Perfil
                   </NavLink>
-                  <NavLink className="nav-link nav-custom" to="/user/cart">
+                  <NavLink className="nav-link nav-custom" to="/user/carrito">
                     Carrito
                   </NavLink>
                 </Nav>

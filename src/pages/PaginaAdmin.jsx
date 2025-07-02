@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import clientAxios, { configHeaders } from "../helpers/axios.helpers";
-import { Card, Container, Row, Col, Spinner, Image } from "react-bootstrap";
+import { Card, Container, Row, Col, Spinner } from "react-bootstrap";
 import TablaServicios from "../components/tablaservicios/TablaServicios";
 
 const PaginaAdmin = () => {
