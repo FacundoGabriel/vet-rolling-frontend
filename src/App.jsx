@@ -22,6 +22,7 @@ import AcercaDeNosotros from "./components/acercadenosotros/AcercaDeNosotros";
 import Contacto from "./pages/Contacto";
 import PaginaAdmin from "./pages/PaginaAdmin";
 import Carrito from "./pages/Carrito";
+import ConfirmarTurno from "./pages/ConfirmarTurno";
 
 const App = () => {
   return (
@@ -61,6 +62,7 @@ const App = () => {
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/admin" element={<PaginaAdmin />} />
         <Route path="/user/carrito" element={<Carrito />} />
+        <Route path="/confirmar-turno" element={<ConfirmarTurno />} />
       </Routes>
 
       <Footer />
