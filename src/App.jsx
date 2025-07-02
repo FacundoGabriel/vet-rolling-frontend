@@ -21,7 +21,6 @@ import TurnosVeterinario from "./pages/TurnosVeterinarios";
 import AcercaDeNosotros from "./components/acercadenosotros/AcercaDeNosotros";
 import Contacto from "./pages/Contacto";
 import Carrito from "./pages/Carrito";
-import TablaProductosUsuarios from "./components/tablaproductosusuarios/TablaProductosUsuarios";
 
 const App = () => {
   return (
@@ -56,7 +55,7 @@ const App = () => {
         <Route path="/administrar-turnos" element={<TurnosVeterinario />} />
         <Route path="/acerca-de-nosotros" element={<AcercaDeNosotros />} />
         <Route path="/contacto" element={<Contacto />} />
-        <Route path="/carrito" element={<TablaProductosUsuarios />} />
+        <Route path="/user/carrito" element={<Carrito />} />
       </Routes>
 
       <Footer />
