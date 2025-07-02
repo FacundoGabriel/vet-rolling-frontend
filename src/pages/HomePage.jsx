@@ -8,6 +8,7 @@ import Mapa from "../components/mapa/Mapa";
 
 import CardServicios from "../components/cardServicios/CardServicios";
 import Clima from "../components/clima/Clima";
+import CardProductos from "../components/CardProductos/CardProductos";
 
 const HomePage = () => {
   return (
