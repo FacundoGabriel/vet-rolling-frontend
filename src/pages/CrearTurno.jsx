@@ -100,7 +100,7 @@ const CrearTurno = () => {
 
   const obtenerServicios = async () => {
     try {
-      const res = await clientAxios.get("/servicios");
+      const res = await clientAxios.get("/servicios", configHeaders);
       setServicios(res.data.servicios);
     } catch (error) {
       console.log(error);
@@ -195,6 +195,8 @@ const CrearTurno = () => {
         body,
         configHeaders
       );
+
+      sessionStorage.setItem("idTurno", JSON.stringify(res.data.idTurno));
 
       if (res.status === 201) {
         const pago = await clientAxios.post(

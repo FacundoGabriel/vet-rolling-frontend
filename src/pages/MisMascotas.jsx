@@ -23,54 +23,78 @@ const MisMascotas = () => {
   };
 
   const eliminarMascotaPorId = async (idMascota) => {
-    try {
-      const res = await clientAxios.delete(
-        `/mascotas/${idMascota}`,
-        configHeaders
-      );
-      if (res.status === 200) {
-        setMascotas((prev) => prev.filter((m) => m._id !== idMascota));
+    const confirmacion = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción eliminara a la mascota.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "No",
+    });
+    if (confirmacion.isConfirmed) {
+      try {
+        const res = await clientAxios.delete(
+          `/mascotas/${idMascota}`,
+          configHeaders
+        );
+        if (res.status === 200) {
+          setMascotas((prev) => prev.filter((m) => m._id !== idMascota));
+          Swal.fire({
+            icon: "success",
+            title: res.data.msg,
+            confirmButtonColor: "#28a745",
+          });
+        }
+      } catch (error) {
+        console.error("Error al eliminar mascota:", error);
         Swal.fire({
-          icon: "success",
-          title: res.data.msg,
-          confirmButtonColor: "#28a745",
+          icon: "error",
+          title: "No se pudo eliminar la mascota",
+          confirmButtonColor: "#dc3545",
         });
       }
-    } catch (error) {
-      console.error("Error al eliminar mascota:", error);
-      Swal.fire({
-        icon: "error",
-        title: "No se pudo eliminar la mascota",
-        confirmButtonColor: "#dc3545",
-      });
     }
   };
 
   const cancelarPlan = async (idMascota) => {
-    try {
-      const res = await clientAxios.delete(
-        `/planes/cancelarPlan/${idMascota}`,
-        configHeaders
-      );
-      if (res.status === 200) {
-        setMascotas((prev) =>
-          prev.map((m) =>
-            m._id === idMascota ? { ...m, plan: "Sin plan" } : m
-          )
+    const confirmacion = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción cancelara el plan de la mascota.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, cancelar",
+      cancelButtonText: "No",
+    });
+    if (confirmacion.isConfirmed) {
+      try {
+        const res = await clientAxios.delete(
+          `/planes/cancelarPlan/${idMascota}`,
+          configHeaders
         );
+        if (res.status === 200) {
+          setMascotas((prev) =>
+            prev.map((m) =>
+              m._id === idMascota ? { ...m, plan: "Sin plan" } : m
+            )
+          );
+          Swal.fire({
+            icon: "success",
+            title: res.data.msg,
+            confirmButtonColor: "#28a745",
+          });
+        }
+      } catch (error) {
+        console.error("Error al cancelar el plan:", error);
         Swal.fire({
-          icon: "success",
-          title: res.data.msg,
-          confirmButtonColor: "#28a745",
+          icon: "error",
+          title: "No se pudo cancelar el plan",
+          confirmButtonColor: "#dc3545",
         });
       }
-    } catch (error) {
-      console.error("Error al cancelar el plan:", error);
-      Swal.fire({
-        icon: "error",
-        title: "No se pudo cancelar el plan",
-        confirmButtonColor: "#dc3545",
-      });
     }
   };
 
