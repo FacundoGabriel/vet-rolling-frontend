@@ -37,6 +37,27 @@ const MisTurnos = () => {
     return new Date(fechaIso) > new Date();
   };
 
+  const pagarTurnos = async (idServicio, idTurno) => {
+    try {
+      sessionStorage.setItem("idTurno", JSON.stringify(idTurno));
+      const pago = await clientAxios.post(
+        `/mercadoPago/pagoMercadoPagoServicio/${idServicio}`,
+        {},
+        configHeaders
+      );
+
+      const linkPago = pago.data.responseMp?.init_point;
+
+      if (linkPago) {
+        window.location.href = linkPago;
+      } else {
+        Toast.fire({
+          icon: "info",
+          title: "No se pudo obtener el link de pago.",
+        });
+      }
+    } catch (error) {}
+  };
   const obtenerTurnos = async () => {
     try {
       const res = await clientAxios.get("/turnos/mis-turnos", configHeaders);
@@ -152,6 +173,18 @@ const MisTurnos = () => {
                         onClick={() => cancelarTurno(turno._id)}
                       >
                         Limpiar turno pasado
+                      </Button>
+                    )}
+                    {turno.estado === "pendiente" && (
+                      <Button
+                        className="mx-3"
+                        variant="primary"
+                        size="sm"
+                        onClick={() =>
+                          pagarTurnos(turno.servicio?._id, turno._id)
+                        }
+                      >
+                        Pagar turno
                       </Button>
                     )}
                   </td>
