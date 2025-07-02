@@ -281,7 +281,11 @@ const CrearTurno = () => {
                     value={formulario.fecha}
                     onChange={handleChange}
                     isInvalid={!!errores.fecha}
-                    min={new Date().toISOString().split("T")[0]}
+                    min={
+                      new Date(Date.now() + 24 * 60 * 60 * 1000)
+                        .toISOString()
+                        .split("T")[0]
+                    }
                   />
                   {errores.fecha && (
                     <Form.Text className="text-danger">
