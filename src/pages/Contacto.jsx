@@ -1,14 +1,70 @@
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import "./Contacto.css";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import clientAxios from "../helpers/axios.helpers";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Contacto = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    nombre: "",
+    email: "",
+    telefono: "",
+    empresa: "",
+    mensaje: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await clientAxios.post("/contacto/enviar", formData);
+      if (res.status === 200) {
+        Swal.fire({
+          title: "Formulario enviado correctamente!",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          const token = sessionStorage.getItem("token");
+          navigate(token ? "/user" : "/");
+        });
+        setFormData({
+          nombre: "",
+          email: "",
+          telefono: "",
+          empresa: "",
+          mensaje: "",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Lo sentimos, no hemos podido enviar el formulario.",
+      });
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Container fluid className="contenedor-contacto">
         <Row className="contacto rounded">
           <Col sm="12" md="6" lg="6" className="p-0">
-            <Form className="formulario-contacto p-4">
+            <Form className="formulario-contacto p-4" onSubmit={handleSubmit}>
               <h5 className="mb-4 fuente-contacto titulo-contacto">
                 Comunicate con nosotros
               </h5>
@@ -16,13 +72,27 @@ const Contacto = () => {
                 <Col sm="12" md="12" lg="6">
                   <Form.Group className="mb-5" controlId="formNombre">
                     <Form.Label>Nombre *</Form.Label>
-                    <Form.Control type="text" placeholder="Tu nombre" />
+                    <Form.Control
+                      type="text"
+                      placeholder="Tu nombre"
+                      name="nombre"
+                      value={formData.nombre}
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
                 </Col>
                 <Col sm="12" md="12" lg="6">
                   <Form.Group className="mb-5" controlId="formCorreo">
                     <Form.Label>Correo electrónico *</Form.Label>
-                    <Form.Control type="email" placeholder="Tu correo" />
+                    <Form.Control
+                      type="email"
+                      placeholder="Tu correo"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
                 </Col>
               </Row>
@@ -34,6 +104,9 @@ const Contacto = () => {
                     <Form.Control
                       type="text"
                       placeholder="Número de teléfono"
+                      name="telefono"
+                      value={formData.telefono}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
@@ -43,6 +116,9 @@ const Contacto = () => {
                     <Form.Control
                       type="text"
                       placeholder="Nombre de la empresa"
+                      name="empresa"
+                      value={formData.empresa}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
@@ -55,13 +131,34 @@ const Contacto = () => {
                       as="textarea"
                       rows={4}
                       placeholder="Escribí tu mensaje"
+                      name="mensaje"
+                      value={formData.mensaje}
+                      onChange={handleChange}
+                      required
                     />
                   </Form.Group>
                 </Col>
               </Row>
-              <Link className="btn btn-primary fuente-contacto">
-                Enviar mensaje
-              </Link>
+              <Button
+                type="submit"
+                className="fuente-contacto"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />{" "}
+                    Enviando...
+                  </>
+                ) : (
+                  "Enviar mensaje"
+                )}
+              </Button>
             </Form>
           </Col>
           <Col sm="12" md="6" lg="6" className="mapa-contacto p-0">
