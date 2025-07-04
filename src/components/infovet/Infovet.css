@@ -1,5 +1,5 @@
 .bg {
-  height: 350px;
+  height: 50vh;
   background: linear-gradient(
     to right,
     #00466e 0%,
@@ -19,6 +19,44 @@
   color: var(--color-blanco);
   font-weight: 500;
   font-size: 20px;
+}
+
+@media (max-width: 576px) {
+  .bg {
+    height: auto;
+    padding-top: 4vh;
+    flex-direction: column; /* por si acaso */
+  }
+
+  .texto p {
+    font-size: 18px;
+  }
+
+  .texto .btn-primary {
+    font-size: 16px;
+  }
+
+  .col-img-info {
+    padding-top: 4vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .bg {
+    height: auto;
+  }
+
+  .texto p {
+    font-size: 16px;
+  }
+
+  .texto .btn-primary {
+    font-size: 14px;
+  }
+
+  .col-img-info {
+    padding-top: 2vh;
+  }
 }
 
 .texto .btn-primary:hover {
