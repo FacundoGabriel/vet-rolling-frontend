@@ -5,16 +5,20 @@
   background-attachment: fixed;
 }
 
+.descripciones {
+  padding: 5%;
+}
+
 .descripciones .row {
-  height: 60vh;
   background-color: #f1661683;
   backdrop-filter: blur(10px);
   box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.5);
   border: 2px solid black;
+  margin-bottom: 5%;
 }
 
 .img-custom {
-  height: 45vh;
+  height: 65%;
   box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.5);
 }
 
@@ -33,18 +37,6 @@
   color: black;
 }
 
-.titulo-acerca-de-nosotros {
-  height: 90px;
-  background-color: var(--color-naranja);
-}
-
-.titulo-acerca-de-nosotros h1 {
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-size: 40px;
-  color: var(--color-blanco);
-}
-
 .icono-redes {
   color: #333;
   transition: transform 0.3s, color 0.3s;
@@ -54,4 +46,25 @@
 .icono-redes:hover {
   transform: scale(1.2);
   color: #5a5a5a;
+}
+
+@media (max-width: 576px) {
+  .col-info {
+    padding-bottom: 10%;
+  }
+  .img-custom {
+    height: 80%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .col-info {
+    padding: 2%;
+  }
+  .descripcion-grupo {
+    font-size: 16px;
+  }
+  .titulo-descripcion {
+    font-size: 20px;
+  }
 }
