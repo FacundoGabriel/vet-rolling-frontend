@@ -1,39 +1,42 @@
 import { Col, Container, Image, Row } from "react-bootstrap";
 import "./AcercaDeNosotros.css";
-import banner from "/banner.png";
 import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import gabriel from "/gabriel.jpg";
 import alvaro from "/alvaro.jpeg";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 const AcercaDeNosotros = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }, []);
+
   return (
     <>
-      <div className="w-100">
-        <Image src={banner} fluid className="d-block w-100" />
-      </div>
-      <div className="titulo-acerca-de-nosotros d-flex justify-content-center align-items-center">
-        <h1>Acerca de Nosotros</h1>
-      </div>
-      <Container fluid className="descripciones fondo-huellas p-5">
-        <Row className="descripcion1 rounded-5 m-5">
+      <Container fluid className="descripciones fondo-huellas text-center">
+        <Row className="rounded-5" data-aos="fade-right">
           <Col
             className="d-flex justify-content-center align-items-center"
             sm="12"
-            md="4"
+            md="5"
             lg="4"
           >
             <Image src={gabriel} className="img-custom" roundedCircle fluid />
           </Col>
           <Col
-            className="d-flex justify-content-center align-items-center flex-column px-5"
+            className="d-flex justify-content-center align-items-center flex-column col-info"
             sm="12"
-            md="8"
+            md="7"
             lg="8"
           >
             <h2 className="titulo-descripcion pb-2">
               Victor Gabriel Fernandez Medina
             </h2>
-            <p className="descripcion-grupo text-center">
+            <p className="descripcion-grupo">
               Apasionado por la tecnología y los desafíos, estoy formándome como
               desarrollador FullStack en RollingCode. Disfruto trabajar en
               equipo, prestar atención a los detalles y aprender algo nuevo cada
@@ -41,7 +44,7 @@ const AcercaDeNosotros = () => {
               motiva: resolver, crear y mejorar.
             </p>
             <h2 className="titulo-descripcion">Tecnologías dominadas</h2>
-            <div className="tecnologias text-center">
+            <div className="tecnologias">
               <p className="descripcion-grupo">
                 HTML, CSS, C, C++, JavaScript, Bootstrap, React, Node.js,
                 MongoDB
@@ -73,17 +76,17 @@ const AcercaDeNosotros = () => {
             </div>
           </Col>
         </Row>
-        <Row className="descripcion2 rounded-5 m-5">
+        <Row className="rounded-5" data-aos="fade-left">
           <Col
-            className="d-flex justify-content-center align-items-center flex-column px-5"
+            className="d-flex justify-content-center align-items-center flex-column col-info"
             sm="12"
-            md="8"
+            md="7"
             lg="8"
           >
             <h2 className="titulo-descripcion pb-2">
               Facundo Gabriel De La Cruz
             </h2>
-            <p className="descripcion-grupo text-center">
+            <p className="descripcion-grupo">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea qui
               laboriosam odit deleniti aperiam molestiae voluptas maxime
               molestias quam. At laudantium pariatur facere perferendis cumque
@@ -109,29 +112,29 @@ const AcercaDeNosotros = () => {
           <Col
             className="d-flex justify-content-center align-items-center"
             sm="12"
-            md="4"
+            md="5"
             lg="4"
           >
-            <Image src="" className="img-custom" roundedCircle />
+            <Image src="" className="img-custom" roundedCircle fluid />
           </Col>
         </Row>
-        <Row className="descripcion3 rounded-5 m-5">
+        <Row className="rounded-5" data-aos="fade-right">
           <Col
             className="d-flex justify-content-center align-items-center"
             sm="12"
-            md="4"
+            md="5"
             lg="4"
           >
-            <Image src={alvaro} className="img-custom" roundedCircle />
+            <Image src={alvaro} className="img-custom" roundedCircle fluid />
           </Col>
           <Col
-            className="d-flex justify-content-center align-items-center flex-column px-5"
+            className="d-flex justify-content-center align-items-center flex-column col-info"
             sm="12"
-            md="8"
+            md="7"
             lg="8"
           >
             <h2 className="titulo-descripcion">Álvaro Maximiliano Córdoba</h2>
-            <p className="descripcion-grupo pb-2 text-center">
+            <p className="descripcion-grupo pb-2">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
               aspernatur quia, ipsam quae adipisci aliquam hic, impedit tempore
               harum voluptas quasi incidunt repellat consequatur labore vero
@@ -155,17 +158,17 @@ const AcercaDeNosotros = () => {
             </div>
           </Col>
         </Row>
-        <Row className="descripcion4 rounded-5 m-5">
+        <Row className="rounded-5" data-aos="fade-left">
           <Col
-            className="d-flex justify-content-center align-items-center flex-column px-5"
+            className="d-flex justify-content-center align-items-center flex-column col-info"
             sm="12"
-            md="8"
+            md="7"
             lg="8"
           >
             <h2 className="titulo-descripcion pb-2">
               Leonardo santillan rearte
             </h2>
-            <p className="descripcion-grupo text-center">
+            <p className="descripcion-grupo">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam
               magni quasi, accusamus ad voluptates totam perspiciatis animi,
               quas architecto corrupti nisi molestias explicabo, libero
@@ -191,10 +194,10 @@ const AcercaDeNosotros = () => {
           <Col
             className="d-flex justify-content-center align-items-center"
             sm="12"
-            md="4"
+            md="5"
             lg="4"
           >
-            <Image src="" className="img-custom" roundedCircle />
+            <Image src="" className="img-custom" roundedCircle fluid />
           </Col>
         </Row>
       </Container>
