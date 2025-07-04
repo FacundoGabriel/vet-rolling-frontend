@@ -35,6 +35,18 @@
   font-family: "Poppins", sans-serif;
 }
 
+.formulario-contacto button {
+  background-color: var(--color-añil);
+}
+
+.formulario-contacto button:hover {
+  background-color: #015b8f;
+}
+
+.formulario-contacto button:active {
+  background-color: #015b8f !important;
+}
+
 .formulario-contacto {
   background-color: white;
   height: 100%;

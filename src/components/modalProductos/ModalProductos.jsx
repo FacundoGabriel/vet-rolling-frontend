@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Modal, Badge, Button, Row, Col } from "react-bootstrap";
-import clientAxios from "../../helpers/axios.helpers";
+import clientAxios, { configHeaders } from "../../helpers/axios.helpers";
+import Swal from "sweetalert2";
 import {
   FiInfo,
   FiDollarSign,
@@ -12,6 +13,30 @@ import {
 
 const ModalProducto = ({ id, show, handleClose }) => {
   const [producto, setProducto] = useState(null);
+  const agregarProducotoCarrito = async () => {
+    try {
+      const res = await clientAxios.put(
+        `/carritos/agregarProducto/${id}`,
+        {},
+        configHeaders
+      );
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: res.data.msg,
+          confirmButtonColor: "#28a745",
+        });
+      }
+    } catch (error) {
+      if (error.status === 400) {
+        Swal.fire({
+          icon: "info",
+          title: error.response?.data?.msg,
+          confirmButtonColor: "#28a745",
+        });
+      }
+    }
+  };
 
   const obtenerProducto = async () => {
     try {
@@ -124,7 +149,9 @@ const ModalProducto = ({ id, show, handleClose }) => {
         >
           Cerrar
         </Button>
-        <Button variant="success">Agregar al Carrito</Button>
+        <Button variant="primary" onClick={() => agregarProducotoCarrito()}>
+          Agregar al Carrito
+        </Button>
       </Modal.Footer>
     </Modal>
   );
