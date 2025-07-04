@@ -362,7 +362,7 @@ const CrearTurno = () => {
                     ¿No tienes una mascota registrada?{" "}
                     <Link
                       onClick={() => aniadirMascotaSinLoguear()}
-                      to={"/mascotas/añadir-mascota"}
+                      to={"/user/añadir-mascota"}
                     >
                       Añadila aquí
                     </Link>

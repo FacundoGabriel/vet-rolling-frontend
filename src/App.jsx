@@ -61,7 +61,7 @@ const App = () => {
           }
         />
         <Route
-          path="/mascotas/añadir-mascota"
+          path="/user/añadir-mascota"
           element={
             <RutasProtegidas>
               <AniadirMascota />

@@ -224,7 +224,7 @@ const AniadirMascota = () => {
             }}
           />
         </Form.Group>
-        <Button variant="success" type="submit" className="w-100">
+        <Button variant="primary" type="submit" className="w-100">
           Añadir Mascota
         </Button>
       </Form>

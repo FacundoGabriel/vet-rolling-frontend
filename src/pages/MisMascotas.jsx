@@ -5,6 +5,7 @@ import clientAxios, {
   configHeadersImage,
 } from "../helpers/axios.helpers";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const MisMascotas = () => {
   const [mascotas, setMascotas] = useState([]);
@@ -324,6 +325,11 @@ const MisMascotas = () => {
                 )}
               </div>
             </Card.Body>
+          </div>
+          <div>
+            <Link to={"/user/añadir-mascota"} className="btn btn-primary">
+              Añadir Mascota
+            </Link>
           </div>
         </Card>
       ))}
