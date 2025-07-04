@@ -25,7 +25,7 @@
   .bg {
     height: auto;
     padding-top: 4vh;
-    flex-direction: column; /* por si acaso */
+    flex-direction: column;
   }
 
   .texto p {
