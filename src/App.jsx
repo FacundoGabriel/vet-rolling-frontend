@@ -157,9 +157,9 @@ const App = () => {
           }
         />
         <Route
-          path="/administrar-planes "
+          path="/administrar-planes"
           element={
-            <RutasProtegidas rolesPermitidos={["admin"]}>
+            <RutasProtegidas rolesPermitidos={["veterinario"]}>
               <AdministrarPlanesVeterinario />
             </RutasProtegidas>
           }
