@@ -17,7 +17,7 @@ const AniadirMascota = () => {
     sexo: "",
     peso: "",
     fechaNacimiento: "",
-    foto: "url",
+    foto: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
   });
 
   const [nuevaImagenMascota, setNuevaImagenMascota] = useState(null);
