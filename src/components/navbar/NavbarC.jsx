@@ -1,4 +1,4 @@
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import "./NavbarC.css";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "/logo.png";
@@ -36,9 +36,9 @@ const NavbarC = () => {
           </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            {token && rolUsuario === "usuario" ? (
-              <>
-                <Nav className="ms-auto">
+            <Nav className="ms-auto">
+              {token && rolUsuario === "usuario" && (
+                <>
                   <NavLink className="nav-link nav-custom" to="/user">
                     Inicio
                   </NavLink>
@@ -51,40 +51,52 @@ const NavbarC = () => {
                   <NavLink className="nav-link nav-custom" to="/contacto">
                     Contacto
                   </NavLink>
-                  <NavLink className="nav-link nav-custom" to="/user/mi-perfil">
-                    Mi Perfil
-                  </NavLink>
-                  <NavLink className="nav-link nav-custom" to="/user/carrito">
-                    Carrito
-                  </NavLink>
-                </Nav>
-              </>
-            ) : token && rolUsuario === "admin" ? (
-              <>
-                <Nav className="ms-auto">
+                </>
+              )}
+
+              {token && rolUsuario === "admin" && (
+                <>
                   <NavLink className="nav-link nav-custom" to="/admin">
                     Inicio
-                  </NavLink>
-                  <NavLink
-                    className="nav-link nav-custom"
-                    to="/admin/administrar-usuarios"
-                  >
-                    Administrar usuarios
-                  </NavLink>
-                  <NavLink
-                    className="nav-link nav-custom"
-                    to="/admin/administrar-planes"
-                  >
-                    Administrar planes
                   </NavLink>
                   <NavLink className="nav-link nav-custom" to="/user">
                     Vista usuario
                   </NavLink>
-                </Nav>
-              </>
-            ) : (
-              <>
-                <Nav className="ms-auto">
+                  <NavDropdown
+                    title="Administrar"
+                    id="basic-nav-dropdown"
+                    className="dropdown-custom"
+                  >
+                    <NavDropdown.Item>
+                      <NavLink
+                        className="nav-link nav-drop"
+                        to="/admin/administrar-usuarios"
+                      >
+                        Usuarios
+                      </NavLink>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item>
+                      <NavLink
+                        className="nav-link nav-drop"
+                        to="/admin/administrar-planes"
+                      >
+                        Planes
+                      </NavLink>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item>
+                      <NavLink
+                        className="nav-link nav-drop"
+                        to="/admin/administrar-veterinarios"
+                      >
+                        Veterinarios
+                      </NavLink>
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </>
+              )}
+
+              {!token && (
+                <>
                   <NavLink className="nav-link nav-custom" to="/">
                     Inicio
                   </NavLink>
@@ -97,33 +109,65 @@ const NavbarC = () => {
                   <NavLink className="nav-link nav-custom" to="/contacto">
                     Contacto
                   </NavLink>
-                </Nav>
-              </>
-            )}
-            {token ? (
-              <>
-                <Nav className="ms-auto">
-                  <NavLink
-                    className="nav-link nav-custom"
-                    to="#"
-                    onClick={handleLogoutUser}
-                  >
-                    Cerrar Sesion
-                  </NavLink>
-                </Nav>
-              </>
-            ) : (
-              <>
-                <Nav className="ms-auto">
+                </>
+              )}
+            </Nav>
+
+            <Nav className="ms-auto">
+              {token ? (
+                <NavDropdown
+                  title="Gabriel"
+                  id="basic-nav-dropdown"
+                  className="dropdown-custom"
+                >
+                  {rolUsuario === "usuario" && (
+                    <>
+                      <NavDropdown.Item>
+                        <NavLink
+                          className="nav-link nav-drop"
+                          to="/user/mi-perfil"
+                        >
+                          Mi Perfil
+                        </NavLink>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                        <NavLink
+                          className="nav-link nav-drop"
+                          to="/user/carrito"
+                        >
+                          Carrito
+                        </NavLink>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                        <NavLink
+                          className="nav-link nav-drop"
+                          to="/user/mis-mascotas"
+                        >
+                          Mis mascotas
+                        </NavLink>
+                      </NavDropdown.Item>
+                    </>
+                  )}
+                  <NavDropdown.Item>
+                    <NavLink
+                      className="nav-link nav-drop"
+                      onClick={handleLogoutUser}
+                    >
+                      Cerrar Sesión
+                    </NavLink>
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <>
                   <NavLink className="nav-link nav-custom" to="/login">
                     Iniciar Sesión
                   </NavLink>
                   <NavLink className="nav-link nav-custom" to="/register">
                     Registrarse
                   </NavLink>
-                </Nav>
-              </>
-            )}
+                </>
+              )}
+            </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>

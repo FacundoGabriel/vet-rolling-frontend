@@ -22,7 +22,52 @@
 
 .navbar-default {
   background-color: var(--color-azulHonolulu);
-  .nav-link:hover {
-    color: var(--color-naranja) !important;
-  }
+}
+
+.navbar-default .nav-link:hover {
+  color: var(--color-naranja) !important;
+}
+
+.dropdown-custom > .dropdown-toggle {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  transition: transform 0.6s;
+  margin-right: 10px;
+  color: var(--color-blanco);
+}
+
+.navbar-transparente .dropdown-custom > .dropdown-toggle:hover {
+  color: var(--color-azulHonolulu) !important;
+}
+
+.navbar-default .dropdown-custom > .dropdown-toggle:hover {
+  color: var(--color-naranja) !important;
+}
+
+.dropdown-custom .dropdown-menu {
+  background-color: var(--color-blancoAntiflash);
+  padding: 0;
+  margin-top: 10%;
+}
+
+.dropdown-custom > .dropdown-toggle {
+  color: var(--color-blanco) !important;
+}
+
+.dropdown-custom .dropdown-item:hover {
+  background-color: #2f99d62d;
+}
+
+.dropdown-custom .dropdown-menu .nav-drop {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  transition: transform 0.6s;
+  margin-right: 10px;
+  color: var(--color-añil) !important;
+}
+
+.dropdown-custom .dropdown-menu .nav-drop:hover {
+  transform: scale(1.06);
 }
