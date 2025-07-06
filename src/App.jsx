@@ -19,7 +19,6 @@ import MiPerfil from "./pages/MiPerfil";
 import RecuperarContrasenia from "./pages/RecuperarContrasenia";
 import CrearTurno from "./pages/CrearTurno";
 import MisTurnos from "./pages/MisTurnos";
-import TurnosVeterinario from "./pages/TurnosVeterinarios";
 import Contacto from "./pages/Contacto";
 import Pagina404 from "./pages/pagina404";
 import Clima from "./components/clima/Clima";
