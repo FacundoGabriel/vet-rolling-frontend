@@ -33,6 +33,10 @@ export const Login = () => {
       sessionStorage.setItem("token", JSON.stringify(data.token));
       sessionStorage.setItem("idUsuario", JSON.stringify(data.idUsuario));
       sessionStorage.setItem("rol", JSON.stringify(data.rolUsuario));
+      sessionStorage.setItem(
+        "nombreUsuario",
+        JSON.stringify(data.nombreUsuario)
+      );
 
       console.log(data);
 
@@ -44,19 +48,19 @@ export const Login = () => {
         timer: 1500,
       });
 
-  setTimeout(() => {
-      const rol = data.rolUsuario;
+      setTimeout(() => {
+        const rol = data.rolUsuario;
 
-      if (rol === "admin") {
-        navigate("/admin");
-      } else if (rol === "usuario") {
-        navigate("/user");
-      } else if (rol === "veterinario") {
-        navigate("/administrar-turnos");
-      } else {
-        navigate("/");
-      }
-    }, 1500);
+        if (rol === "admin") {
+          navigate("/admin");
+        } else if (rol === "usuario") {
+          navigate("/user");
+        } else if (rol === "veterinario") {
+          navigate("/administrar-turnos");
+        } else {
+          navigate("/");
+        }
+      }, 1500);
     } catch (err) {
       const statusCode = err.response?.status;
       const msg = err.response?.data?.msg || "";
