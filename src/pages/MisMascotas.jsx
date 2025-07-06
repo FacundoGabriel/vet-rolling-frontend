@@ -326,13 +326,13 @@ const MisMascotas = () => {
               </div>
             </Card.Body>
           </div>
-          <div>
-            <Link to={"/user/añadir-mascota"} className="btn btn-primary">
-              Añadir Mascota
-            </Link>
-          </div>
         </Card>
       ))}
+      <div>
+        <Link to={"/user/añadir-mascota"} className="btn btn-primary">
+          Añadir Mascota
+        </Link>
+      </div>
     </Container>
   );
 };
