@@ -9,6 +9,8 @@ const NavbarC = () => {
   const isHome = location.pathname === "/" || location.pathname === "/user";
   const token = JSON.parse(sessionStorage.getItem("token")) || null;
   const rolUsuario = JSON.parse(sessionStorage.getItem("rol")) || null;
+  const nombreUsuario =
+    JSON.parse(sessionStorage.getItem("nombreUsuario")) || null;
 
   const handleLogoutUser = () => {
     sessionStorage.removeItem("token");
@@ -116,7 +118,7 @@ const NavbarC = () => {
             <Nav className="ms-auto">
               {token ? (
                 <NavDropdown
-                  title="Gabriel"
+                  title={nombreUsuario}
                   id="basic-nav-dropdown"
                   className="dropdown-custom"
                 >
