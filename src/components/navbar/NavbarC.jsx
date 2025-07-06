@@ -80,9 +80,9 @@ const NavbarC = () => {
                     <NavDropdown.Item>
                       <NavLink
                         className="nav-link nav-drop"
-                        to="/admin/administrar-planes"
+                        to="/admin/solicito-veterinario"
                       >
-                        Planes
+                        Solicitudes Veterinario
                       </NavLink>
                     </NavDropdown.Item>
                     <NavDropdown.Item>
@@ -146,6 +146,14 @@ const NavbarC = () => {
                           to="/user/mis-mascotas"
                         >
                           Mis mascotas
+                        </NavLink>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                        <NavLink
+                          className="nav-link nav-drop"
+                          to="/user/mis-turnos"
+                        >
+                          Mis turnos
                         </NavLink>
                       </NavDropdown.Item>
                     </>

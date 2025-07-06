@@ -28,6 +28,7 @@ import PaginaAdmin from "./pages/PaginaAdmin";
 import Carrito from "./pages/Carrito";
 import ConfirmarTurno from "./pages/ConfirmarTurno";
 import RutasProtegidas from "./components/rutasprotegidas/RutasProtegidas";
+import PaginaVeterinario from "./pages/PaginaVeterinario";
 
 const App = () => {
   return (
@@ -93,7 +94,7 @@ const App = () => {
           }
         />
         <Route
-          path="/mis-turnos"
+          path="user/mis-turnos"
           element={
             <RutasProtegidas>
               <MisTurnos />
@@ -117,10 +118,10 @@ const App = () => {
           }
         />
         <Route
-          path="/administrar-turnos"
+          path="/veterinario"
           element={
             <RutasProtegidas rolesPermitidos={["admin", "veterinario"]}>
-              <TurnosVeterinario />
+              <PaginaVeterinario />
             </RutasProtegidas>
           }
         />
@@ -149,7 +150,7 @@ const App = () => {
           }
         />
         <Route
-          path="/solicito-veterinario"
+          path="/admin/solicito-veterinario"
           element={
             <RutasProtegidas>
               <AdministrarSolicitoVeterinario />
