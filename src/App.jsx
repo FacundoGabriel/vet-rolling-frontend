@@ -16,7 +16,6 @@ import AdministrarSolicitoVeterinario from "./pages/AdministrarSolicitoVeterinar
 
 import UserPage from "./pages/UserPage";
 import MiPerfil from "./pages/MiPerfil";
-import AdministrarPlanesVeterinario from "./pages/AdministrarPlanesVeterinario";
 import RecuperarContrasenia from "./pages/RecuperarContrasenia";
 import CrearTurno from "./pages/CrearTurno";
 import MisTurnos from "./pages/MisTurnos";
@@ -154,14 +153,6 @@ const App = () => {
           element={
             <RutasProtegidas>
               <AdministrarSolicitoVeterinario />
-            </RutasProtegidas>
-          }
-        />
-        <Route
-          path="/administrar-planes"
-          element={
-            <RutasProtegidas rolesPermitidos={["veterinario"]}>
-              <AdministrarPlanesVeterinario />
             </RutasProtegidas>
           }
         />
