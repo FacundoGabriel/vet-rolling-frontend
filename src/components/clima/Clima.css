@@ -36,3 +36,9 @@
   color: white;
   font-family: sans-serif;
 }
+
+.clima {
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+}
