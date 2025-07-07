@@ -49,9 +49,22 @@ const TablaUsuarios = ({ idPage }) => {
 
   const handleSubmitEdicion = async () => {
     try {
+      const datosAEnviar = { ...form };
+      if (!form.contrasenia.trim()) {
+        delete datosAEnviar.contrasenia;
+      }
+      if (!form.nombreUsuario || !form.emailUsuario || !form.telefono) {
+        Swal.fire({
+          icon: "warning",
+          title: "Campos incompletos",
+          text: "Por favor, completá nombre, email y teléfono.",
+        });
+        return;
+      }
+
       const res = await clientAxios.put(
         `/usuarios/editar-usuario/${usuarioSeleccionado._id}`,
-        form,
+        datosAEnviar,
         configHeaders
       );
 
@@ -420,6 +433,7 @@ const TablaUsuarios = ({ idPage }) => {
                 name="nombreUsuario"
                 value={form.nombreUsuario}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -429,6 +443,7 @@ const TablaUsuarios = ({ idPage }) => {
                 name="emailUsuario"
                 value={form.emailUsuario}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -438,16 +453,16 @@ const TablaUsuarios = ({ idPage }) => {
                 name="telefono"
                 value={form.telefono}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Contraseña (opcional)</Form.Label>
+              <Form.Label>Contraseña </Form.Label>
               <Form.Control
                 type="password"
                 name="contrasenia"
                 value={form.contrasenia}
                 onChange={handleChange}
-                placeholder="Dejar vacío para no cambiar"
               />
             </Form.Group>
           </Form>
