@@ -135,10 +135,12 @@ const AcercaDeNosotros = () => {
           >
             <h2 className="titulo-descripcion">Álvaro Maximiliano Córdoba</h2>
             <p className="descripcion-grupo pb-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
-              aspernatur quia, ipsam quae adipisci aliquam hic, impedit tempore
-              harum voluptas quasi incidunt repellat consequatur labore vero
-              asperiores saepe recusandae fugiat?
+              Soy estudiante de desarrollo Full Stack en RollingCode, con
+              conocimientos en HTML, CSS, Bootstrap JavaScript, React, Node.js,
+              Express, MongoDB y Mongoose. Me gusta la programación no solo por
+              el desafío técnico, sino también porque me permite expresar mi
+              creatividad. Disfruto encontrar soluciones, construir cosas desde
+              cero y aprender constantemente.
             </p>
             <h2 className="titulo-descripcion">Tecnologías dominadas</h2>
             <p className="descripcion-grupo">
