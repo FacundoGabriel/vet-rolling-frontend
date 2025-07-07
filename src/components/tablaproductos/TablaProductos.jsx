@@ -58,6 +58,8 @@ const TablaProductos = ({ idPage, array, obtenerProductoDelCarrito }) => {
     try {
       const res = await clientAxios.post("/mercadopago/pagoMercadoPagoCarrito");
       setPreferenceId(res.data.responseMp.id);
+      await clientAxios.put("/carritos/vaciarCarrito", {}, configHeaders);
+      obtenerProductoDelCarrito();
     } catch (error) {
       console.error(error);
     }
