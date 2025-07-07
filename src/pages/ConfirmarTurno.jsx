@@ -25,7 +25,7 @@ const ConfirmarTurno = () => {
             text: res.data.msg,
           });
           sessionStorage.removeItem("idTurno");
-          navigate("/mis-turnos");
+          navigate("/user/mis-turnos");
         } catch (error) {
           Swal.fire({
             icon: "error",
