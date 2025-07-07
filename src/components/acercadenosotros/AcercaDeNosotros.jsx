@@ -4,6 +4,7 @@ import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import gabriel from "/gabriel.jpg";
 import alvaro from "/alvaro.jpeg";
 import facundo from "/facundo.jpeg";
+import leo from "/leo.jpeg";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
@@ -77,7 +78,20 @@ const AcercaDeNosotros = () => {
             </div>
           </Col>
         </Row>
-        <Row className="rounded-5" data-aos="fade-left">
+        <Row className="rounded-5 pt-5 pb-5" data-aos="fade-left">
+          <Col
+            className="d-flex justify-content-center align-items-center"
+            sm="12"
+            md="5"
+            lg="4"
+          >
+            <Image
+              src={facundo}
+              className="img-custom img-facu"
+              roundedCircle
+              fluid
+            />
+          </Col>
           <Col
             className="d-flex justify-content-center align-items-center flex-column col-info"
             sm="12"
@@ -115,14 +129,6 @@ const AcercaDeNosotros = () => {
                 <FaWhatsapp size={40} className="icono-redes" />
               </a>
             </div>
-          </Col>
-          <Col
-            className="d-flex justify-content-center align-items-center"
-            sm="12"
-            md="5"
-            lg="4"
-          >
-            <Image src={facundo} className="img-custom" roundedCircle fluid />
           </Col>
         </Row>
         <Row className="rounded-5" data-aos="fade-right">
@@ -173,6 +179,14 @@ const AcercaDeNosotros = () => {
         </Row>
         <Row className="rounded-5" data-aos="fade-left">
           <Col
+            className="d-flex justify-content-center align-items-center"
+            sm="12"
+            md="5"
+            lg="4"
+          >
+            <Image src={leo} className="img-custom" roundedCircle fluid />
+          </Col>
+          <Col
             className="d-flex justify-content-center align-items-center flex-column col-info"
             sm="12"
             md="7"
@@ -211,14 +225,6 @@ const AcercaDeNosotros = () => {
                 <FaWhatsapp size={40} className="icono-redes" />
               </a>
             </div>
-          </Col>
-          <Col
-            className="d-flex justify-content-center align-items-center"
-            sm="12"
-            md="5"
-            lg="4"
-          >
-            <Image src="*" className="img-custom" roundedCircle fluid />
           </Col>
         </Row>
       </Container>
