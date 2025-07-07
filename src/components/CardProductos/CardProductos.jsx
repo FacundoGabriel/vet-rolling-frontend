@@ -27,8 +27,6 @@ const CardProductos = () => {
     obtenerProductos();
   }, []);
 
-  console.log(productos);
-
   return (
     <Container>
       <h2 className="mb-4 text-center text-primary fw-bold fs-1">
