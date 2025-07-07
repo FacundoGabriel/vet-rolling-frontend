@@ -47,3 +47,20 @@
     transparent
   );
 }
+
+@media (max-width: 768px) {
+  .bg-carousel::before,
+  .bg-carousel::after {
+    display: none;
+  }
+
+  .carousel-logo {
+    height: 30px;
+    margin: 0 30px;
+  }
+
+  .titulo-ads {
+    font-size: 22px;
+    padding-bottom: 20px;
+  }
+}
