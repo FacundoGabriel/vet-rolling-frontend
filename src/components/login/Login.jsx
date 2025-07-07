@@ -56,7 +56,7 @@ export const Login = () => {
         } else if (rol === "usuario") {
           navigate("/user");
         } else if (rol === "veterinario") {
-          navigate("/administrar-turnos");
+          navigate("/veterinario");
         } else {
           navigate("/");
         }

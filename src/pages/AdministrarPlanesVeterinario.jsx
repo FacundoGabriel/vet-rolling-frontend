@@ -55,7 +55,7 @@ const AdministrarPlanesVeterinario = () => {
 
   return (
     <Container className="my-5">
-      <h3 className="mb-4">Planes activos de Veterinarios</h3>
+      <h3 className="mb-4 text-center">Mis planes como veterinario</h3>
       <Table striped bordered hover responsive>
         <thead>
           <tr>
