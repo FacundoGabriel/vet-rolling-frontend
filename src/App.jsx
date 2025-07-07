@@ -27,6 +27,7 @@ import Carrito from "./pages/Carrito";
 import ConfirmarTurno from "./pages/ConfirmarTurno";
 import RutasProtegidas from "./components/rutasprotegidas/RutasProtegidas";
 import PaginaVeterinario from "./pages/PaginaVeterinario";
+import HabilitarMiCuenta from "./pages/HabilitarMiCuenta";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/register" element={<RegistroUsuario />} />
         <Route path="/register-veterinario" element={<RegistroVeterinario />} />
         <Route path="/olvide-contraseña" element={<RecuperarContrasenia />} />
+        <Route path="/habilitar-cuenta" element={<HabilitarMiCuenta />} />
         <Route path="/acerca-de-nosotros" element={<AcercaDeNosotros />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="*" element={<Pagina404 />} />

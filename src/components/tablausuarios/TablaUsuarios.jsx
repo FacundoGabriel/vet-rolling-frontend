@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
-import { Table, Image, Button, Container } from "react-bootstrap";
+import { Table, Image, Button, Container, Modal, Form } from "react-bootstrap";
 import clientAxios, { configHeaders } from "../../helpers/axios.helpers";
 import Swal from "sweetalert2";
 
 const TablaUsuarios = ({ idPage }) => {
   const [usuarios, setUsuarios] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+  const [form, setForm] = useState({
+    nombreUsuario: "",
+    emailUsuario: "",
+    telefono: "",
+    contrasenia: "",
+  });
 
   const obtenerUsuarios = async () => {
     try {
@@ -18,6 +26,52 @@ const TablaUsuarios = ({ idPage }) => {
   useEffect(() => {
     obtenerUsuarios();
   }, []);
+
+  const abrirModal = (usuario) => {
+    setUsuarioSeleccionado(usuario);
+    setForm({
+      nombreUsuario: usuario.nombreUsuario || "",
+      emailUsuario: usuario.emailUsuario || "",
+      telefono: usuario.telefono || "",
+      contrasenia: "",
+    });
+    setShowModal(true);
+  };
+
+  const cerrarModal = () => {
+    setShowModal(false);
+    setUsuarioSeleccionado(null);
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmitEdicion = async () => {
+    try {
+      const res = await clientAxios.put(
+        `/usuarios/editar-usuario/${usuarioSeleccionado._id}`,
+        form,
+        configHeaders
+      );
+
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Usuario editado",
+          text: res.data.msg,
+        });
+        cerrarModal();
+        obtenerUsuarios();
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo editar el usuario.",
+      });
+    }
+  };
 
   const deshabilitarVeterinario = async (idUsuario) => {
     const confirmacion = await Swal.fire({
@@ -291,10 +345,14 @@ const TablaUsuarios = ({ idPage }) => {
                 </>
               )}
               <td>
-                <Button variant="warning" size="sm" className="me-2">
+                <Button
+                  variant="warning"
+                  size="sm"
+                  className="me-2"
+                  onClick={() => abrirModal(usuario)}
+                >
                   Editar
                 </Button>
-
                 {usuario.estado === "deshabilitado" && idPage === "usuario" && (
                   <Button
                     variant="primary"
@@ -305,7 +363,6 @@ const TablaUsuarios = ({ idPage }) => {
                     Habilitar
                   </Button>
                 )}
-
                 {usuario.estado === "habilitado" && idPage === "usuario" && (
                   <Button
                     variant="primary"
@@ -327,7 +384,6 @@ const TablaUsuarios = ({ idPage }) => {
                       Deshabilitar Vet
                     </Button>
                   )}
-
                 {idPage === "solicitoVeterinario" && (
                   <Button
                     variant="primary"
@@ -338,7 +394,6 @@ const TablaUsuarios = ({ idPage }) => {
                     Habilitar Vet
                   </Button>
                 )}
-
                 <Button
                   variant="danger"
                   size="sm"
@@ -351,6 +406,61 @@ const TablaUsuarios = ({ idPage }) => {
           ))}
         </tbody>
       </Table>
+
+      <Modal show={showModal} onHide={cerrarModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Usuario</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Nombre de Usuario</Form.Label>
+              <Form.Control
+                type="text"
+                name="nombreUsuario"
+                value={form.nombreUsuario}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                name="emailUsuario"
+                value={form.emailUsuario}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Teléfono</Form.Label>
+              <Form.Control
+                type="text"
+                name="telefono"
+                value={form.telefono}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Contraseña (opcional)</Form.Label>
+              <Form.Control
+                type="password"
+                name="contrasenia"
+                value={form.contrasenia}
+                onChange={handleChange}
+                placeholder="Dejar vacío para no cambiar"
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={cerrarModal}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={handleSubmitEdicion}>
+            Guardar cambios
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
