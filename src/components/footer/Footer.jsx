@@ -53,7 +53,16 @@ const Footer = () => {
                 <Link>
                   <IoIosMail className="icons-footer" />
                 </Link>
-                <Link to="*">rollingvet25@gmail.com</Link>
+                <a
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=rollingvet25@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  rollingvet25@gmail.com
+                </a>
+                {/* <a href="mailto:rollingvet25@gmail.com">
+                  rollingvet25@gmail.com
+                </a> */}
               </li>
               <li>
                 <Link>
