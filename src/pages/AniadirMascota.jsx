@@ -95,7 +95,7 @@ const AniadirMascota = () => {
         });
 
         setTimeout(() => {
-          navigate("/");
+          navigate("/user/mis-mascotas");
         }, 1000);
       }
     } catch (error) {
