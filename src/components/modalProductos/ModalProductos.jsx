@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal, Badge, Button, Row, Col } from "react-bootstrap";
+import { Modal, Button, Row, Col } from "react-bootstrap";
 import clientAxios, { configHeaders } from "../../helpers/axios.helpers";
 import Swal from "sweetalert2";
 import {
@@ -10,11 +10,25 @@ import {
   FiPackage,
   FiTag,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const ModalProducto = ({ id, show, handleClose }) => {
+  const usuarioLogeado = JSON.parse(sessionStorage.getItem("token")) || null;
+  const navigate = useNavigate();
   const [producto, setProducto] = useState(null);
   const agregarProducotoCarrito = async () => {
     try {
+      if (!usuarioLogeado) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Debes iniciar sesion para agregar al carrito!",
+        });
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+        return;
+      }
       const res = await clientAxios.put(
         `/carritos/agregarProducto/${id}`,
         {},
