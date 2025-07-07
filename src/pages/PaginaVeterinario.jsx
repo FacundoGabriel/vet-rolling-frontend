@@ -1,4 +1,4 @@
-import AdministrarPlanesVeterinario from "./administrarPlanesVeterinario";
+import AdministrarPlanesVeterinario from "./AdministrarPlanesVeterinario";
 import TurnosVeterinario from "./TurnosVeterinarios";
 
 const PaginaVeterinario = () => {
