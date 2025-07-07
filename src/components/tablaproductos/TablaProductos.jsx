@@ -1,12 +1,14 @@
-import { Container, Table } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import "./TablaProductos.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import clientAxios, { configHeaders } from "../../helpers/axios.helpers";
 import Swal from "sweetalert2";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 
 const TablaProductos = ({ idPage, array, obtenerProductoDelCarrito }) => {
   const [cantidades, setCantidades] = useState({});
+  const [preferenceId, setPreferenceId] = useState(null);
 
   const handleChangeQuantity = (id, value) => {
     const cantidadNumerica = Math.max(1, parseInt(value) || 1);
@@ -46,6 +48,19 @@ const TablaProductos = ({ idPage, array, obtenerProductoDelCarrito }) => {
         console.log(error);
       }
     });
+  };
+
+  useEffect(() => {
+    initMercadoPago(import.meta.env.VITE_MP_PUBLIC_KEY);
+  }, []);
+
+  const pagarCarritoMp = async () => {
+    try {
+      const res = await clientAxios.post("/mercadopago/pagoMercadoPagoCarrito");
+      setPreferenceId(res.data.responseMp.id);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const totalCarrito = array.reduce((acum, producto) => {
@@ -109,7 +124,15 @@ const TablaProductos = ({ idPage, array, obtenerProductoDelCarrito }) => {
           </Table>
           <Container className="text-center">
             <h4 className="py-3">Total a pagar: ${totalCarrito.toFixed(2)}</h4>
-            <Link className="btn btn-primary">Pagar con MercadoPago</Link>
+            <Container className="w-25">
+              <Button onClick={pagarCarritoMp}>Pagar carrito</Button>
+              {preferenceId && (
+                <Wallet
+                  initialization={{ preferenceId, redirectMode: "modal" }}
+                  customization={{ texts: { valueProp: "smart_option" } }}
+                />
+              )}
+            </Container>
           </Container>
         </Container>
       ) : (
