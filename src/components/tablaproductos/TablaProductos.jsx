@@ -59,8 +59,6 @@ const TablaProductos = ({ idPage, array, obtenerProductoDelCarrito }) => {
       const res = await clientAxios.post("/mercadopago/pagoMercadoPagoCarrito");
       setPreferenceId(res.data.responseMp.id);
       await clientAxios.put("/carritos/vaciarCarrito", {}, configHeaders);
-
-      // 3. Actualizar el estado del carrito para reflejar que está vacío
       obtenerProductoDelCarrito();
     } catch (error) {
       console.error(error);
