@@ -17,7 +17,7 @@ const AniadirMascota = () => {
     sexo: "",
     peso: "",
     fechaNacimiento: "",
-    foto: "url",
+    foto: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
   });
 
   const [nuevaImagenMascota, setNuevaImagenMascota] = useState(null);
@@ -95,7 +95,7 @@ const AniadirMascota = () => {
         });
 
         setTimeout(() => {
-          navigate("/");
+          navigate("/user/mis-mascotas");
         }, 1000);
       }
     } catch (error) {
@@ -224,7 +224,7 @@ const AniadirMascota = () => {
             }}
           />
         </Form.Group>
-        <Button variant="success" type="submit" className="w-100">
+        <Button variant="primary" type="submit" className="w-100">
           Añadir Mascota
         </Button>
       </Form>

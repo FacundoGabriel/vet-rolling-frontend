@@ -9,7 +9,7 @@ const Infovet = () => {
       <Container fluid>
         <Row className="bg">
           <Col
-            sm="6"
+            sm="12"
             md="6"
             lg="6"
             className="texto d-flex flex-column justify-content-center align-items-center text-center"
@@ -24,10 +24,10 @@ const Infovet = () => {
             </Link>
           </Col>
           <Col
-            sm="6"
+            sm="12"
             md="6"
             lg="6"
-            className="d-flex justify-content-center align-items-center"
+            className="d-flex justify-content-center align-items-center col-img-info"
           >
             <img className="img-fluid" src={img2} alt="" />
           </Col>

@@ -81,6 +81,35 @@ const TurnosVeterinario = () => {
       Swal.fire("Error", "No se pudo cancelar el turno.", "error");
     }
   };
+  const LimpiarTurno = async (idTurno) => {
+    const confirmacion = await Swal.fire({
+      title: "¿Limpiar el turno?",
+      text: "Esta acción limpiara el turno definitivamente.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, Limpiar",
+      cancelButtonText: "No",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+    });
+
+    if (!confirmacion.isConfirmed) return;
+
+    try {
+      const res = await clientAxios.delete(
+        `/turnos/cancelar-turno-vet/${idTurno}`,
+        configHeaders
+      );
+
+      if (res.status === 200) {
+        setTurnos((prev) => prev.filter((t) => t._id !== idTurno));
+        Swal.fire("Cancelado", res.data.msg, "success");
+      }
+    } catch (error) {
+      console.error("Error al cancelar turno:", error);
+      Swal.fire("Error", "No se pudo cancelar el turno.", "error");
+    }
+  };
 
   useEffect(() => {
     obtenerTurnos();
@@ -137,13 +166,21 @@ const TurnosVeterinario = () => {
                     </Badge>
                   </td>
                   <td>
-                    {turnoEsFuturo && (
+                    {turnoEsFuturo ? (
                       <Button
                         variant="danger"
                         size="sm"
                         onClick={() => cancelarTurno(turno._id)}
                       >
                         Cancelar
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => LimpiarTurno(turno._id)}
+                      >
+                        Limpiar turno
                       </Button>
                     )}
                   </td>
