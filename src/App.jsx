@@ -16,11 +16,9 @@ import AdministrarSolicitoVeterinario from "./pages/AdministrarSolicitoVeterinar
 
 import UserPage from "./pages/UserPage";
 import MiPerfil from "./pages/MiPerfil";
-import AdministrarPlanesVeterinario from "./pages/AdministrarPlanesVeterinario";
 import RecuperarContrasenia from "./pages/RecuperarContrasenia";
 import CrearTurno from "./pages/CrearTurno";
 import MisTurnos from "./pages/MisTurnos";
-import TurnosVeterinario from "./pages/TurnosVeterinarios";
 import Contacto from "./pages/Contacto";
 import Pagina404 from "./pages/pagina404";
 import Clima from "./components/clima/Clima";
@@ -28,6 +26,7 @@ import PaginaAdmin from "./pages/PaginaAdmin";
 import Carrito from "./pages/Carrito";
 import ConfirmarTurno from "./pages/ConfirmarTurno";
 import RutasProtegidas from "./components/rutasprotegidas/RutasProtegidas";
+import PaginaVeterinario from "./pages/PaginaVeterinario";
 
 const App = () => {
   return (
@@ -93,7 +92,7 @@ const App = () => {
           }
         />
         <Route
-          path="/mis-turnos"
+          path="user/mis-turnos"
           element={
             <RutasProtegidas>
               <MisTurnos />
@@ -117,10 +116,10 @@ const App = () => {
           }
         />
         <Route
-          path="/administrar-turnos"
+          path="/veterinario"
           element={
             <RutasProtegidas rolesPermitidos={["admin", "veterinario"]}>
-              <TurnosVeterinario />
+              <PaginaVeterinario />
             </RutasProtegidas>
           }
         />
@@ -149,18 +148,10 @@ const App = () => {
           }
         />
         <Route
-          path="/solicito-veterinario"
+          path="/admin/solicito-veterinario"
           element={
             <RutasProtegidas>
               <AdministrarSolicitoVeterinario />
-            </RutasProtegidas>
-          }
-        />
-        <Route
-          path="/administrar-planes"
-          element={
-            <RutasProtegidas rolesPermitidos={["veterinario"]}>
-              <AdministrarPlanesVeterinario />
             </RutasProtegidas>
           }
         />

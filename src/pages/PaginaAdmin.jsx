@@ -3,6 +3,7 @@ import clientAxios, { configHeaders } from "../helpers/axios.helpers";
 import { Card, Container, Row, Col, Spinner } from "react-bootstrap";
 import TablaServicios from "../components/tablaservicios/TablaServicios";
 import TablaProductosAdmin from "../components/tablaproductosadmin/TablaProductosAdmin";
+import TablaPlanes from "../components/tablaplanes/TablaPlanes";
 
 const PaginaAdmin = () => {
   const idUsuario = JSON.parse(sessionStorage.getItem("idUsuario")) || null;
@@ -64,6 +65,7 @@ const PaginaAdmin = () => {
       </Row>
       <TablaServicios />
       <TablaProductosAdmin />
+      <TablaPlanes />
     </Container>
   );
 };
