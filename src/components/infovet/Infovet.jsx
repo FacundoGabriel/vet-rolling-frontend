@@ -19,7 +19,10 @@ const Infovet = () => {
               En nuestra veterinaria tratamos a tus compañeros peludos con todo
               el cariño y profesionalismo que se merecen.
             </p>
-            <Link to="#" className="btn btn-primary px-5 py-2 rounded-pill">
+            <Link
+              to="/contacto"
+              className="btn btn-primary px-5 py-2 rounded-pill"
+            >
               Contáctanos
             </Link>
           </Col>

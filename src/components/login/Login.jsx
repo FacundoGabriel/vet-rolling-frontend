@@ -38,8 +38,6 @@ export const Login = () => {
         JSON.stringify(data.nombreUsuario)
       );
 
-      console.log(data);
-
       Swal.fire({
         icon: "success",
         title: "¡Inicio de sesión exitoso!",
