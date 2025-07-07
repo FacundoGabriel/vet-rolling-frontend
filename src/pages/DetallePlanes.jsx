@@ -114,7 +114,7 @@ const DetallePlan = () => {
         text: "Debes iniciar sesion para contratar este plan!",
       });
       setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 1000);
       return;
     }
