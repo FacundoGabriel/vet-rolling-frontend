@@ -152,7 +152,7 @@ const App = () => {
         <Route
           path="/admin/solicito-veterinario"
           element={
-            <RutasProtegidas>
+            <RutasProtegidas rolesPermitidos={["admin"]}>
               <AdministrarSolicitoVeterinario />
             </RutasProtegidas>
           }
