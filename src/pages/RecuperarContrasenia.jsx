@@ -43,7 +43,7 @@ const RecuperarContrasenia = () => {
           {
             headers: {
               "content-type": "application/json",
-              authRecovery: `${token}`,
+              authHabilitar: `${token}`,
             },
           }
         );

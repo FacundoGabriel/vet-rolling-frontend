@@ -161,7 +161,7 @@ export const RegistroUsuario = () => {
         });
 
         setTimeout(() => {
-          navigate("/iniciar-sesion");
+          navigate("/login");
         }, 2500);
       }
     } catch (error) {
