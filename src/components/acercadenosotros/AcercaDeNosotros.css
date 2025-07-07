@@ -7,6 +7,9 @@
 
 .descripciones {
   padding: 5%;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .descripciones .row {
@@ -49,6 +52,9 @@
 }
 
 @media (max-width: 576px) {
+  .descripciones {
+    padding-top: 50px;
+  }
   .col-info {
     padding-bottom: 10%;
   }
