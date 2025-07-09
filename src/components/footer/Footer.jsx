@@ -23,7 +23,7 @@ const Footer = () => {
             sm="12"
             md="6"
             lg="4"
-            className="d-flex flex-column align-items-center text-center py-4"
+            className="d-flex flex-column align-items-center text-center"
           >
             <Link>
               <img src={logo} alt="img-logo" className="logo pt-5" />
@@ -74,27 +74,7 @@ const Footer = () => {
               </li>
               <hr />
               <li className="horario">
-                <span>Lunes</span>
-                <span>9:00 - 18:00</span>
-              </li>
-              <hr />
-              <li className="horario">
-                <span>Martes</span>
-                <span>9:00 - 18:00</span>
-              </li>
-              <hr />
-              <li className="horario">
-                <span>Miércoles</span>
-                <span>9:00 - 18:00</span>
-              </li>
-              <hr />
-              <li className="horario">
-                <span>Jueves</span>
-                <span>9:00 - 18:00</span>
-              </li>
-              <hr />
-              <li className="horario">
-                <span>Viernes</span>
+                <span>Lunes a Viernes</span>
                 <span>9:00 - 18:00</span>
               </li>
               <hr />
@@ -127,8 +107,8 @@ const Footer = () => {
                   <FaLinkedin size={60} />
                 </Link>
               </li>
-              <li className="pt-5">
-                <Link className="d-flex justify-content-center pb-5">
+              <li className="pt-3">
+                <Link className="d-flex justify-content-center pb-4">
                   <img src={senasa} alt="senasa" className="senasa" />
                 </Link>
                 <Link className="d-flex justify-content-center">

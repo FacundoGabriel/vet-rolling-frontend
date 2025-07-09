@@ -21,6 +21,27 @@
   margin-top: 35px;
 }
 
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px !important;
+  }
+  .img-logo {
+    height: 50px;
+    width: auto;
+  }
+  .navbar-toggler {
+    padding: 15px;
+    font-size: 1rem;
+    border: 1px solid rgba(241, 244, 248, 0.5);
+  }
+  .navbar-toggler:focus {
+    box-shadow: 0 0 6px 2px var(--color-blancoAntiflash);
+  }
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23f1f4f8' stroke-width='2' d='M4 7h22M4 15h22M4 23h22' /%3e%3c/svg%3e");
+  }
+}
+
 .navbar-default {
   background-color: var(--color-azulHonolulu);
   position: relative;

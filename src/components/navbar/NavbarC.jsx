@@ -34,7 +34,7 @@ const NavbarC = () => {
       >
         <Container>
           <NavLink className="nav-link" to={token ? "/user" : "/"}>
-            <img src={logo} alt="img-logo" width="70" />
+            <img className="img-logo" src={logo} alt="img-logo" width="70" />
           </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
