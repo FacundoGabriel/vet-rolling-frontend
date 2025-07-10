@@ -49,9 +49,10 @@ footer {
   margin-right: 6px;
 }
 
-.logo {
+.logo-footer {
   width: 40%;
   height: auto;
+  padding-top: 50px;
 }
 
 .senasa {
@@ -68,4 +69,23 @@ footer {
 .horario {
   display: flex;
   justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .red-social {
+    height: 40px;
+  }
+  .senasa {
+    height: 60px;
+    width: auto;
+  }
+  .colegioVet {
+    height: 70px;
+    width: auto;
+  }
+  .logo-footer {
+    height: 80px;
+    width: auto;
+    padding-top: 0px;
+  }
 }

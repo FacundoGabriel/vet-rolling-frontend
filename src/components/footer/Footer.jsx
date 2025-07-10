@@ -21,17 +21,17 @@ const Footer = () => {
         <Row className="bg-footer py-3">
           <Col
             sm="12"
-            md="6"
+            md="4"
             lg="4"
             className="d-flex flex-column align-items-center text-center"
           >
             <Link>
-              <img src={logo} alt="img-logo" className="logo pt-5" />
+              <img src={logo} alt="img-logo" className="logo-footer" />
             </Link>
           </Col>
           <Col
             sm="12"
-            md="6"
+            md="4"
             lg="4"
             className="d-flex flex-column align-items-center text-center text-lg-start pt-3"
           >
@@ -91,20 +91,20 @@ const Footer = () => {
           </Col>
           <Col
             sm="12"
-            md="6"
+            md="4"
             lg="4"
             className="d-flex flex-column align-items-center text-center text-lg-start pt-4"
           >
             <ul className="list-unstyled">
               <li className="redes-footer text-center">
                 <Link to="*" target="_blank" rel="noopener noreferrer">
-                  <FaFacebookSquare size={60} />
+                  <FaFacebookSquare className="red-social" size={60} />
                 </Link>
                 <Link to="*" target="_blank" rel="noopener noreferrer">
-                  <FaInstagram size={60} />
+                  <FaInstagram className="red-social" size={60} />
                 </Link>
                 <Link to="*" target="_blank" rel="noopener noreferrer">
-                  <FaLinkedin size={60} />
+                  <FaLinkedin className="red-social" size={60} />
                 </Link>
               </li>
               <li className="pt-3">
