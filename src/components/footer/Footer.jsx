@@ -21,17 +21,17 @@ const Footer = () => {
         <Row className="bg-footer py-3">
           <Col
             sm="12"
-            md="6"
+            md="4"
             lg="4"
-            className="d-flex flex-column align-items-center text-center py-4"
+            className="d-flex flex-column align-items-center text-center"
           >
             <Link>
-              <img src={logo} alt="img-logo" className="logo pt-5" />
+              <img src={logo} alt="img-logo" className="logo-footer" />
             </Link>
           </Col>
           <Col
             sm="12"
-            md="6"
+            md="4"
             lg="4"
             className="d-flex flex-column align-items-center text-center text-lg-start pt-3"
           >
@@ -74,27 +74,7 @@ const Footer = () => {
               </li>
               <hr />
               <li className="horario">
-                <span>Lunes</span>
-                <span>9:00 - 18:00</span>
-              </li>
-              <hr />
-              <li className="horario">
-                <span>Martes</span>
-                <span>9:00 - 18:00</span>
-              </li>
-              <hr />
-              <li className="horario">
-                <span>Miércoles</span>
-                <span>9:00 - 18:00</span>
-              </li>
-              <hr />
-              <li className="horario">
-                <span>Jueves</span>
-                <span>9:00 - 18:00</span>
-              </li>
-              <hr />
-              <li className="horario">
-                <span>Viernes</span>
+                <span>Lunes a Viernes</span>
                 <span>9:00 - 18:00</span>
               </li>
               <hr />
@@ -111,24 +91,24 @@ const Footer = () => {
           </Col>
           <Col
             sm="12"
-            md="6"
+            md="4"
             lg="4"
             className="d-flex flex-column align-items-center text-center text-lg-start pt-4"
           >
             <ul className="list-unstyled">
               <li className="redes-footer text-center">
                 <Link to="*" target="_blank" rel="noopener noreferrer">
-                  <FaFacebookSquare size={60} />
+                  <FaFacebookSquare className="red-social" size={60} />
                 </Link>
                 <Link to="*" target="_blank" rel="noopener noreferrer">
-                  <FaInstagram size={60} />
+                  <FaInstagram className="red-social" size={60} />
                 </Link>
                 <Link to="*" target="_blank" rel="noopener noreferrer">
-                  <FaLinkedin size={60} />
+                  <FaLinkedin className="red-social" size={60} />
                 </Link>
               </li>
-              <li className="pt-5">
-                <Link className="d-flex justify-content-center pb-5">
+              <li className="pt-3">
+                <Link className="d-flex justify-content-center pb-4">
                   <img src={senasa} alt="senasa" className="senasa" />
                 </Link>
                 <Link className="d-flex justify-content-center">
