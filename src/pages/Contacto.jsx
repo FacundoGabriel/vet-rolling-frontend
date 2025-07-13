@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Contacto = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     nombre: "",
     email: "",
@@ -26,6 +27,17 @@ const Contacto = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const form = e.currentTarget;
+
+    if (!form.checkValidity()) {
+      e.stopPropagation();
+      setValidated(true);
+      return;
+    }
+
+    setValidated(true);
+
     setLoading(true);
 
     try {
@@ -46,6 +58,7 @@ const Contacto = () => {
           empresa: "",
           mensaje: "",
         });
+        setValidated(false);
       }
     } catch (error) {
       Swal.fire({
@@ -64,7 +77,12 @@ const Contacto = () => {
       <Container fluid className="contenedor-contacto">
         <Row className="contacto rounded">
           <Col sm="12" md="6" lg="6" className="p-0">
-            <Form className="formulario-contacto p-4" onSubmit={handleSubmit}>
+            <Form
+              className="formulario-contacto"
+              noValidate
+              validated={validated}
+              onSubmit={handleSubmit}
+            >
               <h5 className="mb-4 fuente-contacto titulo-contacto">
                 Comunicate con nosotros
               </h5>
@@ -76,10 +94,17 @@ const Contacto = () => {
                       type="text"
                       placeholder="Tu nombre"
                       name="nombre"
+                      minLength={5}
+                      maxLength={40}
+                      pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"
                       value={formData.nombre}
                       onChange={handleChange}
                       required
                     />
+                    <Form.Control.Feedback type="invalid">
+                      Campo obligatorio. Debe contener solo letras (mínimo 5
+                      caracteres).
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </Col>
                 <Col sm="12" md="12" lg="6">
@@ -89,10 +114,15 @@ const Contacto = () => {
                       type="email"
                       placeholder="Tu correo"
                       name="email"
+                      minLength={10}
+                      maxLength={40}
                       value={formData.email}
                       onChange={handleChange}
                       required
                     />
+                    <Form.Control.Feedback type="invalid">
+                      Ingresá un correo electrónico válido.
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </Col>
               </Row>
@@ -105,9 +135,15 @@ const Contacto = () => {
                       type="text"
                       placeholder="Número de teléfono"
                       name="telefono"
+                      minLength={9}
+                      maxLength={15}
+                      pattern="^\d{9,15}$"
                       value={formData.telefono}
                       onChange={handleChange}
                     />
+                    <Form.Control.Feedback type="invalid">
+                      El número debe tener entre 9 y 15 dígitos y solo números.
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </Col>
                 <Col sm="12" md="12" lg="6">
@@ -117,6 +153,9 @@ const Contacto = () => {
                       type="text"
                       placeholder="Nombre de la empresa"
                       name="empresa"
+                      minLength={1}
+                      maxLength={50}
+                      pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9&._\\-\\/\\s]+$"
                       value={formData.empresa}
                       onChange={handleChange}
                     />
@@ -132,10 +171,18 @@ const Contacto = () => {
                       rows={4}
                       placeholder="Escribí tu mensaje"
                       name="mensaje"
+                      minLength={10}
+                      maxLength={500}
                       value={formData.mensaje}
                       onChange={handleChange}
                       required
                     />
+                    <div className="text-end mt-1 text-muted contador-form">
+                      {formData.mensaje.length} / 500
+                    </div>
+                    <Form.Control.Feedback type="invalid">
+                      Campo obligatorio (mínimo 10 caracteres).
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </Col>
               </Row>
