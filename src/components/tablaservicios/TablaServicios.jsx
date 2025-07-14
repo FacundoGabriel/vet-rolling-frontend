@@ -31,29 +31,63 @@ const TablaServicios = () => {
     imagen: "",
     disponible: true,
   });
+  const [errores, setErrores] = useState({});
 
-  const eliminarServicio = async (idServicio) => {
-    const confirmacion = await Swal.fire({
-      title: "¿Estás seguro?",
-      text: "Esta acción eliminara el servicio.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "No",
-    });
-    if (confirmacion.isConfirmed) {
-      try {
-        const res = await clientAxios.delete(
-          `/servicios/${idServicio}`,
-          configHeaders
-        );
-        Swal.fire("¡Servicio eliminado!", "", "success");
+  const validarServicio = () => {
+    const err = {};
 
-        obtenerServicios();
-      } catch (error) {}
+    if (!nuevoServicio.nombre.trim()) {
+      err.nombre = "El nombre es obligatorio";
+    } else if (nuevoServicio.nombre.length < 3) {
+      err.nombre = "Debe tener al menos 3 caracteres";
+    } else if (nuevoServicio.nombre.length > 50) {
+      err.nombre = "No puede superar los 50 caracteres";
+    } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s]+$/.test(nuevoProducto.nombre)) {
+      err.nombre = "El nombre solo puede contener letras, números y espacios";
     }
+
+    if (!nuevoServicio.descripcion.trim()) {
+      err.descripcion = "La descripción es obligatoria";
+    } else if (nuevoServicio.descripcion.length < 10) {
+      err.descripcion = "Debe tener al menos 10 caracteres";
+    } else if (nuevoServicio.descripcion.length > 300) {
+      err.descripcion = "No puede superar los 300 caracteres";
+    }
+
+    if (!nuevoServicio.precio || isNaN(nuevoServicio.precio)) {
+      err.precio = "El precio es obligatorio y debe ser un número";
+    } else if (Number(nuevoServicio.precio) <= 0) {
+      err.precio = "Debe ser un número positivo";
+    }
+
+    if (!nuevoServicio.duracion.trim()) {
+      err.duracion = "La duración es obligatoria";
+    }
+
+    setErrores(err);
+    return Object.keys(err).length === 0;
+  };
+
+  const handleCambio = (e) => {
+    const { name, value, type, checked } = e.target;
+    setNuevoServicio({
+      ...nuevoServicio,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const limpiarFormularioServicio = () => {
+    setNuevoServicio({
+      nombre: "",
+      descripcion: "",
+      precio: "",
+      duracion: "30 minutos",
+      categoria: "Medicina",
+      imagen: "",
+      disponible: true,
+    });
+    setArchivoFoto(null);
+    setErrores({});
   };
 
   const obtenerServicios = async () => {
@@ -71,46 +105,8 @@ const TablaServicios = () => {
     obtenerServicios();
   }, []);
 
-  const handleCambio = (e) => {
-    const { name, value, type, checked } = e.target;
-    setNuevoServicio({
-      ...nuevoServicio,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
-  const handleGuardarCambios = async (idServicio) => {
-    try {
-      const res = await clientAxios.put(
-        `/servicios/${idServicio}`,
-        nuevoServicio,
-        configHeaders
-      );
-      Swal.fire("¡Servicio actualizado!", "", "success");
-      setMostrarModalEditar(false);
-      setNuevoServicio({
-        nombre: "",
-        descripcion: "",
-        precio: "",
-        duracion: "30 minutos",
-        categoria: "Medicina",
-        imagen: "",
-        disponible: true,
-      });
-      if (archivoFoto) {
-        const formData = new FormData();
-        formData.append("foto", archivoFoto);
-
-        await clientAxios.put(
-          `/servicios/agregarImagen/${idServicio}`,
-          formData,
-          configHeadersImage
-        );
-      }
-      obtenerServicios();
-    } catch (error) {}
-  };
-
   const handleGuardar = async () => {
+    if (!validarServicio()) return;
     try {
       const res = await clientAxios.post(
         `/servicios`,
@@ -119,15 +115,8 @@ const TablaServicios = () => {
       );
       Swal.fire("¡Servicio creado!", "", "success");
       setMostrarModal(false);
-      setNuevoServicio({
-        nombre: "",
-        descripcion: "",
-        precio: "",
-        duracion: "30 minutos",
-        categoria: "Medicina",
-        imagen: "",
-        disponible: true,
-      });
+      limpiarFormularioServicio();
+
       if (archivoFoto) {
         const formData = new FormData();
         formData.append("foto", archivoFoto);
@@ -144,22 +133,168 @@ const TablaServicios = () => {
       Swal.fire("Error al crear el servicio", "", "error");
     }
   };
-  const limpiarFormularioServicio = () => {
-    setNuevoServicio({
-      nombre: "",
-      descripcion: "",
-      precio: "",
-      duracion: "30 minutos",
-      categoria: "Medicina",
-      imagen: "",
-      disponible: true,
-    });
+
+  const handleGuardarCambios = async (idServicio) => {
+    if (!validarServicio()) return;
+    try {
+      const res = await clientAxios.put(
+        `/servicios/${idServicio}`,
+        nuevoServicio,
+        configHeaders
+      );
+      Swal.fire("¡Servicio actualizado!", "", "success");
+      setMostrarModalEditar(false);
+      limpiarFormularioServicio();
+
+      if (archivoFoto) {
+        const formData = new FormData();
+        formData.append("foto", archivoFoto);
+
+        await clientAxios.put(
+          `/servicios/agregarImagen/${idServicio}`,
+          formData,
+          configHeadersImage
+        );
+      }
+      obtenerServicios();
+    } catch (error) {
+      console.error("Error al actualizar el servicio:", error);
+    }
   };
+
+  const eliminarServicio = async (idServicio) => {
+    const confirmacion = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción eliminara el servicio.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "No",
+    });
+    if (confirmacion.isConfirmed) {
+      try {
+        await clientAxios.delete(`/servicios/${idServicio}`, configHeaders);
+        Swal.fire("¡Servicio eliminado!", "", "success");
+        obtenerServicios();
+      } catch (error) {
+        console.error("Error al eliminar el servicio:", error);
+      }
+    }
+  };
+
+  const renderCamposFormulario = () => (
+    <>
+      <Form.Group className="mb-2">
+        <Form.Label>Nombre</Form.Label>
+        <Form.Control
+          type="text"
+          name="nombre"
+          value={nuevoServicio.nombre}
+          onChange={handleCambio}
+          isInvalid={!!errores.nombre}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errores.nombre}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-2">
+        <Form.Label>Descripción</Form.Label>
+        <Form.Control
+          as="textarea"
+          name="descripcion"
+          value={nuevoServicio.descripcion}
+          onChange={handleCambio}
+          isInvalid={!!errores.descripcion}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errores.descripcion}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-2">
+        <Form.Label>Precio</Form.Label>
+        <Form.Control
+          type="number"
+          name="precio"
+          value={nuevoServicio.precio}
+          onChange={handleCambio}
+          isInvalid={!!errores.precio}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errores.precio}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-2">
+        <Form.Label>Duración</Form.Label>
+        <Form.Control
+          type="text"
+          name="duracion"
+          value={nuevoServicio.duracion}
+          onChange={handleCambio}
+          isInvalid={!!errores.duracion}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errores.duracion}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-2">
+        <Form.Label>Categoría</Form.Label>
+        <Form.Select
+          name="categoria"
+          value={nuevoServicio.categoria}
+          onChange={handleCambio}
+        >
+          <option value="Medicina">Medicina</option>
+          <option value="Estética">Estética</option>
+          <option value="Estudios">Estudios</option>
+          <option value="Guardería">Guardería</option>
+          <option value="Vacunacion">Vacunación</option>
+        </Form.Select>
+      </Form.Group>
+
+      <Form.Group className="mb-2">
+        <Form.Label>Subir imagen</Form.Label>
+        <Form.Control
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            const ext = file?.name.split(".").pop().toLowerCase();
+            if (["jpg", "jpeg", "png"].includes(ext)) {
+              setArchivoFoto(file);
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Formato de imagen inválido",
+                text: "Solo se permiten imágenes JPG, JPEG o PNG.",
+              });
+              setArchivoFoto(null);
+              e.target.value = null;
+            }
+          }}
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-2">
+        <Form.Check
+          type="checkbox"
+          label="Disponible"
+          name="disponible"
+          checked={nuevoServicio.disponible}
+          onChange={handleCambio}
+        />
+      </Form.Group>
+    </>
+  );
 
   return (
     <Container className="my-5">
       <h2 className="mb-4">Administrar Servicios</h2>
-
       {cargando ? (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -230,6 +365,7 @@ const TablaServicios = () => {
                           imagen: servicio.imagen,
                           disponible: servicio.disponible,
                         });
+                        setErrores({});
                         setMostrarModalEditar(true);
                       }}
                     >
@@ -247,9 +383,14 @@ const TablaServicios = () => {
               ))}
             </tbody>
           </Table>
-
           <div className="d-flex justify-content-end mt-3">
-            <Button variant="primary" onClick={() => setMostrarModal(true)}>
+            <Button
+              variant="primary"
+              onClick={() => {
+                limpiarFormularioServicio();
+                setMostrarModal(true);
+              }}
+            >
               + Añadir Servicio
             </Button>
           </div>
@@ -261,95 +402,7 @@ const TablaServicios = () => {
           <Modal.Title>Nuevo Servicio</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group className="mb-2">
-              <Form.Label>Nombre</Form.Label>
-              <Form.Control
-                type="text"
-                name="nombre"
-                value={nuevoServicio.nombre}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Descripción</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="descripcion"
-                value={nuevoServicio.descripcion}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Precio</Form.Label>
-              <Form.Control
-                type="number"
-                name="precio"
-                value={nuevoServicio.precio}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Duración</Form.Label>
-              <Form.Control
-                type="text"
-                name="duracion"
-                value={nuevoServicio.duracion}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Categoría</Form.Label>
-              <Form.Select
-                name="categoria"
-                value={nuevoServicio.categoria}
-                onChange={handleCambio}
-              >
-                <option value="Medicina">Medicina</option>
-                <option value="Estética">Estética</option>
-                <option value="Estudios">Estudios</option>
-                <option value="Guardería">Guardería</option>
-                <option value="Vacunacion">Vacunación</option>
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="mt-3">
-              <Form.Label>Subir imagen</Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  const ext = file?.name.split(".").pop().toLowerCase();
-                  if (["jpg", "jpeg", "png"].includes(ext)) {
-                    setArchivoFoto(file);
-                  } else {
-                    Swal.fire({
-                      icon: "error",
-                      title: "Formato de imagen inválido",
-                      text: "Solo se permiten imágenes JPG, JPEG o PNG.",
-                    });
-                    setArchivoFoto(null);
-                    e.target.value = null;
-                  }
-                }}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Check
-                type="checkbox"
-                label="Disponible"
-                name="disponible"
-                checked={nuevoServicio.disponible}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-          </Form>
+          <Form>{renderCamposFormulario()}</Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setMostrarModal(false)}>
@@ -360,106 +413,19 @@ const TablaServicios = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
       <Modal
         show={mostrarModalEditar}
         onHide={() => {
           setMostrarModalEditar(false);
-          setIdEditando(null);
+          limpiarFormularioServicio();
         }}
       >
         <Modal.Header closeButton>
           <Modal.Title>Editar Servicio</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group className="mb-2">
-              <Form.Label>Nombre</Form.Label>
-              <Form.Control
-                type="text"
-                name="nombre"
-                value={nuevoServicio.nombre}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Descripción</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="descripcion"
-                value={nuevoServicio.descripcion}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Precio</Form.Label>
-              <Form.Control
-                type="number"
-                name="precio"
-                value={nuevoServicio.precio}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Duración</Form.Label>
-              <Form.Control
-                type="text"
-                name="duracion"
-                value={nuevoServicio.duracion}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Categoría</Form.Label>
-              <Form.Select
-                name="categoria"
-                value={nuevoServicio.categoria}
-                onChange={handleCambio}
-              >
-                <option value="Medicina">Medicina</option>
-                <option value="Estética">Estética</option>
-                <option value="Estudios">Estudios</option>
-                <option value="Guardería">Guardería</option>
-                <option value="Vacunacion">Vacunación</option>
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="mt-3">
-              <Form.Label>Cambiar imagen</Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  const ext = file?.name.split(".").pop().toLowerCase();
-                  if (["jpg", "jpeg", "png"].includes(ext)) {
-                    setArchivoFoto(file);
-                  } else {
-                    Swal.fire({
-                      icon: "error",
-                      title: "Formato de imagen inválido",
-                      text: "Solo se permiten imágenes JPG, JPEG o PNG.",
-                    });
-                    setArchivoFoto(null);
-                    e.target.value = null;
-                  }
-                }}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Check
-                type="checkbox"
-                label="Disponible"
-                name="disponible"
-                checked={nuevoServicio.disponible}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-          </Form>
+          <Form>{renderCamposFormulario()}</Form>
         </Modal.Body>
         <Modal.Footer>
           <Button
