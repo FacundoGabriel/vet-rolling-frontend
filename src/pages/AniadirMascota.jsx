@@ -30,7 +30,6 @@ const AniadirMascota = () => {
       ...prev,
       [name]: value,
     }));
-
     setErrores((prev) => ({
       ...prev,
       [name]: "",
@@ -39,14 +38,46 @@ const AniadirMascota = () => {
 
   const validarFormulario = () => {
     const nuevosErrores = {};
-    if (!formData.nombre) nuevosErrores.nombre = "El nombre es obligatorio";
-    if (!formData.especie) nuevosErrores.especie = "La especie es obligatoria";
-    if (!formData.raza) nuevosErrores.raza = "La raza es obligatoria";
-    if (!formData.sexo) nuevosErrores.sexo = "El sexo es obligatorio";
-    if (!formData.peso || isNaN(formData.peso) || formData.peso <= 0)
-      nuevosErrores.peso = "El peso debe ser un número positivo";
-    if (!formData.fechaNacimiento)
+
+    const soloLetrasYEspacios = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+
+    if (!formData.nombre.trim()) {
+      nuevosErrores.nombre = "El nombre es obligatorio";
+    } else if (formData.nombre.length < 3) {
+      nuevosErrores.nombre = "Debe tener al menos 3 caracteres";
+    } else if (formData.nombre.length > 20) {
+      nuevosErrores.nombre = "No puede superar los 20 caracteres";
+    } else if (!soloLetrasYEspacios.test(formData.nombre)) {
+      nuevosErrores.nombre = "Solo se permiten letras y espacios";
+    }
+
+    if (!formData.especie) {
+      nuevosErrores.especie = "La especie es obligatoria";
+    } else if (!["perro", "gato"].includes(formData.especie.toLowerCase())) {
+      nuevosErrores.especie = "Solo se permite 'perro' o 'gato'";
+    }
+
+    if (!formData.raza.trim()) {
+      nuevosErrores.raza = "La raza es obligatoria";
+    } else if (!soloLetrasYEspacios.test(formData.raza)) {
+      nuevosErrores.raza = "Solo se permiten letras y espacios";
+    }
+
+    if (!formData.sexo) {
+      nuevosErrores.sexo = "El sexo es obligatorio";
+    } else if (!["macho", "hembra"].includes(formData.sexo.toLowerCase())) {
+      nuevosErrores.sexo = "Debe ser 'macho' o 'hembra'";
+    }
+
+    if (!formData.peso || isNaN(formData.peso)) {
+      nuevosErrores.peso = "El peso es obligatorio y debe ser un número";
+    } else if (Number(formData.peso) <= 0) {
+      nuevosErrores.peso = "Debe ser un número positivo";
+    }
+
+    if (!formData.fechaNacimiento) {
       nuevosErrores.fechaNacimiento = "La fecha de nacimiento es obligatoria";
+    }
 
     setErrores(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
@@ -58,9 +89,16 @@ const AniadirMascota = () => {
     if (!validarFormulario()) return;
 
     try {
+      const payload = {
+        ...formData,
+        nombre: formData.nombre.trim().toLowerCase(),
+        especie: formData.especie.toLowerCase(),
+        sexo: formData.sexo.toLowerCase(),
+      };
+
       const res = await clientAxios.post(
         "/mascotas/aniadirMascota",
-        formData,
+        payload,
         configHeaders
       );
 
@@ -84,7 +122,7 @@ const AniadirMascota = () => {
           sexo: "",
           peso: "",
           fechaNacimiento: "",
-          foto: "url",
+          foto: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
         });
         setNuevaImagenMascota(null);
 
@@ -99,8 +137,18 @@ const AniadirMascota = () => {
         }, 1000);
       }
     } catch (error) {
-      console.error("Error al añadir mascota:", error);
-      setSuccessMsg("");
+      if (error.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "No puedes tener dos mascotas con el mismo nombre.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error de servidor",
+          text: "Hubo un problema al conectar con el servidor.",
+        });
+      }
     }
   };
 
@@ -127,14 +175,16 @@ const AniadirMascota = () => {
 
         <Form.Group className="mb-3">
           <Form.Label>Especie</Form.Label>
-          <Form.Control
-            type="text"
+          <Form.Select
             name="especie"
             value={formData.especie}
             onChange={handleChange}
             isInvalid={!!errores.especie}
-            placeholder="Ej: perro, gato"
-          />
+          >
+            <option value="">-- Seleccioná la especie --</option>
+            <option value="perro">Perro</option>
+            <option value="gato">Gato</option>
+          </Form.Select>
           <Form.Control.Feedback type="invalid">
             {errores.especie}
           </Form.Control.Feedback>
@@ -195,6 +245,7 @@ const AniadirMascota = () => {
             value={formData.fechaNacimiento}
             onChange={handleChange}
             isInvalid={!!errores.fechaNacimiento}
+            max={new Date().toISOString().split("T")[0]}
           />
           <Form.Control.Feedback type="invalid">
             {errores.fechaNacimiento}
@@ -224,6 +275,7 @@ const AniadirMascota = () => {
             }}
           />
         </Form.Group>
+
         <Button variant="primary" type="submit" className="w-100">
           Añadir Mascota
         </Button>

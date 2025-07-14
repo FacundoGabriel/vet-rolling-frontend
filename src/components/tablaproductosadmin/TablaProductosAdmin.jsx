@@ -29,6 +29,7 @@ const TablaProductosAdmin = () => {
     imagen: "",
     estado: "habilitado",
   });
+  const [errores, setErrores] = useState({});
 
   const obtenerProductos = async () => {
     try {
@@ -63,9 +64,38 @@ const TablaProductosAdmin = () => {
       estado: "habilitado",
     });
     setArchivoFoto(null);
+    setErrores({});
+  };
+
+  const validarProducto = () => {
+    const err = {};
+
+    if (!nuevoProducto.nombre.trim()) {
+      err.nombre = "El nombre es obligatorio";
+    } else if (nuevoProducto.nombre.length < 5) {
+      err.nombre = "Debe tener al menos 5 caracteres";
+    } else if (nuevoProducto.nombre.length > 50) {
+      err.nombre = "No puede superar los 50 caracteres";
+    } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s]+$/.test(nuevoProducto.nombre)) {
+      err.nombre = "El nombre solo puede contener letras, números y espacios";
+    }
+
+    if (!nuevoProducto.descripcion.trim()) {
+      err.descripcion = "La descripción es obligatoria";
+    }
+
+    if (!nuevoProducto.precio || isNaN(nuevoProducto.precio)) {
+      err.precio = "El precio es obligatorio y debe ser un número válido";
+    } else if (Number(nuevoProducto.precio) <= 0) {
+      err.precio = "Debe ser un número positivo";
+    }
+
+    setErrores(err);
+    return Object.keys(err).length === 0;
   };
 
   const handleGuardar = async () => {
+    if (!validarProducto()) return;
     try {
       const res = await clientAxios.post(
         `/productos`,
@@ -94,6 +124,7 @@ const TablaProductosAdmin = () => {
   };
 
   const handleGuardarCambios = async (idProducto) => {
+    if (!validarProducto()) return;
     try {
       await clientAxios.put(
         `/productos/${idProducto}`,
@@ -141,6 +172,85 @@ const TablaProductosAdmin = () => {
       }
     }
   };
+
+  const renderCamposFormulario = () => (
+    <>
+      <Form.Group className="mb-2">
+        <Form.Label>Nombre</Form.Label>
+        <Form.Control
+          type="text"
+          name="nombre"
+          value={nuevoProducto.nombre}
+          onChange={handleCambio}
+          isInvalid={!!errores.nombre}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errores.nombre}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-2">
+        <Form.Label>Descripción</Form.Label>
+        <Form.Control
+          as="textarea"
+          name="descripcion"
+          value={nuevoProducto.descripcion}
+          onChange={handleCambio}
+          isInvalid={!!errores.descripcion}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errores.descripcion}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-2">
+        <Form.Label>Precio</Form.Label>
+        <Form.Control
+          type="number"
+          name="precio"
+          value={nuevoProducto.precio}
+          onChange={handleCambio}
+          isInvalid={!!errores.precio}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errores.precio}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-2">
+        <Form.Label>Subir imagen</Form.Label>
+        <Form.Control
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            const ext = file?.name.split(".").pop().toLowerCase();
+            if (["jpg", "jpeg", "png"].includes(ext)) {
+              setArchivoFoto(file);
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Formato de imagen inválido",
+                text: "Solo se permiten imágenes JPG, JPEG o PNG.",
+              });
+              setArchivoFoto(null);
+              e.target.value = null;
+            }
+          }}
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-2">
+        <Form.Check
+          type="checkbox"
+          label="Disponible"
+          name="estado"
+          checked={nuevoProducto.estado === "habilitado"}
+          onChange={handleCambio}
+        />
+      </Form.Group>
+    </>
+  );
 
   return (
     <Container className="my-5">
@@ -213,6 +323,7 @@ const TablaProductosAdmin = () => {
                           imagen: producto.imagen,
                           estado: producto.estado,
                         });
+                        setErrores({});
                         setMostrarModalEditar(true);
                       }}
                     >
@@ -249,70 +360,7 @@ const TablaProductosAdmin = () => {
           <Modal.Title>Nuevo Producto</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group className="mb-2">
-              <Form.Label>Nombre</Form.Label>
-              <Form.Control
-                type="text"
-                name="nombre"
-                value={nuevoProducto.nombre}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Descripción</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="descripcion"
-                value={nuevoProducto.descripcion}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Precio</Form.Label>
-              <Form.Control
-                type="number"
-                name="precio"
-                value={nuevoProducto.precio}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Subir imagen</Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  const ext = file?.name.split(".").pop().toLowerCase();
-                  if (["jpg", "jpeg", "png"].includes(ext)) {
-                    setArchivoFoto(file);
-                  } else {
-                    Swal.fire({
-                      icon: "error",
-                      title: "Formato de imagen inválido",
-                      text: "Solo se permiten imágenes JPG, JPEG o PNG.",
-                    });
-                    setArchivoFoto(null);
-                    e.target.value = null;
-                  }
-                }}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Check
-                type="checkbox"
-                label="Disponible"
-                name="estado"
-                checked={nuevoProducto.estado === "habilitado"}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-          </Form>
+          <Form>{renderCamposFormulario()}</Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setMostrarModal(false)}>
@@ -332,70 +380,7 @@ const TablaProductosAdmin = () => {
           <Modal.Title>Editar Producto</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group className="mb-2">
-              <Form.Label>Nombre</Form.Label>
-              <Form.Control
-                type="text"
-                name="nombre"
-                value={nuevoProducto.nombre}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Descripción</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="descripcion"
-                value={nuevoProducto.descripcion}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Precio</Form.Label>
-              <Form.Control
-                type="number"
-                name="precio"
-                value={nuevoProducto.precio}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Cambiar imagen</Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  const ext = file?.name.split(".").pop().toLowerCase();
-                  if (["jpg", "jpeg", "png"].includes(ext)) {
-                    setArchivoFoto(file);
-                  } else {
-                    Swal.fire({
-                      icon: "error",
-                      title: "Formato de imagen inválido",
-                      text: "Solo se permiten imágenes JPG, JPEG o PNG.",
-                    });
-                    setArchivoFoto(null);
-                    e.target.value = null;
-                  }
-                }}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Check
-                type="checkbox"
-                label="Disponible"
-                name="estado"
-                checked={nuevoProducto.estado === "habilitado"}
-                onChange={handleCambio}
-              />
-            </Form.Group>
-          </Form>
+          <Form>{renderCamposFormulario()}</Form>
         </Modal.Body>
         <Modal.Footer>
           <Button

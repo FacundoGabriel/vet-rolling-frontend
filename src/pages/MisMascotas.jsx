@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Container, Button, Form } from "react-bootstrap";
+import { Card, Container, Button, Form, Alert } from "react-bootstrap";
 import clientAxios, {
   configHeaders,
   configHeadersImage,
@@ -11,6 +11,7 @@ const MisMascotas = () => {
   const [mascotas, setMascotas] = useState([]);
   const [editandoId, setEditandoId] = useState(null);
   const [editForm, setEditForm] = useState({});
+  const [errores, setErrores] = useState({});
   const [nuevaImagen, setNuevaImagen] = useState(null);
 
   const obtenerMascotas = async () => {
@@ -21,6 +22,61 @@ const MisMascotas = () => {
       );
       setMascotas(res.data.mascotas || []);
     } catch (error) {}
+  };
+
+  const validarFormularioEditar = () => {
+    const nuevosErrores = {};
+    const soloLetrasRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/;
+
+    if (!editForm.nombre?.trim()) {
+      nuevosErrores.nombre = "El nombre es obligatorio";
+    } else if (editForm.nombre.length < 3) {
+      nuevosErrores.nombre = "Debe tener al menos 3 caracteres";
+    } else if (editForm.nombre.length > 20) {
+      nuevosErrores.nombre = "No puede superar los 20 caracteres";
+    } else if (!soloLetrasRegex.test(editForm.nombre)) {
+      nuevosErrores.nombre =
+        "Solo se permiten letras (sin números ni caracteres especiales)";
+    }
+
+    if (!editForm.especie) {
+      nuevosErrores.especie = "La especie es obligatoria";
+    } else if (!["perro", "gato"].includes(editForm.especie.toLowerCase())) {
+      nuevosErrores.especie = "Solo se permite 'perro' o 'gato'";
+    }
+
+    if (!editForm.raza?.trim()) {
+      nuevosErrores.raza = "La raza es obligatoria";
+    } else if (!soloLetrasRegex.test(editForm.raza)) {
+      nuevosErrores.raza =
+        "Solo se permiten letras (sin números ni caracteres especiales)";
+    }
+
+    if (!editForm.sexo) {
+      nuevosErrores.sexo = "El sexo es obligatorio";
+    } else if (!["macho", "hembra"].includes(editForm.sexo.toLowerCase())) {
+      nuevosErrores.sexo = "Debe ser 'macho' o 'hembra'";
+    }
+
+    if (!editForm.peso || isNaN(editForm.peso)) {
+      nuevosErrores.peso = "El peso es obligatorio y debe ser un número";
+    } else if (Number(editForm.peso) <= 0) {
+      nuevosErrores.peso = "Debe ser un número positivo";
+    }
+
+    if (!editForm.fechaNacimiento) {
+      nuevosErrores.fechaNacimiento = "La fecha de nacimiento es obligatoria";
+    } else {
+      const hoy = new Date();
+      const fechaIngresada = new Date(editForm.fechaNacimiento);
+      if (fechaIngresada > hoy) {
+        nuevosErrores.fechaNacimiento =
+          "No se puede seleccionar una fecha futura";
+      }
+    }
+
+    setErrores(nuevosErrores);
+    return Object.keys(nuevosErrores).length === 0;
   };
 
   const eliminarMascotaPorId = async (idMascota) => {
@@ -102,15 +158,18 @@ const MisMascotas = () => {
   const handleEditar = (mascota) => {
     setEditandoId(mascota._id);
     setEditForm({ ...mascota });
+    setErrores({});
     setNuevaImagen(null);
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditForm({ ...editForm, [name]: value });
+    setErrores({ ...errores, [name]: "" });
   };
 
   const guardarCambios = async (id) => {
+    if (!validarFormularioEditar()) return;
     try {
       const { nombre, especie, raza, sexo, peso, fechaNacimiento } = editForm;
       await clientAxios.put(
@@ -180,15 +239,27 @@ const MisMascotas = () => {
                       name="nombre"
                       value={editForm.nombre}
                       onChange={handleInputChange}
+                      isInvalid={!!errores.nombre}
                     />
+                    <Form.Control.Feedback type="invalid">
+                      {errores.nombre}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="mb-2">
                     <Form.Label>Especie</Form.Label>
-                    <Form.Control
+                    <Form.Select
                       name="especie"
                       value={editForm.especie}
                       onChange={handleInputChange}
-                    />
+                      isInvalid={!!errores.especie}
+                    >
+                      <option value="">-- Selecciona una especie --</option>
+                      <option value="perro">Perro</option>
+                      <option value="gato">Gato</option>
+                    </Form.Select>
+                    <Form.Control.Feedback type="invalid">
+                      {errores.especie}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="mb-2">
                     <Form.Label>Raza</Form.Label>
@@ -196,23 +267,42 @@ const MisMascotas = () => {
                       name="raza"
                       value={editForm.raza}
                       onChange={handleInputChange}
+                      isInvalid={!!errores.raza}
                     />
+                    <Form.Control.Feedback type="invalid">
+                      {errores.raza}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="mb-2">
                     <Form.Label>Sexo</Form.Label>
-                    <Form.Control
+                    <Form.Select
                       name="sexo"
                       value={editForm.sexo}
                       onChange={handleInputChange}
-                    />
+                      isInvalid={!!errores.sexo}
+                    >
+                      <option value="">-- Selecciona el sexo --</option>
+                      <option value="macho">Macho</option>
+                      <option value="hembra">Hembra</option>
+                    </Form.Select>
+                    <Form.Control.Feedback type="invalid">
+                      {errores.sexo}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="mb-2">
                     <Form.Label>Peso</Form.Label>
                     <Form.Control
                       name="peso"
+                      type="number"
                       value={editForm.peso}
                       onChange={handleInputChange}
+                      isInvalid={!!errores.peso}
+                      min="0"
+                      step="0.1"
                     />
+                    <Form.Control.Feedback type="invalid">
+                      {errores.peso}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="mb-2">
                     <Form.Label>Fecha Nacimiento</Form.Label>
@@ -221,7 +311,11 @@ const MisMascotas = () => {
                       type="date"
                       value={editForm.fechaNacimiento?.slice(0, 10)}
                       onChange={handleInputChange}
+                      isInvalid={!!errores.fechaNacimiento}
                     />
+                    <Form.Control.Feedback type="invalid">
+                      {errores.fechaNacimiento}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="mb-2">
                     <Form.Label>Imagen</Form.Label>

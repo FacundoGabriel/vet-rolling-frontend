@@ -7,12 +7,15 @@ const TablaUsuarios = ({ idPage }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+
   const [form, setForm] = useState({
     nombreUsuario: "",
     emailUsuario: "",
     telefono: "",
     contrasenia: "",
   });
+  const [errores, setErrores] = useState({});
+  const [touched, setTouched] = useState({});
 
   const obtenerUsuarios = async () => {
     try {
@@ -35,16 +38,72 @@ const TablaUsuarios = ({ idPage }) => {
       telefono: usuario.telefono || "",
       contrasenia: "",
     });
+    setErrores({});
+    setTouched({});
     setShowModal(true);
   };
 
   const cerrarModal = () => {
     setShowModal(false);
     setUsuarioSeleccionado(null);
+    setErrores({});
+    setTouched({});
+  };
+
+  const validarCampo = (name, value) => {
+    switch (name) {
+      case "nombreUsuario":
+        if (!value.trim()) return "El nombre de usuario es obligatorio";
+        else if (value.length < 3) return "Debe tener al menos 3 caracteres";
+        else if (value.length > 30) return "No puede superar los 30 caracteres";
+        else if (!/^[A-ZÁÉÍÓÚÑa-záéíóúñ0-9_\- ]+$/.test(value)) return;
+        "Solo se permiten letras, números, espacios, guiones y guiones bajos.";
+        break;
+
+      case "emailUsuario":
+        if (!value.trim()) return "El email es obligatorio";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+          return "Formato de email inválido";
+        return "";
+
+      case "telefono":
+        if (!value.trim()) return "El teléfono es obligatorio";
+        if (!/^\+?\d{8,15}$/.test(value.replace(/\s+/g, "")))
+          return "Teléfono inválido (debe tener entre 8 y 15 dígitos)";
+        return "";
+
+      case "contrasenia":
+        if (!value.trim()) return ""; // opcional
+        if (value.length < 8)
+          return "La contraseña debe tener al menos 8 caracteres";
+        if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(value))
+          return "La contraseña debe incluir mayúscula, minúscula y número";
+        return "";
+
+      default:
+        return "";
+    }
   };
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    setForm((prev) => ({ ...prev, [name]: value }));
+
+    setErrores((prev) => ({
+      ...prev,
+      [name]: validarCampo(name, value),
+    }));
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+
+    setErrores((prev) => ({
+      ...prev,
+      [name]: validarCampo(name, value),
+    }));
   };
 
   const handleSubmitEdicion = async () => {
@@ -52,14 +111,6 @@ const TablaUsuarios = ({ idPage }) => {
       const datosAEnviar = { ...form };
       if (!form.contrasenia.trim()) {
         delete datosAEnviar.contrasenia;
-      }
-      if (!form.nombreUsuario || !form.emailUsuario || !form.telefono) {
-        Swal.fire({
-          icon: "warning",
-          title: "Campos incompletos",
-          text: "Por favor, completá nombre, email y teléfono.",
-        });
-        return;
       }
 
       const res = await clientAxios.put(
@@ -322,6 +373,22 @@ const TablaUsuarios = ({ idPage }) => {
 
   const columnas = getColumnHeaders();
   const usuariosFiltrados = getUsuariosFiltrados();
+  const esFormularioValido = () => {
+    const camposRequeridos = ["nombreUsuario", "emailUsuario", "telefono"];
+
+    for (let campo of camposRequeridos) {
+      const valor = form[campo]?.trim();
+      const error = validarCampo(campo, valor);
+      if (!valor || error) return false;
+    }
+
+    if (form.contrasenia.trim()) {
+      const errorContrasenia = validarCampo("contrasenia", form.contrasenia);
+      if (errorContrasenia) return false;
+    }
+
+    return true;
+  };
 
   return (
     <Container className="my-5">
@@ -425,45 +492,66 @@ const TablaUsuarios = ({ idPage }) => {
           <Modal.Title>Editar Usuario</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3">
+          <Form noValidate>
+            <Form.Group className="mb-3" controlId="nombreUsuario">
               <Form.Label>Nombre de Usuario</Form.Label>
               <Form.Control
                 type="text"
                 name="nombreUsuario"
                 value={form.nombreUsuario}
                 onChange={handleChange}
-                required
+                onBlur={handleBlur}
+                isInvalid={touched.nombreUsuario && !!errores.nombreUsuario}
               />
+              <Form.Control.Feedback type="invalid">
+                {errores.nombreUsuario}
+              </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3">
+
+            <Form.Group className="mb-3" controlId="emailUsuario">
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
                 name="emailUsuario"
                 value={form.emailUsuario}
                 onChange={handleChange}
-                required
+                onBlur={handleBlur}
+                isInvalid={touched.emailUsuario && !!errores.emailUsuario}
               />
+              <Form.Control.Feedback type="invalid">
+                {errores.emailUsuario}
+              </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3">
+
+            <Form.Group className="mb-3" controlId="telefono">
               <Form.Label>Teléfono</Form.Label>
               <Form.Control
                 type="text"
                 name="telefono"
                 value={form.telefono}
                 onChange={handleChange}
-                required
+                onBlur={handleBlur}
+                isInvalid={touched.telefono && !!errores.telefono}
               />
+              <Form.Control.Feedback type="invalid">
+                {errores.telefono}
+              </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Contraseña </Form.Label>
+
+            <Form.Group className="mb-3" controlId="contrasenia">
+              <Form.Label>Contraseña</Form.Label>
               <Form.Control
                 type="password"
                 name="contrasenia"
                 value={form.contrasenia}
                 onChange={handleChange}
+                onBlur={handleBlur}
+                isInvalid={touched.contrasenia && !!errores.contrasenia}
+                placeholder="Déjalo vacío para no cambiar"
               />
+              <Form.Control.Feedback type="invalid">
+                {errores.contrasenia}
+              </Form.Control.Feedback>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -471,7 +559,11 @@ const TablaUsuarios = ({ idPage }) => {
           <Button variant="secondary" onClick={cerrarModal}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleSubmitEdicion}>
+          <Button
+            variant="primary"
+            onClick={handleSubmitEdicion}
+            disabled={!esFormularioValido()}
+          >
             Guardar cambios
           </Button>
         </Modal.Footer>
