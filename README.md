@@ -8,7 +8,7 @@ Este es el proyecto final del 3° módulo del curso FullStack de RollingCode, de
 
 Antes de comenzar, asegurate de tener instalado:
 
-- Node.js v22.14.0 
+- Node.js v22.14.0
 - MongoDB v8.0.11 (remota en Atlas)
 - Git 2.48.1.windows.1
 
@@ -52,26 +52,26 @@ npm install
 
 Debés crear un archivo `.env` tanto en el backend como en el frontend con la siguiente información:
 
-###  Backend 
+### Backend
 
 ```
-MONGO_ACCESS=mongodb+srv://facundo:VI7TWy60u07ZOnKe@cluster0.udn4znk.mongodb.net/
+MONGO_ACCESS=TU_MONGO_URI
 PORT=4000
-JWT_SECRET=s3cr3tK3y!42
-GMAIL_USER=rollingvet25@gmail.com
-GMAIL_PASS=boebbhbrodsfztly
-CLOUD_NAME=dk3h8a3x4
-CLOUD_API_KEY=342423144496363
-CLOUD_API_SECRET=IqAqrkyx9kVXc8i_gBJUr5nG6Vo
 FRONT_URL=http://localhost:5173
-MP_API_TOKEN=TEST-4112955523854956-070619-31185d894e1dbf2a331ebb08501e13aa-550436319
+JWT_SECRET=TU_JWT_SECRET
+GMAIL_USER=TU_GMAIL_USER
+GMAIL_PASS=TU_GMAIL_PASS
+CLOUD_NAME=TU_CLOUDINARY_NAME
+CLOUD_API_KEY=TU_CLOUDINARY_API_KEY
+CLOUD_API_SECRET=TU_CLOUDINARY_API_SECRET
+MP_API_TOKEN=TU_MERCADO_PAGO_TOKEN
 ```
 
-### Frontend 
+### Frontend
 
 ```
-VITE_URL_BACK = http://localhost:4000
-VITE_MP_PUBLIC_KEY=TEST-302214d1-1f87-44a2-a09d-4e627fdc51f0
+VITE_URL_BACK=http://localhost:4000
+VITE_MP_PUBLIC_KEY=TU_MERCADO_PAGO_PUBLIC_KEY
 ```
 
 ---
@@ -102,12 +102,17 @@ http://localhost:5173
 Podés iniciar sesión con los siguientes usuarios de prueba:
 
 #### Usuario
+
 Email: prueba@facundo.com  
 Contraseña: 123456789
+
 #### Veterinario
+
 Email: cordobaalvaromaximiliano@gmail.com  
 Contraseña: 123456789
+
 #### Administrador
+
 Email: gabriel@gabriel.com  
 Contraseña: 123456789
 
@@ -115,8 +120,8 @@ Contraseña: 123456789
 
 ## 📌 Tecnologías utilizadas
 
-- Frontend: React, Vite, React-Bootstrap  
-- Backend: Node.js, Express, MongoDB, Mongoose  
+- Frontend: React, Vite, React-Bootstrap
+- Backend: Node.js, Express, MongoDB, Mongoose
 
 ---
 
@@ -128,7 +133,7 @@ Contraseña: 123456789
 
 ## 📌 Autores
 
--  Victor Gabriel Fernández Medina - Scrum Master.
--  Facundo Gabriel De La Cruz - Líder Técnico.
--  Álvaro Maximiliano Córdoba - Desarrollador Fullstack.
--  Leonardo Santillan Rearte - Desarrollador FullStack.
+- Victor Gabriel Fernández Medina - Scrum Master.
+- Facundo Gabriel De La Cruz - Líder Técnico.
+- Álvaro Maximiliano Córdoba - Desarrollador Fullstack.
+- Leonardo Santillan Rearte - Desarrollador FullStack.
