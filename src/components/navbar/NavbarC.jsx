@@ -56,6 +56,23 @@ const NavbarC = () => {
                 </>
               )}
 
+              {token && rolUsuario === "veterinario" && (
+                <>
+                  <NavLink className="nav-link nav-custom" to="/veterinario">
+                    Inicio
+                  </NavLink>
+                  <NavLink
+                    className="nav-link nav-custom"
+                    to="/acerca-de-nosotros"
+                  >
+                    Acerca de Nosotros
+                  </NavLink>
+                  <NavLink className="nav-link nav-custom" to="/contacto">
+                    Contacto
+                  </NavLink>
+                </>
+              )}
+
               {token && rolUsuario === "admin" && (
                 <>
                   <NavLink className="nav-link nav-custom" to="/admin">
