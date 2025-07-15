@@ -78,6 +78,12 @@ export const Login = () => {
           title: "Credenciales inválidas",
           text: "Correo o contraseña incorrectos.",
         });
+      } else if (statusCode === 404) {
+        Swal.fire({
+          icon: "error",
+          title: "Credenciales inválidas",
+          text: "Correo o contraseña incorrectos.",
+        });
       } else {
         Swal.fire({
           icon: "error",

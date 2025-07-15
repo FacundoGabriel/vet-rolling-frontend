@@ -24,6 +24,7 @@ const TablaPlanes = () => {
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [idEditando, setIdEditando] = useState(null);
   const [archivoFoto, setArchivoFoto] = useState(null);
+  const [errores, setErrores] = useState({});
 
   const [nuevoPlan, setNuevoPlan] = useState({
     nombre: "",
@@ -68,21 +69,42 @@ const TablaPlanes = () => {
       imagen: "",
     });
     setArchivoFoto(null);
+    setErrores({});
+  };
+
+  const validarPlan = () => {
+    const err = {};
+
+    if (!nuevoPlan.nombre) {
+      err.nombre = "El nombre es obligatorio";
+    } else if (!opcionesNombres.includes(nuevoPlan.nombre)) {
+      err.nombre = "El nombre no es válido";
+    }
+
+    if (!nuevoPlan.descripcion.trim()) {
+      err.descripcion = "La descripción es obligatoria";
+    } else if (nuevoPlan.descripcion.trim().length < 10) {
+      err.descripcion = "La descripción debe tener al menos 10 caracteres";
+    } else if (nuevoPlan.descripcion.trim().length > 300) {
+      err.descripcion = "La descripción no puede superar los 300 caracteres";
+    }
+
+    if (!nuevoPlan.precio || isNaN(nuevoPlan.precio)) {
+      err.precio = "El precio es obligatorio y debe ser un número válido";
+    } else if (Number(nuevoPlan.precio) <= 0) {
+      err.precio = "El precio debe ser un número positivo";
+    }
+
+    if (!nuevoPlan.servicios.trim()) {
+      err.servicios = "Debe ingresar al menos un servicio";
+    }
+
+    setErrores(err);
+    return Object.keys(err).length === 0;
   };
 
   const handleGuardar = async () => {
-    if (
-      !nuevoPlan.nombre ||
-      !nuevoPlan.descripcion ||
-      !nuevoPlan.precio ||
-      !nuevoPlan.servicios.trim()
-    ) {
-      return Swal.fire(
-        "Error",
-        "Por favor completa todos los campos obligatorios",
-        "warning"
-      );
-    }
+    if (!validarPlan()) return;
 
     try {
       const body = {
@@ -121,18 +143,8 @@ const TablaPlanes = () => {
   };
 
   const handleGuardarCambios = async (idPlan) => {
-    if (
-      !nuevoPlan.nombre ||
-      !nuevoPlan.descripcion ||
-      !nuevoPlan.precio ||
-      !nuevoPlan.servicios.trim()
-    ) {
-      return Swal.fire(
-        "Error",
-        "Por favor completa todos los campos obligatorios",
-        "warning"
-      );
-    }
+    if (!validarPlan()) return;
+
     try {
       const body = {
         ...nuevoPlan,
@@ -260,6 +272,7 @@ const TablaPlanes = () => {
                           disponible: plan.disponible,
                           imagen: plan.imagen,
                         });
+                        setErrores({});
                         setMostrarModalEditar(true);
                       }}
                     >
@@ -303,6 +316,7 @@ const TablaPlanes = () => {
                 name="nombre"
                 value={nuevoPlan.nombre}
                 onChange={handleCambio}
+                isInvalid={!!errores.nombre}
               >
                 <option value="">Selecciona un nombre</option>
                 {opcionesNombres.map((opt) => (
@@ -311,6 +325,9 @@ const TablaPlanes = () => {
                   </option>
                 ))}
               </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {errores.nombre}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-2">
@@ -320,7 +337,11 @@ const TablaPlanes = () => {
                 name="descripcion"
                 value={nuevoPlan.descripcion}
                 onChange={handleCambio}
+                isInvalid={!!errores.descripcion}
               />
+              <Form.Control.Feedback type="invalid">
+                {errores.descripcion}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-2">
@@ -332,7 +353,11 @@ const TablaPlanes = () => {
                 onChange={handleCambio}
                 min={0}
                 step="0.01"
+                isInvalid={!!errores.precio}
               />
+              <Form.Control.Feedback type="invalid">
+                {errores.precio}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-2">
@@ -343,7 +368,11 @@ const TablaPlanes = () => {
                 value={nuevoPlan.servicios}
                 onChange={handleCambio}
                 placeholder="Ej: servicio1, servicio2, servicio3"
+                isInvalid={!!errores.servicios}
               />
+              <Form.Control.Feedback type="invalid">
+                {errores.servicios}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-2">
@@ -392,7 +421,10 @@ const TablaPlanes = () => {
 
       <Modal
         show={mostrarModalEditar}
-        onHide={() => setMostrarModalEditar(false)}
+        onHide={() => {
+          setMostrarModalEditar(false);
+          limpiarFormulario();
+        }}
       >
         <Modal.Header closeButton>
           <Modal.Title>Editar Plan</Modal.Title>
@@ -405,6 +437,7 @@ const TablaPlanes = () => {
                 name="nombre"
                 value={nuevoPlan.nombre}
                 onChange={handleCambio}
+                isInvalid={!!errores.nombre}
               >
                 <option value="">Selecciona un nombre</option>
                 {opcionesNombres.map((opt) => (
@@ -413,6 +446,9 @@ const TablaPlanes = () => {
                   </option>
                 ))}
               </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {errores.nombre}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-2">
@@ -422,7 +458,11 @@ const TablaPlanes = () => {
                 name="descripcion"
                 value={nuevoPlan.descripcion}
                 onChange={handleCambio}
+                isInvalid={!!errores.descripcion}
               />
+              <Form.Control.Feedback type="invalid">
+                {errores.descripcion}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-2">
@@ -434,7 +474,11 @@ const TablaPlanes = () => {
                 onChange={handleCambio}
                 min={0}
                 step="0.01"
+                isInvalid={!!errores.precio}
               />
+              <Form.Control.Feedback type="invalid">
+                {errores.precio}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-2">
@@ -445,7 +489,11 @@ const TablaPlanes = () => {
                 value={nuevoPlan.servicios}
                 onChange={handleCambio}
                 placeholder="Ej: servicio1, servicio2, servicio3"
+                isInvalid={!!errores.servicios}
               />
+              <Form.Control.Feedback type="invalid">
+                {errores.servicios}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-2">
@@ -485,7 +533,10 @@ const TablaPlanes = () => {
         <Modal.Footer>
           <Button
             variant="secondary"
-            onClick={() => setMostrarModalEditar(false)}
+            onClick={() => {
+              setMostrarModalEditar(false);
+              limpiarFormulario();
+            }}
           >
             Cancelar
           </Button>

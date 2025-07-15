@@ -34,7 +34,7 @@ const NavbarC = () => {
       >
         <Container>
           <NavLink className="nav-link" to={token ? "/user" : "/"}>
-            <img src={logo} alt="img-logo" width="70" />
+            <img className="img-logo" src={logo} alt="img-logo" width="70" />
           </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -42,6 +42,23 @@ const NavbarC = () => {
               {token && rolUsuario === "usuario" && (
                 <>
                   <NavLink className="nav-link nav-custom" to="/user">
+                    Inicio
+                  </NavLink>
+                  <NavLink
+                    className="nav-link nav-custom"
+                    to="/acerca-de-nosotros"
+                  >
+                    Acerca de Nosotros
+                  </NavLink>
+                  <NavLink className="nav-link nav-custom" to="/contacto">
+                    Contacto
+                  </NavLink>
+                </>
+              )}
+
+              {token && rolUsuario === "veterinario" && (
+                <>
+                  <NavLink className="nav-link nav-custom" to="/veterinario">
                     Inicio
                   </NavLink>
                   <NavLink
