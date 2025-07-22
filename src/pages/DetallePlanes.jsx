@@ -35,6 +35,7 @@ const DetallePlan = () => {
   const [mascotas, setMascotas] = useState([]);
   const [veterinarios, setVeterinarios] = useState([]);
   const [errores, setErrores] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const [formulario, setFormulario] = useState({
     mascota: "",
@@ -107,6 +108,7 @@ const DetallePlan = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!usuarioLogeado) {
       Swal.fire({
         icon: "error",
@@ -128,6 +130,8 @@ const DetallePlan = () => {
     }
 
     try {
+      setLoading(true);
+
       const body = {
         mascota: formulario.mascota,
         plan: plan.nombre,
@@ -141,6 +145,8 @@ const DetallePlan = () => {
       );
 
       if (res.status === 201) {
+        sessionStorage.setItem("idPlan", JSON.stringify(res.data.idPlan));
+        sessionStorage.setItem("idMascota", JSON.stringify(formulario.mascota));
         const pago = await clientAxios.post(
           `/mercadoPago/pagoMercadoPagoPlan/${plan._id}`,
           {},
@@ -158,6 +164,7 @@ const DetallePlan = () => {
           });
         }
       }
+
       Swal.fire({
         icon: "success",
         title: res.data.msg,
@@ -179,6 +186,8 @@ const DetallePlan = () => {
           text: mensaje,
         });
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -295,8 +304,22 @@ const DetallePlan = () => {
                   </Form.Group>
 
                   <div className="d-grid">
-                    <Button variant="primary" type="submit">
-                      Confirmar contratación
+                    <Button variant="primary" type="submit" disabled={loading}>
+                      {loading ? (
+                        <>
+                          <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                            className="me-2"
+                          />
+                          Procesando...
+                        </>
+                      ) : (
+                        "Confirmar contratación"
+                      )}
                     </Button>
                   </div>
                 </Form>

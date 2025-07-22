@@ -242,6 +242,39 @@ const MiPerfil = () => {
       Swal.fire("Error", "No se pudo actualizar el perfil", "error");
     }
   };
+  const eliminarCuenta = async () => {
+    const confirmacion = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡Esta acción eliminará tu cuenta y no podrás recuperarla!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar cuenta",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (confirmacion.isConfirmed) {
+      try {
+        const res = await clientAxios.delete(
+          "/usuarios/eliminar-mi-cuenta",
+          configHeaders
+        );
+
+        Swal.fire("Cuenta eliminada", res.data.msg, "success");
+
+        // Limpiar sesión y redirigir
+        sessionStorage.clear();
+        window.location.href = "/login"; // o "/" si quieres redirigir al inicio
+      } catch (error) {
+        Swal.fire(
+          "Error",
+          error.response?.data?.msg || "No se pudo eliminar la cuenta",
+          "error"
+        );
+      }
+    }
+  };
 
   return (
     <Container className="my-5">
@@ -433,6 +466,11 @@ const MiPerfil = () => {
                 )}
               </div>
             </Form>
+            <div className="d-flex justify-content-end mt-3">
+              <Button variant="danger" onClick={eliminarCuenta}>
+                Eliminar mi cuenta
+              </Button>
+            </div>
           </Col>
         </Row>
       </Card>

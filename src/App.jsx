@@ -28,6 +28,7 @@ import ConfirmarTurno from "./pages/ConfirmarTurno";
 import RutasProtegidas from "./components/rutasprotegidas/RutasProtegidas";
 import PaginaVeterinario from "./pages/PaginaVeterinario";
 import HabilitarMiCuenta from "./pages/HabilitarMiCuenta";
+import ConfirmarPagoPlan from "./pages/ConfirmarPagoPlan";
 
 const App = () => {
   return (
@@ -114,6 +115,14 @@ const App = () => {
           element={
             <RutasProtegidas>
               <ConfirmarTurno />
+            </RutasProtegidas>
+          }
+        />
+        <Route
+          path="/confirmar-plan"
+          element={
+            <RutasProtegidas>
+              <ConfirmarPagoPlan />
             </RutasProtegidas>
           }
         />

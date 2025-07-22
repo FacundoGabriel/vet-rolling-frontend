@@ -57,6 +57,7 @@ const CrearTurno = () => {
   const [mascotas, setMascotas] = useState([]);
   const [veterinarios, setVeterinarios] = useState([]);
   const [errores, setErrores] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const [formulario, setFormulario] = useState({
     fecha: "",
@@ -179,6 +180,8 @@ const CrearTurno = () => {
     }
 
     try {
+      setLoading(true);
+
       const fechaHoraISO = new Date(
         `${formulario.fecha}T${formulario.horario}`
       ).toISOString();
@@ -223,6 +226,8 @@ const CrearTurno = () => {
         icon: "error",
         title: mensaje,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -370,8 +375,22 @@ const CrearTurno = () => {
                 </Form.Group>
 
                 <div className="d-grid">
-                  <Button type="submit" variant="primary">
-                    Reservar Turno
+                  <Button type="submit" variant="primary" disabled={loading}>
+                    {loading ? (
+                      <>
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                          className="me-2"
+                        />
+                        Reservando...
+                      </>
+                    ) : (
+                      "Reservar Turno"
+                    )}
                   </Button>
                 </div>
               </Form>
