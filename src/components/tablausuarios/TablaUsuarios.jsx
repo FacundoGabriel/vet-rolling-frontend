@@ -19,7 +19,7 @@ const TablaUsuarios = ({ idPage }) => {
 
   const obtenerUsuarios = async () => {
     try {
-      const res = await clientAxios.get("/usuarios/admin", configHeaders);
+      const res = await clientAxios.get("/usuarios/admin", configHeaders());
       setUsuarios(res.data.usuarios);
     } catch (error) {
       console.error("Error al obtener usuarios:", error);
@@ -73,7 +73,7 @@ const TablaUsuarios = ({ idPage }) => {
         return "";
 
       case "contrasenia":
-        if (!value.trim()) return ""; // opcional
+        if (!value.trim()) return "";
         if (value.length < 8)
           return "La contraseña debe tener al menos 8 caracteres";
         if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(value))
@@ -312,7 +312,7 @@ const TablaUsuarios = ({ idPage }) => {
     if (confirmacion.isConfirmed) {
       try {
         const res = await clientAxios.delete(
-          `/usuarios/${idUsuario}`,
+          `/usuarios/eliminar-cuenta/${idUsuario}`,
           configHeaders
         );
         if (res.status === 200) {
