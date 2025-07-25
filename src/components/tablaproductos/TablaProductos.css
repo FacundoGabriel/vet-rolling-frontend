@@ -1,6 +1,11 @@
 .titulo-carrito {
   font-family: "Poppins", sans-serif;
-  font-weight: 600;
+  font-weight: 400;
+}
+
+.total-pagar {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
 }
 
 .col-cantidad {
