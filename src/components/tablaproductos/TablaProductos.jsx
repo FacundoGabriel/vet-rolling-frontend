@@ -144,7 +144,7 @@ const TablaProductos = ({ idPage, array, obtenerProductoDelCarrito }) => {
                       role="status"
                       aria-hidden="true"
                     />{" "}
-                    Pagando...
+                    Redirigiendo...
                   </>
                 ) : (
                   "Pagar carrito"
