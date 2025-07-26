@@ -71,7 +71,7 @@
 .navbar-default {
   background-color: var(--color-azulHonolulu);
   position: relative;
-  top: 35px;
+  margin-top: 35px;
 }
 
 .navbar-default .nav-link:hover {

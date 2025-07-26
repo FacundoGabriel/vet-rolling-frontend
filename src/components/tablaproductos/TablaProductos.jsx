@@ -1,14 +1,13 @@
-import { Button, Container, Table } from "react-bootstrap";
+import { Alert, Button, Container, Spinner, Table } from "react-bootstrap";
 import "./TablaProductos.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import clientAxios, { configHeaders } from "../../helpers/axios.helpers";
 import Swal from "sweetalert2";
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 
 const TablaProductos = ({ idPage, array, obtenerProductoDelCarrito }) => {
   const [cantidades, setCantidades] = useState({});
-  const [preferenceId, setPreferenceId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChangeQuantity = (id, value) => {
     const cantidadNumerica = Math.max(1, parseInt(value) || 1);
@@ -50,18 +49,23 @@ const TablaProductos = ({ idPage, array, obtenerProductoDelCarrito }) => {
     });
   };
 
-  useEffect(() => {
-    initMercadoPago(import.meta.env.VITE_MP_PUBLIC_KEY);
-  }, []);
-
   const pagarCarritoMp = async () => {
     try {
+      setLoading(true);
       const res = await clientAxios.post("/mercadopago/pagoMercadoPagoCarrito");
-      setPreferenceId(res.data.responseMp.id);
-      await clientAxios.put("/carritos/vaciarCarrito", {}, configHeaders);
-      obtenerProductoDelCarrito();
+
+      const { initPoint } = res.data;
+
+      if (initPoint) {
+        window.open(initPoint, "_blank");
+      } else {
+        Swal.fire("Error", "No se pudo iniciar el pago", "error");
+      }
     } catch (error) {
       console.error(error);
+      Swal.fire("Error", "Ocurrió un problema al iniciar el pago", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -71,9 +75,10 @@ const TablaProductos = ({ idPage, array, obtenerProductoDelCarrito }) => {
   }, 0);
 
   return (
-    <>
+    <Container fluid>
       {array?.length && idPage === "productos" ? (
         <Container fluid className="p-5 table-responsive">
+          <h2 className="text-center titulo-carrito pb-2">Mi carrito</h2>
           <Table bordered hover className="text-center">
             <thead>
               <tr>
@@ -125,24 +130,38 @@ const TablaProductos = ({ idPage, array, obtenerProductoDelCarrito }) => {
             </tbody>
           </Table>
           <Container className="text-center">
-            <h4 className="py-3">Total a pagar: ${totalCarrito.toFixed(2)}</h4>
+            <h4 className="py-3 total-pagar">
+              Total a pagar: ${totalCarrito.toFixed(2)}
+            </h4>
             <Container className="w-25">
-              <Button onClick={pagarCarritoMp}>Pagar carrito</Button>
-              {preferenceId && (
-                <Wallet
-                  initialization={{ preferenceId, redirectMode: "modal" }}
-                  customization={{ texts: { valueProp: "smart_option" } }}
-                />
-              )}
+              <Button onClick={pagarCarritoMp} disabled={loading}>
+                {loading ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />{" "}
+                    Redirigiendo...
+                  </>
+                ) : (
+                  "Pagar carrito"
+                )}
+              </Button>
             </Container>
           </Container>
         </Container>
       ) : (
-        <h2 className="text-center my-5 titulo-carrito">
-          No hay productos en tu carrito
-        </h2>
+        <Container fluid className="py-5">
+          <h2 className="text-center pb-4">Mi carrito</h2>
+          <Alert variant="info" className="text-center">
+            No tenés productos en tu carrito.
+          </Alert>
+        </Container>
       )}
-    </>
+    </Container>
   );
 };
 
