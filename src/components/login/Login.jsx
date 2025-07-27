@@ -32,7 +32,6 @@ export const Login = () => {
       const { data } = await clientAxios.post("/usuarios/inicio-sesion", login);
 
       sessionStorage.setItem("token", JSON.stringify(data.token));
-      sessionStorage.setItem("idUsuario", JSON.stringify(data.idUsuario));
       sessionStorage.setItem("rol", JSON.stringify(data.rolUsuario));
       sessionStorage.setItem(
         "nombreUsuario",

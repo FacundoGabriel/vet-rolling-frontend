@@ -20,6 +20,8 @@ const TablaProductosAdmin = () => {
   const [cargando, setCargando] = useState(true);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
+  const [loadingCrear, setLoadingCrear] = useState(false);
+  const [loadingEditar, setLoadingEditar] = useState(false);
   const [idEditando, setIdEditando] = useState(null);
   const [archivoFoto, setArchivoFoto] = useState(null);
   const [nuevoProducto, setNuevoProducto] = useState({
@@ -82,6 +84,10 @@ const TablaProductosAdmin = () => {
 
     if (!nuevoProducto.descripcion.trim()) {
       err.descripcion = "La descripción es obligatoria";
+    } else if (nuevoProducto.descripcion.length < 10) {
+      err.descripcion = "Debe tener al menos 10 caracteres";
+    } else if (nuevoProducto.descripcion.length > 500) {
+      err.descripcion = "No puede superar los 500 caracteres";
     }
 
     if (!nuevoProducto.precio || isNaN(nuevoProducto.precio)) {
@@ -96,6 +102,7 @@ const TablaProductosAdmin = () => {
 
   const handleGuardar = async () => {
     if (!validarProducto()) return;
+    setLoadingCrear(true);
     try {
       const res = await clientAxios.post(
         `/productos`,
@@ -109,7 +116,6 @@ const TablaProductosAdmin = () => {
       if (archivoFoto) {
         const formData = new FormData();
         formData.append("imagen", archivoFoto);
-
         await clientAxios.put(
           `/productos/agregarImagen/${res.data.idProducto}`,
           formData,
@@ -120,11 +126,14 @@ const TablaProductosAdmin = () => {
     } catch (error) {
       console.error("Error al crear el producto:", error);
       Swal.fire("Error al crear el producto", "", "error");
+    } finally {
+      setLoadingCrear(false);
     }
   };
 
   const handleGuardarCambios = async (idProducto) => {
     if (!validarProducto()) return;
+    setLoadingEditar(true);
     try {
       await clientAxios.put(
         `/productos/${idProducto}`,
@@ -138,7 +147,6 @@ const TablaProductosAdmin = () => {
       if (archivoFoto) {
         const formData = new FormData();
         formData.append("imagen", archivoFoto);
-
         await clientAxios.put(
           `/productos/agregarImagen/${idProducto}`,
           formData,
@@ -148,6 +156,8 @@ const TablaProductosAdmin = () => {
       obtenerProductos();
     } catch (error) {
       console.error("Error al actualizar el producto:", error);
+    } finally {
+      setLoadingEditar(false);
     }
   };
 
@@ -366,8 +376,20 @@ const TablaProductosAdmin = () => {
           <Button variant="secondary" onClick={() => setMostrarModal(false)}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleGuardar}>
-            Guardar Producto
+
+          <Button
+            variant="primary"
+            onClick={handleGuardar}
+            disabled={loadingCrear}
+          >
+            {loadingCrear ? (
+              <>
+                <Spinner animation="border" size="sm" className="me-2" />
+                Guardando...
+              </>
+            ) : (
+              "Guardar Producto"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -389,11 +411,20 @@ const TablaProductosAdmin = () => {
           >
             Cancelar
           </Button>
+
           <Button
             variant="primary"
             onClick={() => handleGuardarCambios(idEditando)}
+            disabled={loadingEditar}
           >
-            Guardar Producto
+            {loadingEditar ? (
+              <>
+                <Spinner animation="border" size="sm" className="me-2" />
+                Guardando...
+              </>
+            ) : (
+              "Guardar Producto"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

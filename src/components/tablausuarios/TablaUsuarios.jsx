@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Table, Image, Button, Container, Modal, Form } from "react-bootstrap";
+import {
+  Table,
+  Image,
+  Button,
+  Container,
+  Modal,
+  Form,
+  Spinner,
+} from "react-bootstrap";
 import clientAxios, { configHeaders } from "../../helpers/axios.helpers";
 import Swal from "sweetalert2";
 
@@ -7,6 +15,7 @@ const TablaUsuarios = ({ idPage }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+  const [loadingEdicion, setLoadingEdicion] = useState(false);
 
   const [form, setForm] = useState({
     nombreUsuario: "",
@@ -107,6 +116,7 @@ const TablaUsuarios = ({ idPage }) => {
   };
 
   const handleSubmitEdicion = async () => {
+    setLoadingEdicion(true);
     try {
       const datosAEnviar = { ...form };
       if (!form.contrasenia.trim()) {
@@ -134,6 +144,8 @@ const TablaUsuarios = ({ idPage }) => {
         title: "Error",
         text: "No se pudo editar el usuario.",
       });
+    } finally {
+      setLoadingEdicion(false);
     }
   };
 
@@ -562,9 +574,16 @@ const TablaUsuarios = ({ idPage }) => {
           <Button
             variant="primary"
             onClick={handleSubmitEdicion}
-            disabled={!esFormularioValido()}
+            disabled={!esFormularioValido() || loadingEdicion}
           >
-            Guardar cambios
+            {loadingEdicion ? (
+              <>
+                <Spinner animation="border" size="sm" className="me-2" />
+                Guardando...
+              </>
+            ) : (
+              "Guardar cambios"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
