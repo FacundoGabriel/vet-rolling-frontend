@@ -118,11 +118,11 @@ const ModalProducto = ({ id, show, handleClose }) => {
               <span
                 style={{
                   color:
-                    producto.estado === "disponible" ? "#28a745" : "#dc3545",
+                    producto.estado === "habilitado" ? "#28a745" : "#dc3545",
                 }}
               >
-                {producto.estado === "disponible"
-                  ? "Disponible"
+                {producto.estado === "habilitado"
+                  ? "habilitado"
                   : "Deshabilitado"}
               </span>
             </p>

@@ -43,7 +43,7 @@ const TablaServicios = () => {
       err.nombre = "Debe tener al menos 3 caracteres";
     } else if (nuevoServicio.nombre.length > 50) {
       err.nombre = "No puede superar los 50 caracteres";
-    } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s]+$/.test(nuevoProducto.nombre)) {
+    } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s]+$/.test(nuevoServicio.nombre)) {
       err.nombre = "El nombre solo puede contener letras, números y espacios";
     }
 
