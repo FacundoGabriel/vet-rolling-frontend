@@ -131,8 +131,15 @@ const TablaServicios = () => {
 
       obtenerServicios();
     } catch (error) {
-      console.error("Error al crear el servicio:", error);
-      Swal.fire("Error al crear el servicio", "", "error");
+      if (error.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response.data.msg || "Conflicto en la creación",
+        });
+      } else {
+        Swal.fire("Error", "No se pudo crear el servicio", "error");
+      }
     } finally {
       setGuardando(false);
     }
@@ -162,7 +169,15 @@ const TablaServicios = () => {
 
       obtenerServicios();
     } catch (error) {
-      console.error("Error al actualizar el servicio:", error);
+      if (error.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Ya existe un servicio con ese nombre.",
+        });
+      } else {
+        Swal.fire("Error", "No se pudo actualizar el servicio", "error");
+      }
     } finally {
       setGuardando(false);
     }

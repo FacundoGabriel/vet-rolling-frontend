@@ -239,7 +239,15 @@ const MiPerfil = () => {
       setErrores({});
       setTouched({});
     } catch (error) {
-      Swal.fire("Error", "No se pudo actualizar el perfil", "error");
+      if (error.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response.data.msg || "Conflicto en la actualización",
+        });
+      } else {
+        Swal.fire("Error", "No se pudo actualizar el perfil", "error");
+      }
     } finally {
       setLoadingGuardar(false);
     }

@@ -139,11 +139,19 @@ const TablaUsuarios = ({ idPage }) => {
         obtenerUsuarios();
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No se pudo editar el usuario.",
-      });
+      if (error.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response.data.msg || "Conflicto en la edición",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "No se pudo editar el usuario.",
+        });
+      }
     } finally {
       setLoadingEdicion(false);
     }

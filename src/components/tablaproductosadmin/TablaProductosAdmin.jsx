@@ -160,6 +160,14 @@ const TablaProductosAdmin = () => {
       }
       obtenerProductos();
     } catch (error) {
+      if (error.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "El nombre del producto ya existe.",
+        });
+      } else {
+        Swal.fire("Error", "No se pudo actualizar el producto", "error");
+      }
     } finally {
       setLoadingEditar(false);
     }
