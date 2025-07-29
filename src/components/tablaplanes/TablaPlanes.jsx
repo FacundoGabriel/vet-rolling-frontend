@@ -24,6 +24,7 @@ const TablaPlanes = () => {
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [idEditando, setIdEditando] = useState(null);
   const [archivoFoto, setArchivoFoto] = useState(null);
+  const [loadingGuardar, setLoadingGuardar] = useState(false);
   const [errores, setErrores] = useState({});
 
   const [nuevoPlan, setNuevoPlan] = useState({
@@ -106,6 +107,7 @@ const TablaPlanes = () => {
   const handleGuardar = async () => {
     if (!validarPlan()) return;
 
+    setLoadingGuardar(true);
     try {
       const body = {
         ...nuevoPlan,
@@ -139,12 +141,15 @@ const TablaPlanes = () => {
     } catch (error) {
       console.error("Error al crear el plan:", error);
       Swal.fire("Error al crear el plan", "", "error");
+    } finally {
+      setLoadingGuardar(false);
     }
   };
 
   const handleGuardarCambios = async (idPlan) => {
     if (!validarPlan()) return;
 
+    setLoadingGuardar(true);
     try {
       const body = {
         ...nuevoPlan,
@@ -174,6 +179,8 @@ const TablaPlanes = () => {
     } catch (error) {
       console.error("Error al actualizar el plan:", error);
       Swal.fire("Error al actualizar el plan", "", "error");
+    } finally {
+      setLoadingGuardar(false);
     }
   };
 
@@ -413,8 +420,19 @@ const TablaPlanes = () => {
           <Button variant="secondary" onClick={() => setMostrarModal(false)}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleGuardar}>
-            Guardar Plan
+          <Button
+            variant="primary"
+            onClick={handleGuardar}
+            disabled={loadingGuardar}
+          >
+            {loadingGuardar ? (
+              <>
+                <Spinner animation="border" size="sm" className="me-2" />
+                Guardando...
+              </>
+            ) : (
+              "Guardar Plan"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -543,8 +561,16 @@ const TablaPlanes = () => {
           <Button
             variant="primary"
             onClick={() => handleGuardarCambios(idEditando)}
+            disabled={loadingGuardar}
           >
-            Guardar Plan
+            {loadingGuardar ? (
+              <>
+                <Spinner animation="border" size="sm" className="me-2" />
+                Guardando...
+              </>
+            ) : (
+              "Guardar Plan"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

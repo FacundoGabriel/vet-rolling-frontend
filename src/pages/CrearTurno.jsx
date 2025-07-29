@@ -57,6 +57,7 @@ const CrearTurno = () => {
   const [mascotas, setMascotas] = useState([]);
   const [veterinarios, setVeterinarios] = useState([]);
   const [errores, setErrores] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const [formulario, setFormulario] = useState({
     fecha: "",
@@ -109,10 +110,7 @@ const CrearTurno = () => {
 
   const obtenerMascotas = async () => {
     try {
-      const res = await clientAxios.get(
-        "/mascotas/tus-mascotas",
-        configHeaders
-      );
+      const res = await clientAxios.get("/mascotas", configHeaders);
       setMascotas(res.data.mascotas);
     } catch (error) {
       console.log(error);
@@ -179,6 +177,8 @@ const CrearTurno = () => {
     }
 
     try {
+      setLoading(true);
+
       const fechaHoraISO = new Date(
         `${formulario.fecha}T${formulario.horario}`
       ).toISOString();
@@ -190,11 +190,7 @@ const CrearTurno = () => {
         veterinario: formulario.veterinario,
       };
 
-      const res = await clientAxios.post(
-        "/turnos/crear-turno",
-        body,
-        configHeaders
-      );
+      const res = await clientAxios.post("/turnos", body, configHeaders);
 
       sessionStorage.setItem("idTurno", JSON.stringify(res.data.idTurno));
 
@@ -223,6 +219,8 @@ const CrearTurno = () => {
         icon: "error",
         title: mensaje,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -370,8 +368,22 @@ const CrearTurno = () => {
                 </Form.Group>
 
                 <div className="d-grid">
-                  <Button type="submit" variant="primary">
-                    Reservar Turno
+                  <Button type="submit" variant="primary" disabled={loading}>
+                    {loading ? (
+                      <>
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                          className="me-2"
+                        />
+                        Reservando...
+                      </>
+                    ) : (
+                      "Reservar Turno"
+                    )}
                   </Button>
                 </div>
               </Form>

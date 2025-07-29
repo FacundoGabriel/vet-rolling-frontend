@@ -21,6 +21,7 @@ const TablaServicios = () => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [idEditando, setIdEditando] = useState(null);
+  const [guardando, setGuardando] = useState(false);
   const [archivoFoto, setArchivoFoto] = useState(null);
   const [nuevoServicio, setNuevoServicio] = useState({
     nombre: "",
@@ -42,7 +43,7 @@ const TablaServicios = () => {
       err.nombre = "Debe tener al menos 3 caracteres";
     } else if (nuevoServicio.nombre.length > 50) {
       err.nombre = "No puede superar los 50 caracteres";
-    } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s]+$/.test(nuevoProducto.nombre)) {
+    } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s]+$/.test(nuevoServicio.nombre)) {
       err.nombre = "El nombre solo puede contener letras, números y espacios";
     }
 
@@ -107,6 +108,7 @@ const TablaServicios = () => {
 
   const handleGuardar = async () => {
     if (!validarServicio()) return;
+    setGuardando(true);
     try {
       const res = await clientAxios.post(
         `/servicios`,
@@ -120,22 +122,31 @@ const TablaServicios = () => {
       if (archivoFoto) {
         const formData = new FormData();
         formData.append("foto", archivoFoto);
-
         await clientAxios.put(
           `/servicios/agregarImagen/${res.data.idServicio}`,
           formData,
           configHeadersImage
         );
       }
+
       obtenerServicios();
     } catch (error) {
-      console.error("Error al crear el servicio:", error);
-      Swal.fire("Error al crear el servicio", "", "error");
+      if (error.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response.data.msg || "Conflicto en la creación",
+        });
+      } else {
+        Swal.fire("Error", "No se pudo crear el servicio", "error");
+      }
+    } finally {
+      setGuardando(false);
     }
   };
-
   const handleGuardarCambios = async (idServicio) => {
     if (!validarServicio()) return;
+    setGuardando(true);
     try {
       const res = await clientAxios.put(
         `/servicios/${idServicio}`,
@@ -149,16 +160,26 @@ const TablaServicios = () => {
       if (archivoFoto) {
         const formData = new FormData();
         formData.append("foto", archivoFoto);
-
         await clientAxios.put(
           `/servicios/agregarImagen/${idServicio}`,
           formData,
           configHeadersImage
         );
       }
+
       obtenerServicios();
     } catch (error) {
-      console.error("Error al actualizar el servicio:", error);
+      if (error.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Ya existe un servicio con ese nombre.",
+        });
+      } else {
+        Swal.fire("Error", "No se pudo actualizar el servicio", "error");
+      }
+    } finally {
+      setGuardando(false);
     }
   };
 
@@ -408,8 +429,19 @@ const TablaServicios = () => {
           <Button variant="secondary" onClick={() => setMostrarModal(false)}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleGuardar}>
-            Guardar Servicio
+          <Button
+            variant="primary"
+            onClick={handleGuardar}
+            disabled={guardando}
+          >
+            {guardando ? (
+              <>
+                <Spinner animation="border" size="sm" className="me-2" />
+                Guardando...
+              </>
+            ) : (
+              "Guardar Servicio"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -440,8 +472,16 @@ const TablaServicios = () => {
           <Button
             variant="primary"
             onClick={() => handleGuardarCambios(idEditando)}
+            disabled={guardando}
           >
-            Guardar Servicio
+            {guardando ? (
+              <>
+                <Spinner animation="border" size="sm" className="me-2" />
+                Guardando...
+              </>
+            ) : (
+              "Guardar Servicio"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

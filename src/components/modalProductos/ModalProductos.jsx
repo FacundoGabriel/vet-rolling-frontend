@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal, Button, Row, Col } from "react-bootstrap";
+import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
 import clientAxios, { configHeaders } from "../../helpers/axios.helpers";
 import Swal from "sweetalert2";
 import {
@@ -16,8 +16,11 @@ const ModalProducto = ({ id, show, handleClose }) => {
   const usuarioLogeado = JSON.parse(sessionStorage.getItem("token")) || null;
   const navigate = useNavigate();
   const [producto, setProducto] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const agregarProducotoCarrito = async () => {
     try {
+      setLoading(true);
       if (!usuarioLogeado) {
         Swal.fire({
           icon: "error",
@@ -49,6 +52,8 @@ const ModalProducto = ({ id, show, handleClose }) => {
           confirmButtonColor: "#28a745",
         });
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,11 +118,11 @@ const ModalProducto = ({ id, show, handleClose }) => {
               <span
                 style={{
                   color:
-                    producto.estado === "disponible" ? "#28a745" : "#dc3545",
+                    producto.estado === "habilitado" ? "#28a745" : "#dc3545",
                 }}
               >
-                {producto.estado === "disponible"
-                  ? "Disponible"
+                {producto.estado === "habilitado"
+                  ? "habilitado"
                   : "Deshabilitado"}
               </span>
             </p>
@@ -163,8 +168,25 @@ const ModalProducto = ({ id, show, handleClose }) => {
         >
           Cerrar
         </Button>
-        <Button variant="primary" onClick={() => agregarProducotoCarrito()}>
-          Agregar al Carrito
+        <Button
+          variant="primary"
+          onClick={() => agregarProducotoCarrito()}
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />{" "}
+              Agregando...
+            </>
+          ) : (
+            "Agregar al Carrito"
+          )}
         </Button>
       </Modal.Footer>
     </Modal>

@@ -6,13 +6,12 @@ import TablaProductosAdmin from "../components/tablaproductosadmin/TablaProducto
 import TablaPlanes from "../components/tablaplanes/TablaPlanes";
 
 const PaginaAdmin = () => {
-  const idUsuario = JSON.parse(sessionStorage.getItem("idUsuario")) || null;
   const [usuario, setUsuario] = useState(null);
 
   const obtenerUnUsuario = async () => {
     try {
       const res = await clientAxios.get(
-        `/usuarios/${idUsuario}`,
+        `/usuarios/ver-mi-perfil`,
         configHeaders
       );
       setUsuario(res.data.usuario);
@@ -22,9 +21,7 @@ const PaginaAdmin = () => {
   };
 
   useEffect(() => {
-    if (idUsuario) {
-      obtenerUnUsuario();
-    }
+    obtenerUnUsuario();
   }, []);
 
   if (!usuario) {

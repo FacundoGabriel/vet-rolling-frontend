@@ -7,6 +7,7 @@ import {
   Image,
   Button,
   Form,
+  Spinner,
 } from "react-bootstrap";
 import clientAxios, {
   configHeaders,
@@ -15,12 +16,12 @@ import clientAxios, {
 import Swal from "sweetalert2";
 
 const MiPerfil = () => {
-  const idUsuario = JSON.parse(sessionStorage.getItem("idUsuario")) || null;
   const [usuario, setUsuario] = useState(null);
   const [editando, setEditando] = useState(false);
   const [cambiarContrasenia, setCambiarContrasenia] = useState(false);
   const [errores, setErrores] = useState({});
   const [touched, setTouched] = useState({});
+  const [loadingGuardar, setLoadingGuardar] = useState(false);
   const [formulario, setFormulario] = useState({
     nombreUsuario: "",
     emailUsuario: "",
@@ -33,15 +34,13 @@ const MiPerfil = () => {
   const [archivoFoto, setArchivoFoto] = useState(null);
 
   useEffect(() => {
-    if (idUsuario) {
-      obtenerUnUsuario();
-    }
+    obtenerUnUsuario();
   }, []);
 
   const obtenerUnUsuario = async () => {
     try {
       const res = await clientAxios.get(
-        `/usuarios/${idUsuario}`,
+        `/usuarios/ver-mi-perfil`,
         configHeaders
       );
       setUsuario(res.data.usuario);
@@ -172,7 +171,7 @@ const MiPerfil = () => {
   const cambiarContraseniaUsuario = async () => {
     try {
       const res = await clientAxios.put(
-        `/usuarios/cambiar-contrasenia/${idUsuario}`,
+        `/usuarios/cambiar-contrasenia`,
         {
           actual: formulario.actual,
           nueva: formulario.nueva,
@@ -201,6 +200,7 @@ const MiPerfil = () => {
       return;
     }
 
+    setLoadingGuardar(true);
     try {
       if (formulario.actual || formulario.nueva) {
         const cambioOk = await cambiarContraseniaUsuario();
@@ -214,8 +214,8 @@ const MiPerfil = () => {
         descripcion: formulario.descripcion,
       };
 
-      await clientAxios.put(
-        `/usuarios/editar-usuario/${idUsuario}`,
+      const res = await clientAxios.put(
+        `/usuarios/editar-mi-perfil`,
         datosTexto,
         configHeaders
       );
@@ -225,7 +225,7 @@ const MiPerfil = () => {
         formData.append("foto", archivoFoto);
 
         await clientAxios.put(
-          `/usuarios/agregarImagen/${idUsuario}`,
+          `/usuarios/agregarImagen/${res.data.idUsuario}`,
           formData,
           configHeadersImage
         );
@@ -239,7 +239,49 @@ const MiPerfil = () => {
       setErrores({});
       setTouched({});
     } catch (error) {
-      Swal.fire("Error", "No se pudo actualizar el perfil", "error");
+      if (error.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response.data.msg || "Conflicto en la actualización",
+        });
+      } else {
+        Swal.fire("Error", "No se pudo actualizar el perfil", "error");
+      }
+    } finally {
+      setLoadingGuardar(false);
+    }
+  };
+  const eliminarCuenta = async () => {
+    const confirmacion = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡Esta acción eliminará tu cuenta y no podrás recuperarla!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar cuenta",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (confirmacion.isConfirmed) {
+      try {
+        const res = await clientAxios.delete(
+          "/usuarios/eliminar-mi-cuenta",
+          configHeaders
+        );
+
+        Swal.fire("Cuenta eliminada", res.data.msg, "success");
+
+        sessionStorage.clear();
+        window.location.href = "/login";
+      } catch (error) {
+        Swal.fire(
+          "Error",
+          error.response?.data?.msg || "No se pudo eliminar la cuenta",
+          "error"
+        );
+      }
     }
   };
 
@@ -400,13 +442,26 @@ const MiPerfil = () => {
                       className="me-2"
                       onClick={guardarCambios}
                       disabled={
+                        loadingGuardar ||
                         Object.values(errores).some((err) => err) ||
                         (cambiarContrasenia &&
                           (!formulario.actual || !formulario.nueva))
                       }
                     >
-                      Guardar
+                      {loadingGuardar ? (
+                        <>
+                          <Spinner
+                            animation="border"
+                            size="sm"
+                            className="me-2"
+                          />
+                          Guardando...
+                        </>
+                      ) : (
+                        "Guardar"
+                      )}
                     </Button>
+
                     <Button
                       variant="secondary"
                       onClick={() => {
@@ -433,6 +488,11 @@ const MiPerfil = () => {
                 )}
               </div>
             </Form>
+            <div className="d-flex justify-content-end mt-3">
+              <Button variant="danger" onClick={eliminarCuenta}>
+                Eliminar mi cuenta
+              </Button>
+            </div>
           </Col>
         </Row>
       </Card>

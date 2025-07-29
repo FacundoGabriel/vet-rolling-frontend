@@ -16,10 +16,7 @@ const MisMascotas = () => {
 
   const obtenerMascotas = async () => {
     try {
-      const res = await clientAxios.get(
-        "/mascotas/tus-mascotas",
-        configHeaders
-      );
+      const res = await clientAxios.get("/mascotas", configHeaders);
       setMascotas(res.data.mascotas || []);
     } catch (error) {}
   };
@@ -191,7 +188,15 @@ const MisMascotas = () => {
       setEditandoId(null);
       obtenerMascotas();
     } catch (err) {
-      console.error("Error al guardar cambios:", err);
+      if (err.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: err.response.data.msg || "Conflicto en la actualización",
+        });
+      } else {
+        Swal.fire("Error", "No se pudo actualizar el perfil", "error");
+      }
     }
   };
 

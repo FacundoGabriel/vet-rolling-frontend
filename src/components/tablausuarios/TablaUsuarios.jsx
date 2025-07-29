@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Table, Image, Button, Container, Modal, Form } from "react-bootstrap";
+import {
+  Table,
+  Image,
+  Button,
+  Container,
+  Modal,
+  Form,
+  Spinner,
+} from "react-bootstrap";
 import clientAxios, { configHeaders } from "../../helpers/axios.helpers";
 import Swal from "sweetalert2";
 
@@ -7,6 +15,7 @@ const TablaUsuarios = ({ idPage }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+  const [loadingEdicion, setLoadingEdicion] = useState(false);
 
   const [form, setForm] = useState({
     nombreUsuario: "",
@@ -19,7 +28,7 @@ const TablaUsuarios = ({ idPage }) => {
 
   const obtenerUsuarios = async () => {
     try {
-      const res = await clientAxios.get("/usuarios/admin", configHeaders);
+      const res = await clientAxios.get("/usuarios/admin", configHeaders());
       setUsuarios(res.data.usuarios);
     } catch (error) {
       console.error("Error al obtener usuarios:", error);
@@ -73,7 +82,7 @@ const TablaUsuarios = ({ idPage }) => {
         return "";
 
       case "contrasenia":
-        if (!value.trim()) return ""; // opcional
+        if (!value.trim()) return "";
         if (value.length < 8)
           return "La contraseña debe tener al menos 8 caracteres";
         if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(value))
@@ -107,6 +116,7 @@ const TablaUsuarios = ({ idPage }) => {
   };
 
   const handleSubmitEdicion = async () => {
+    setLoadingEdicion(true);
     try {
       const datosAEnviar = { ...form };
       if (!form.contrasenia.trim()) {
@@ -129,11 +139,21 @@ const TablaUsuarios = ({ idPage }) => {
         obtenerUsuarios();
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No se pudo editar el usuario.",
-      });
+      if (error.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response.data.msg || "Conflicto en la edición",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "No se pudo editar el usuario.",
+        });
+      }
+    } finally {
+      setLoadingEdicion(false);
     }
   };
 
@@ -312,7 +332,7 @@ const TablaUsuarios = ({ idPage }) => {
     if (confirmacion.isConfirmed) {
       try {
         const res = await clientAxios.delete(
-          `/usuarios/${idUsuario}`,
+          `/usuarios/eliminar-cuenta/${idUsuario}`,
           configHeaders
         );
         if (res.status === 200) {
@@ -562,9 +582,16 @@ const TablaUsuarios = ({ idPage }) => {
           <Button
             variant="primary"
             onClick={handleSubmitEdicion}
-            disabled={!esFormularioValido()}
+            disabled={!esFormularioValido() || loadingEdicion}
           >
-            Guardar cambios
+            {loadingEdicion ? (
+              <>
+                <Spinner animation="border" size="sm" className="me-2" />
+                Guardando...
+              </>
+            ) : (
+              "Guardar cambios"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

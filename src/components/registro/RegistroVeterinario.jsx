@@ -156,7 +156,7 @@ export const RegistroVeterinario = () => {
         especialidad: form.especialidad,
       };
 
-      const res = await clientAxios.post("/veterinarios/registro", payload);
+      const res = await clientAxios.post("/veterinarios", payload);
       const idUsuario = res.data.idUsuario;
 
       if (archivoFoto && idUsuario) {

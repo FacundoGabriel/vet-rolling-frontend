@@ -1,5 +1,5 @@
 import { Eye, EyeOff, LogIn } from "lucide-react";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Form, Spinner } from "react-bootstrap";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import clientAxios from "../../helpers/axios.helpers";
@@ -9,6 +9,7 @@ import "./Login.css";
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -26,12 +27,11 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const { data } = await clientAxios.post("/usuarios/inicio-sesion", login);
 
       sessionStorage.setItem("token", JSON.stringify(data.token));
-      sessionStorage.setItem("idUsuario", JSON.stringify(data.idUsuario));
       sessionStorage.setItem("rol", JSON.stringify(data.rolUsuario));
       sessionStorage.setItem(
         "nombreUsuario",
@@ -91,6 +91,8 @@ export const Login = () => {
           text: "Ocurrió un error al iniciar sesión",
         });
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -144,8 +146,22 @@ export const Login = () => {
             </Link>
           </div>
 
-          <Button type="submit" className="w-100 btn-login">
-            Iniciar sesión
+          <Button type="submit" className="w-100 btn-login" disabled={loading}>
+            {loading ? (
+              <>
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                  className="me-2"
+                />
+                Iniciando...
+              </>
+            ) : (
+              "Iniciar sesión"
+            )}
           </Button>
         </Form>
       </div>
