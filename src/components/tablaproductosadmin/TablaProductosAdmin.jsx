@@ -124,8 +124,13 @@ const TablaProductosAdmin = () => {
       }
       obtenerProductos();
     } catch (error) {
+      if (error.response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "El nombre del producto ya existe.",
+        });
+      }
       console.error("Error al crear el producto:", error);
-      Swal.fire("Error al crear el producto", "", "error");
     } finally {
       setLoadingCrear(false);
     }
@@ -155,7 +160,6 @@ const TablaProductosAdmin = () => {
       }
       obtenerProductos();
     } catch (error) {
-      console.error("Error al actualizar el producto:", error);
     } finally {
       setLoadingEditar(false);
     }
