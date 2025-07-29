@@ -17,7 +17,7 @@ const MisMascotas = () => {
   const obtenerMascotas = async () => {
     try {
       const res = await clientAxios.get(
-        "/mascotas/tus-mascotas",
+        "/mascotas",
         configHeaders
       );
       setMascotas(res.data.mascotas || []);

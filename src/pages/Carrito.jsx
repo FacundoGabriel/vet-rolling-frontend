@@ -8,10 +8,7 @@ const Carrito = () => {
   const location = useLocation();
 
   const obtenerProductoDelCarrito = async () => {
-    const res = await clientAxios.get(
-      "/carritos/obtenerProductos",
-      configHeaders
-    );
+    const res = await clientAxios.get("/carritos", configHeaders);
     setProductos(res.data.productos);
     console.log("Productos después de vaciar:", res.data.productos);
   };
@@ -30,7 +27,6 @@ const Carrito = () => {
           console.error("Error al vaciar carrito:", err);
         }
       } else {
-        // Si no hay success, solo obtenemos los productos normalmente
         await obtenerProductoDelCarrito();
       }
     };

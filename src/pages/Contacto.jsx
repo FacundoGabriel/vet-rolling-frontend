@@ -41,7 +41,7 @@ const Contacto = () => {
     setLoading(true);
 
     try {
-      const res = await clientAxios.post("/contacto/enviar", formData);
+      const res = await clientAxios.post("/contacto", formData);
       if (res.status === 200) {
         Swal.fire({
           title: "Formulario enviado correctamente!",

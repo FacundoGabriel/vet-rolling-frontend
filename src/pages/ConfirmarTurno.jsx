@@ -15,7 +15,7 @@ const ConfirmarTurno = () => {
       const confirmarTurno = async () => {
         try {
           const res = await clientAxios.put(
-            `/turnos/confirmar-turno/${idTurno}`,
+            `/turnos/${idTurno}`,
             {},
             configHeaders
           );

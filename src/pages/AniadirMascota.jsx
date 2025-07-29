@@ -96,11 +96,7 @@ const AniadirMascota = () => {
         sexo: formData.sexo.toLowerCase(),
       };
 
-      const res = await clientAxios.post(
-        "/mascotas/aniadirMascota",
-        payload,
-        configHeaders
-      );
+      const res = await clientAxios.post("/mascotas", payload, configHeaders);
 
       if (res.status === 200) {
         if (nuevaImagenMascota) {

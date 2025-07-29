@@ -65,10 +65,7 @@ const DetallePlan = () => {
 
   const obtenerMascotas = async () => {
     try {
-      const res = await clientAxios.get(
-        "/mascotas/tus-mascotas",
-        configHeaders
-      );
+      const res = await clientAxios.get("/mascotas", configHeaders);
       setMascotas(res.data.mascotas);
     } catch (error) {}
   };

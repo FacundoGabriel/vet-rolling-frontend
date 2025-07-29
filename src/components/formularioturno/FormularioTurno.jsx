@@ -102,10 +102,7 @@ const FormularioTurno = ({ serviceId }) => {
 
   const obtenerMascotas = async () => {
     try {
-      const res = await clientAxios.get(
-        "/mascotas/tus-mascotas",
-        configHeaders
-      );
+      const res = await clientAxios.get("/mascotas", configHeaders);
       setMascotas(res.data.mascotas);
     } catch (error) {
       console.log(error);
@@ -183,11 +180,7 @@ const FormularioTurno = ({ serviceId }) => {
         veterinario: formulario.veterinario,
       };
 
-      const res = await clientAxios.post(
-        "/turnos/crear-turno",
-        body,
-        configHeaders
-      );
+      const res = await clientAxios.post("/turnos", body, configHeaders);
 
       sessionStorage.setItem("idTurno", JSON.stringify(res.data.idTurno));
 
