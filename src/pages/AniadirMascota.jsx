@@ -40,6 +40,7 @@ const AniadirMascota = () => {
     const nuevosErrores = {};
 
     const soloLetrasYEspacios = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    const razaRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s'-]+$/;
 
     if (!formData.nombre.trim()) {
       nuevosErrores.nombre = "El nombre es obligatorio";
@@ -51,32 +52,51 @@ const AniadirMascota = () => {
       nuevosErrores.nombre = "Solo se permiten letras y espacios";
     }
 
-    if (!formData.especie) {
+    const especie = formData.especie?.toLowerCase();
+    if (!especie) {
       nuevosErrores.especie = "La especie es obligatoria";
-    } else if (!["perro", "gato"].includes(formData.especie.toLowerCase())) {
+    } else if (!["perro", "gato"].includes(especie)) {
       nuevosErrores.especie = "Solo se permite 'perro' o 'gato'";
     }
 
     if (!formData.raza.trim()) {
       nuevosErrores.raza = "La raza es obligatoria";
-    } else if (!soloLetrasYEspacios.test(formData.raza)) {
-      nuevosErrores.raza = "Solo se permiten letras y espacios";
+    } else if (formData.raza.length < 2) {
+      nuevosErrores.raza = "Debe tener al menos 2 caracteres";
+    } else if (formData.raza.length > 30) {
+      nuevosErrores.raza = "No puede superar los 30 caracteres";
+    } else if (!razaRegex.test(formData.raza)) {
+      nuevosErrores.raza =
+        "Solo se permiten letras, espacios, guiones y apóstrofes";
     }
 
-    if (!formData.sexo) {
+    const sexo = formData.sexo?.toLowerCase();
+    if (!sexo) {
       nuevosErrores.sexo = "El sexo es obligatorio";
-    } else if (!["macho", "hembra"].includes(formData.sexo.toLowerCase())) {
+    } else if (!["macho", "hembra"].includes(sexo)) {
       nuevosErrores.sexo = "Debe ser 'macho' o 'hembra'";
     }
 
-    if (!formData.peso || isNaN(formData.peso)) {
+    const peso = Number(formData.peso);
+    if (!formData.peso || isNaN(peso)) {
       nuevosErrores.peso = "El peso es obligatorio y debe ser un número";
-    } else if (Number(formData.peso) <= 0) {
-      nuevosErrores.peso = "Debe ser un número positivo";
+    } else if (peso <= 0) {
+      nuevosErrores.peso = "Debe ser un número mayor que 0";
+    } else if (especie === "gato" && peso > 15) {
+      nuevosErrores.peso = "El peso de un gato no puede superar los 15 kg";
+    } else if (especie === "perro" && peso > 100) {
+      nuevosErrores.peso = "El peso de un perro no puede superar los 100 kg";
     }
 
     if (!formData.fechaNacimiento) {
       nuevosErrores.fechaNacimiento = "La fecha de nacimiento es obligatoria";
+    } else {
+      const hoy = new Date();
+      const fechaIngresada = new Date(formData.fechaNacimiento);
+      if (fechaIngresada > hoy) {
+        nuevosErrores.fechaNacimiento =
+          "No se puede seleccionar una fecha futura";
+      }
     }
 
     setErrores(nuevosErrores);

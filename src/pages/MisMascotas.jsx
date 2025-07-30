@@ -23,7 +23,9 @@ const MisMascotas = () => {
 
   const validarFormularioEditar = () => {
     const nuevosErrores = {};
+
     const soloLetrasRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/;
+    const razaRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s'-]+$/;
 
     if (!editForm.nombre?.trim()) {
       nuevosErrores.nombre = "El nombre es obligatorio";
@@ -32,33 +34,43 @@ const MisMascotas = () => {
     } else if (editForm.nombre.length > 20) {
       nuevosErrores.nombre = "No puede superar los 20 caracteres";
     } else if (!soloLetrasRegex.test(editForm.nombre)) {
-      nuevosErrores.nombre =
-        "Solo se permiten letras (sin números ni caracteres especiales)";
+      nuevosErrores.nombre = "Solo se permiten letras y espacios";
     }
 
-    if (!editForm.especie) {
+    const especie = editForm.especie?.toLowerCase();
+    if (!especie) {
       nuevosErrores.especie = "La especie es obligatoria";
-    } else if (!["perro", "gato"].includes(editForm.especie.toLowerCase())) {
+    } else if (!["perro", "gato"].includes(especie)) {
       nuevosErrores.especie = "Solo se permite 'perro' o 'gato'";
     }
 
     if (!editForm.raza?.trim()) {
       nuevosErrores.raza = "La raza es obligatoria";
-    } else if (!soloLetrasRegex.test(editForm.raza)) {
+    } else if (editForm.raza.length < 2) {
+      nuevosErrores.raza = "Debe tener al menos 2 caracteres";
+    } else if (editForm.raza.length > 30) {
+      nuevosErrores.raza = "No puede superar los 30 caracteres";
+    } else if (!razaRegex.test(editForm.raza)) {
       nuevosErrores.raza =
-        "Solo se permiten letras (sin números ni caracteres especiales)";
+        "Solo se permiten letras, espacios, guiones y apóstrofes";
     }
 
-    if (!editForm.sexo) {
+    const sexo = editForm.sexo?.toLowerCase();
+    if (!sexo) {
       nuevosErrores.sexo = "El sexo es obligatorio";
-    } else if (!["macho", "hembra"].includes(editForm.sexo.toLowerCase())) {
+    } else if (!["macho", "hembra"].includes(sexo)) {
       nuevosErrores.sexo = "Debe ser 'macho' o 'hembra'";
     }
 
-    if (!editForm.peso || isNaN(editForm.peso)) {
+    const peso = Number(editForm.peso);
+    if (!editForm.peso || isNaN(peso)) {
       nuevosErrores.peso = "El peso es obligatorio y debe ser un número";
-    } else if (Number(editForm.peso) <= 0) {
-      nuevosErrores.peso = "Debe ser un número positivo";
+    } else if (peso <= 0) {
+      nuevosErrores.peso = "Debe ser un número mayor que 0";
+    } else if (especie === "gato" && peso > 15) {
+      nuevosErrores.peso = "El peso de un gato no puede superar los 15 kg";
+    } else if (especie === "perro" && peso > 100) {
+      nuevosErrores.peso = "El peso de un perro no puede superar los 100 kg";
     }
 
     if (!editForm.fechaNacimiento) {
@@ -102,12 +114,19 @@ const MisMascotas = () => {
           });
         }
       } catch (error) {
-        console.error("Error al eliminar mascota:", error);
-        Swal.fire({
-          icon: "error",
-          title: "No se pudo eliminar la mascota",
-          confirmButtonColor: "#dc3545",
-        });
+        if (error.response?.status === 400) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: error.response.data.msg || "Conflicto al eliminar",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "No se pudo eliminar la mascota",
+            confirmButtonColor: "#dc3545",
+          });
+        }
       }
     }
   };
