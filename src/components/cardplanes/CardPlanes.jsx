@@ -3,6 +3,7 @@ import clientAxios from "../../helpers/axios.helpers";
 
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const CardPlanes = () => {
   const [planes, setPlanes] = useState([]);
@@ -12,7 +13,11 @@ const CardPlanes = () => {
       const res = await clientAxios.get("/planes");
       setPlanes(res.data.planes);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: error.message || "Algo salió mal",
+      });
     }
   };
 

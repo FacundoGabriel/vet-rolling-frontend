@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import TablaProductos from "../components/tablaproductos/TablaProductos";
 import clientAxios, { configHeaders } from "../helpers/axios.helpers";
 import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Carrito = () => {
   const [productos, setProductos] = useState([]);
@@ -10,7 +11,6 @@ const Carrito = () => {
   const obtenerProductoDelCarrito = async () => {
     const res = await clientAxios.get("/carritos", configHeaders);
     setProductos(res.data.productos);
-    console.log("Productos después de vaciar:", res.data.productos);
   };
 
   useEffect(() => {
@@ -18,13 +18,15 @@ const Carrito = () => {
       const query = new URLSearchParams(location.search);
 
       if (query.has("success")) {
-        console.log("Detecté ?success en URL, voy a vaciar carrito");
         try {
           await clientAxios.put("/carritos/vaciarCarrito", {}, configHeaders);
-          console.log("Carrito vaciado con éxito, vuelvo a cargar productos");
           await obtenerProductoDelCarrito();
-        } catch (err) {
-          console.error("Error al vaciar carrito:", err);
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Ocurrió un error",
+            text: error.message || "Algo salió mal",
+          });
         }
       } else {
         await obtenerProductoDelCarrito();

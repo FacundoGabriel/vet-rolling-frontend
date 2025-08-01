@@ -96,7 +96,11 @@ const FormularioTurno = ({ serviceId }) => {
       const res = await clientAxios.get("/servicios", configHeaders);
       setServicios(res.data.servicios);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: error.message || "Algo salió mal",
+      });
     }
   };
 
@@ -105,7 +109,11 @@ const FormularioTurno = ({ serviceId }) => {
       const res = await clientAxios.get("/mascotas", configHeaders);
       setMascotas(res.data.mascotas);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: error.message || "Algo salió mal",
+      });
     }
   };
 
@@ -114,7 +122,11 @@ const FormularioTurno = ({ serviceId }) => {
       const res = await clientAxios.get("/veterinarios");
       setVeterinarios(res.data.veterinarios);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: error.message || "Algo salió mal",
+      });
     }
   };
 

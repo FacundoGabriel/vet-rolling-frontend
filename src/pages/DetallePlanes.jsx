@@ -59,7 +59,11 @@ const DetallePlan = () => {
       const res = await clientAxios.get(`/planes/obtener-un-plan/${id}`);
       setPlan(res.data.plan);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: error.message || "Algo salió mal",
+      });
     }
   };
 
@@ -67,7 +71,13 @@ const DetallePlan = () => {
     try {
       const res = await clientAxios.get("/mascotas", configHeaders);
       setMascotas(res.data.mascotas);
-    } catch (error) {}
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: error.message || "Algo salió mal",
+      });
+    }
   };
 
   const obtenerVeterinarios = async () => {
@@ -75,7 +85,11 @@ const DetallePlan = () => {
       const res = await clientAxios.get("/veterinarios");
       setVeterinarios(res.data.veterinarios);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: error.message || "Algo salió mal",
+      });
     }
   };
 
@@ -100,7 +114,13 @@ const DetallePlan = () => {
           navigate("/");
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: error.message || "Algo salió mal",
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
