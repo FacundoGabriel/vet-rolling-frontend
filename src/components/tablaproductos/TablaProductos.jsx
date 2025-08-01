@@ -44,7 +44,11 @@ const TablaProductos = ({ idPage, array, obtenerProductoDelCarrito }) => {
           obtenerProductoDelCarrito();
         }
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "Ocurrió un error",
+          text: error.message || "Algo salió mal",
+        });
       }
     });
   };

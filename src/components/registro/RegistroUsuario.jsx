@@ -177,7 +177,7 @@ export const RegistroUsuario = () => {
         Swal.fire({
           icon: "success",
           title: "¡Cuenta creada con éxito!",
-          text: "Revisá tu correo para confirmar tu cuenta.",
+          text: "Revisá tu correo para habilitar tu cuenta.",
           timer: 2500,
           showConfirmButton: false,
         });

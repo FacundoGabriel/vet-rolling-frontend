@@ -1,6 +1,6 @@
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { Button, Card, Form, Spinner } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import clientAxios from "../../helpers/axios.helpers";
 import Swal from "sweetalert2";
@@ -95,6 +95,40 @@ export const Login = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+
+    if (token) {
+      Swal.fire({
+        title: "¿Cerrar sesión?",
+        text: "Ya estás logeado. ¿Querés cerrar sesión y volver al inicio?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, cerrar sesión",
+        cancelButtonText: "No, seguir navegando",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          sessionStorage.clear();
+          Swal.fire({
+            icon: "success",
+            title: "Sesión cerrada",
+            text: "Redirigiendo...",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            navigate("/", { replace: true });
+          });
+        } else {
+          navigate("/user", { replace: true });
+        }
+      });
+    }
+  }, [navigate]);
 
   return (
     <div className="login-wrapper">
