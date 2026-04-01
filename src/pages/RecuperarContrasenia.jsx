@@ -22,7 +22,6 @@ const RecuperarContrasenia = () => {
       { emailUsuario },
       configHeaders
     );
-    console.log(res);
 
     if (res.status === 200) {
       Swal.fire({

@@ -1,6 +1,6 @@
 import { Eye, EyeOff, LogIn } from "lucide-react";
-import { Button, Card, Form } from "react-bootstrap";
-import { useState } from "react";
+import { Button, Card, Form, Spinner } from "react-bootstrap";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import clientAxios from "../../helpers/axios.helpers";
 import Swal from "sweetalert2";
@@ -9,6 +9,7 @@ import "./Login.css";
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -26,12 +27,11 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const { data } = await clientAxios.post("/usuarios/inicio-sesion", login);
 
       sessionStorage.setItem("token", JSON.stringify(data.token));
-      sessionStorage.setItem("idUsuario", JSON.stringify(data.idUsuario));
       sessionStorage.setItem("rol", JSON.stringify(data.rolUsuario));
       sessionStorage.setItem(
         "nombreUsuario",
@@ -78,6 +78,12 @@ export const Login = () => {
           title: "Credenciales inválidas",
           text: "Correo o contraseña incorrectos.",
         });
+      } else if (statusCode === 404) {
+        Swal.fire({
+          icon: "error",
+          title: "Credenciales inválidas",
+          text: "Correo o contraseña incorrectos.",
+        });
       } else {
         Swal.fire({
           icon: "error",
@@ -85,8 +91,44 @@ export const Login = () => {
           text: "Ocurrió un error al iniciar sesión",
         });
       }
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+
+    if (token) {
+      Swal.fire({
+        title: "¿Cerrar sesión?",
+        text: "Ya estás logeado. ¿Querés cerrar sesión y volver al inicio?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, cerrar sesión",
+        cancelButtonText: "No, seguir navegando",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          sessionStorage.clear();
+          Swal.fire({
+            icon: "success",
+            title: "Sesión cerrada",
+            text: "Redirigiendo...",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            navigate("/", { replace: true });
+          });
+        } else {
+          navigate("/user", { replace: true });
+        }
+      });
+    }
+  }, [navigate]);
 
   return (
     <div className="login-wrapper">
@@ -138,8 +180,22 @@ export const Login = () => {
             </Link>
           </div>
 
-          <Button type="submit" className="w-100 btn-login">
-            Iniciar sesión
+          <Button type="submit" className="w-100 btn-login" disabled={loading}>
+            {loading ? (
+              <>
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                  className="me-2"
+                />
+                Iniciando...
+              </>
+            ) : (
+              "Iniciar sesión"
+            )}
           </Button>
         </Form>
       </div>

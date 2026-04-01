@@ -3,9 +3,9 @@
   background-color: var(--color-blancoAntiflash);
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 768px) {
   .contenedor-contacto {
-    padding: 0px 0px;
+    padding: 1px 14px;
   }
 }
 
@@ -51,6 +51,13 @@
   background-color: white;
   height: 100%;
   width: auto;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .formulario-contacto {
+    padding: 50px 10px;
+  }
 }
 
 .formulario-contacto label {
@@ -90,4 +97,7 @@
   background-color: var(--color-añil) !important;
   box-shadow: none;
   transform: none;
+}
+.contador-form {
+  font-size: 15px;
 }

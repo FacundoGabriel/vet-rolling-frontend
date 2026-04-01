@@ -8,8 +8,19 @@ import Mapa from "../components/mapa/Mapa";
 
 import CardServicios from "../components/cardServicios/CardServicios";
 import CardProductos from "../components/CardProductos/CardProductos";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      navigate("/user", { replace: true });
+    }
+  }, [navigate]);
+
   return (
     <>
       <CarouselC />

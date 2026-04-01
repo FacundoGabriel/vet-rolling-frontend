@@ -6,12 +6,12 @@ export const configHeadersImage = {
   },
 };
 
-export const configHeaders = {
+export const configHeaders = () => ({
   headers: {
     "content-type": "application/json",
     auth: JSON.parse(sessionStorage.getItem("token")) || "",
   },
-};
+});
 
 const clientAxios = axios.create({
   baseURL: `${import.meta.env.VITE_URL_BACK}/api`,

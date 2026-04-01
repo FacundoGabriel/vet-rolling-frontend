@@ -6,6 +6,7 @@ import {
   Table,
   Badge,
   Button,
+  Toast,
 } from "react-bootstrap";
 import clientAxios, { configHeaders } from "../helpers/axios.helpers";
 import Swal from "sweetalert2";
@@ -56,14 +57,24 @@ const MisTurnos = () => {
           title: "No se pudo obtener el link de pago.",
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: error.message || "Algo salió mal",
+      });
+    }
   };
   const obtenerTurnos = async () => {
     try {
       const res = await clientAxios.get("/turnos/mis-turnos", configHeaders);
       setTurnos(res.data.turnos);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: error.message || "Algo salió mal",
+      });
       setError("No se pudieron obtener tus turnos.");
     } finally {
       setCargando(false);
@@ -98,8 +109,11 @@ const MisTurnos = () => {
         setTurnos((prev) => prev.filter((turno) => turno._id !== idTurno));
       }
     } catch (error) {
-      console.error(error);
-      Swal.fire("Error", "No se pudo cancelar el turno.", "error");
+      Swal.fire({
+        icon: "error",
+        title: "No se pudo cancelar el turno",
+        text: error.message || "Algo salió mal",
+      });
     }
   };
 
