@@ -26,7 +26,10 @@
 }
 
 .img-facu {
-  height: 90%;
+  height: 70%;
+  aspect-ratio: 1 / 1;   
+  object-fit: cover;     
+  border-radius: 50%;    
 }
 
 .titulo-descripcion {

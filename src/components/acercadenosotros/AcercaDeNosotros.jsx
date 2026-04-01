@@ -3,7 +3,7 @@ import "./AcercaDeNosotros.css";
 import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import gabriel from "/gabriel.jpg";
 import alvaro from "/alvaro.jpeg";
-import facundo from "/facundo.jpeg";
+import facundo from "/facundo.PNG";
 import leo from "/leo.jpeg";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -122,7 +122,7 @@ const AcercaDeNosotros = () => {
               >
                 <FaGithub size={40} className="icono-redes" />
               </a>
-              <a href="*" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.linkedin.com/in/facundo-gabriel-delacruz" target="_blank" rel="noopener noreferrer">
                 <FaLinkedin size={40} className="icono-redes" />
               </a>
               <a href="*" target="_blank" rel="noopener noreferrer">
